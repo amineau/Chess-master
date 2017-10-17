@@ -1,7 +1,7 @@
 NAME = array
 CC = clang++
 
-SRCS = main.cpp
+SRCS = APiece.cpp
 
 SPATH = srcs
 OPATH = objs

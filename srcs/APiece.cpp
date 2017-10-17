@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 21:49:45 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/17 22:42:50 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/18 00:01:53 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ APiece::APiece( t_type type, int x, int y )
 {
     if (x < 0 || x > 7 || y < 0 || y > 7)
         throw APiece::OutSidePositionException();
-    _position.x = x;
-    _position.y = y;
+    this->_position.x = x;
+    this->_position.y = y;
     return;
 }
 
@@ -41,32 +41,28 @@ APiece &	APiece::operator=( APiece const & rhs ) {
 
 /* Accessors */
 
-t_coordinate                APiece::getPosition() const {
+t_coordinate const &        APiece::getPosition() const {
     return this->_position;
 }
 
-t_player                    APiece::getPlayer() const {
+t_player const &            APiece::getPlayer() const {
     return this->_player;
 }
 
-t_type                      APiece::getType() const {
+t_type const &              APiece::getType() const {
     return this->_type;
 }
 
-std::vector<t_coodinate>    APiece::getMoving() const {
-    return this->_moving;
-}
-
 void                        APiece::setPosition(t_coordinate const & coord) {
-    if ( std::find(this->_moving.begin(), this->_moving.end(), coord) != this->_moving.end() )
+    if ( coord.x < 0 || coord.x > 7 || coord.y < 0 || coord.y > 7 )
         throw APiece::OutSidePositionException();
     this->_position = coord;
 }
 
-char                        APiece::getXrepresentation() const {
+char                        APiece::getXRepresentation() const {
     return _position.x + 'a';
 }
-int                         APiece::getYrepresentation() const {
+int                         APiece::getYRepresentation() const {
     return  _position.y + 1;
 }
 
@@ -79,6 +75,6 @@ char const * APiece::OutSidePositionException::what() const throw() {
 /* Operator Overload */
 
 std::ostream &   operator<<( std::ostream & o, APiece const & i ) {
-    o << i.getXrepresentation() << i.getYrepresentation();
+    o << i.getXRepresentation() << i.getYRepresentation();
     return o;
 }
