@@ -1,0 +1,5 @@
+# C compilation
+objs
+
+# editor config
+.vscode
