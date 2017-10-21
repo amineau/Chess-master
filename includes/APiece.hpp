@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 20:41:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 02:04:07 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/21 02:55:52 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ public:
     
     APiece &    operator=( APiece const & );
     
-    t_color const &               getcolor() const;
+    t_color const &               getColor() const;
     t_type const &                getType() const;
     size_t                        getX() const;
     size_t                        getY() const;
@@ -49,8 +49,8 @@ public:
     size_t                        getYRepresentation() const;
     void                          setPosition(size_t x, size_t y, size_t round);
     
-    virtual std::vector<Move> & getMoving( std::vector<APiece*> & pieces, size_t round ) = 0;
-    
+    virtual std::vector<Move> & getMoving( std::vector<APiece> & pieces, size_t round ) = 0;
+    // Make a boost::matrix of board instead of a vector of pieces
     class PieceOutSidePositionException : public std::exception {
     public:
         virtual char const * what() const throw();

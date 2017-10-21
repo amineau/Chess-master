@@ -1,7 +1,7 @@
 NAME = chessmaster
 CC = clang++
 
-SRCS = main.cpp Move.cpp APiece.cpp Pawn.cpp
+SRCS = main.cpp Move.cpp APiece.cpp Pawn.cpp Rook.cpp
 
 INC = Move.hpp APiece.hpp Pawn.hpp
 
