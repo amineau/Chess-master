@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/22 01:00:51 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/22 01:04:56 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ Board::Board( Board const & src )
 }
 
 Board::~Board() {
+	std::vector<APiece*>::iterator it;
+	for (it = this->_pieces.begin(); it != this->_pieces.end(); it++)
+		delete &(**it);
+	delete &this->_pieces;
 	return;
 }
 

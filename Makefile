@@ -9,7 +9,7 @@ SPATH = srcs
 OPATH = objs
 HPATH = includes
 
-CFLAGS = -Wall -Werror -Wextra -std=c++11 -I./$(HPATH)
+CFLAGS = -Wall -Werror -Wextra -g -I./$(HPATH)
 
 INC = $(addprefix $(HPATH)/,$(INCS))
 SRC = $(addprefix $(SPATH)/,$(SRCS))
