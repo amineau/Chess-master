@@ -6,19 +6,24 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 21:49:45 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/18 00:01:53 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/21 01:49:15 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "APiece.hpp"
 
-APiece::APiece( t_type type, int x, int y )
-    : _type(type)
+APiece::APiece() {
+    return;
+}
+
+APiece::APiece( t_type type, e_color color, size_t x, size_t y )
+    : _color(color)
+    , _x(x)
+    , _y(y)
+    , _type(type)
 {
-    if (x < 0 || x > 7 || y < 0 || y > 7)
-        throw APiece::OutSidePositionException();
-    this->_position.x = x;
-    this->_position.y = y;
+    if (this->_x > 7 || this->_y > 7)
+        throw APiece::PieceOutSidePositionException();
     return;
 }
 
@@ -33,48 +38,56 @@ APiece::~APiece() {
 
 APiece &	APiece::operator=( APiece const & rhs ) {
     if (this != &rhs) {
-        this->_position = rhs.getPosition();
-        this->_player = rhs.getPlayer();
+        this->_x = rhs._x;
+        this->_y = rhs._y;
+        this->_type = rhs._type;
+        this->_color = rhs._color;
     }
     return *this;
 }
 
 /* Accessors */
 
-t_coordinate const &        APiece::getPosition() const {
-    return this->_position;
+size_t               APiece::getX() const {
+    return this->_x;
 }
 
-t_player const &            APiece::getPlayer() const {
-    return this->_player;
+size_t               APiece::getY() const {
+    return this->_y;
+}
+
+t_color const &            APiece::getcolor() const {
+    return this->_color;
 }
 
 t_type const &              APiece::getType() const {
     return this->_type;
 }
 
-void                        APiece::setPosition(t_coordinate const & coord) {
-    if ( coord.x < 0 || coord.x > 7 || coord.y < 0 || coord.y > 7 )
-        throw APiece::OutSidePositionException();
-    this->_position = coord;
+void                        APiece::setPosition(size_t x, size_t y, size_t round) {
+    if (x > 7 || y > 7)
+        throw APiece::PieceOutSidePositionException();
+    this->_x = x;
+    this->_y = y;
+    this->_last_move = round;
 }
 
 char                        APiece::getXRepresentation() const {
-    return _position.x + 'a';
+    return this->_x + 'a';
 }
-int                         APiece::getYRepresentation() const {
-    return  _position.y + 1;
+size_t                APiece::getYRepresentation() const {
+    return this->_y + 1;
 }
 
 /* Exception */
 
-char const * APiece::OutSidePositionException::what() const throw() {
+char const *                APiece::PieceOutSidePositionException::what() const throw() {
     return "Position is outside";
 }
 
 /* Operator Overload */
 
-std::ostream &   operator<<( std::ostream & o, APiece const & i ) {
+std::ostream &              operator<<( std::ostream & o, APiece const & i ) {
     o << i.getXRepresentation() << i.getYRepresentation();
     return o;
 }

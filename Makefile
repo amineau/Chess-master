@@ -1,7 +1,9 @@
-NAME = array
+NAME = chessmaster
 CC = clang++
 
-SRCS = APiece.cpp
+SRCS = main.cpp Move.cpp APiece.cpp Pawn.cpp
+
+INC = Move.hpp APiece.hpp Pawn.hpp
 
 SPATH = srcs
 OPATH = objs
@@ -9,6 +11,7 @@ HPATH = includes
 
 CFLAGS = -Wall -Werror -Wextra -I./$(HPATH)
 
+INC = $(addprefix $(HPATH)/,$(INCS))
 SRC = $(addprefix $(SPATH)/,$(SRCS))
 OBJ = $(addprefix $(OPATH)/,$(SRCS:.cpp=.o))
 
@@ -20,7 +23,7 @@ GREEN   = \033[0;32m
 YELLOW  = \033[33m
 CYAN    = \033[36m
 
-all: $(OPATH) $(NAME)
+all: $(OPATH) $(NAME) $(INC)
 
 $(NAME): $(OBJ)
 		@$(CC) $(CFLAGS) -o $@ $^ \

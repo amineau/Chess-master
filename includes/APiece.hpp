@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 20:41:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/18 00:02:01 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/21 02:04:07 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 
 # include <iostream>
 # include <algorithm>
+# include <vector>
+# include "Move.hpp"
 
-struct s_coordinate {
-    int x;
-    int y;
-};
+class Move;
 
-enum e_player {
+enum e_color {
     WHITE, BLACK
 };
 
@@ -29,42 +28,44 @@ enum e_type {
     KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN
 };
 
-typedef struct s_coordinate         t_coordinate;
-typedef enum e_player               t_player;
+typedef enum e_color                t_color;
 typedef enum e_type                 t_type;
-typedef std::vector<t_coordinate>   t_moving;
 
 class APiece {
     
 public:
-    APiece( t_type type, int x, int y );
+    APiece();
+    APiece( t_type type, e_color color, size_t x, size_t y );
     APiece( APiece const & );
     virtual ~APiece ();
     
     APiece &    operator=( APiece const & );
     
-    t_coordinate const &                getPosition() const;
-    t_player const &                    getPlayer() const;
-    t_type const &                      getType() const;
-    char                                getXRepresentation() const;
-    int                                 getYRepresentation() const;
-    void                                setPosition(t_coordinate const &);
+    t_color const &               getcolor() const;
+    t_type const &                getType() const;
+    size_t                        getX() const;
+    size_t                        getY() const;
+    char                          getXRepresentation() const;
+    size_t                        getYRepresentation() const;
+    void                          setPosition(size_t x, size_t y, size_t round);
     
-    typedef std::vector<APiece*>        t_board_game;
-    virtual t_moving                    getMoving(t_board_game const & ) = 0;
-
-    class OutSidePositionException : public std::exception {
+    virtual std::vector<Move> & getMoving( std::vector<APiece*> & pieces, size_t round ) = 0;
+    
+    class PieceOutSidePositionException : public std::exception {
     public:
         virtual char const * what() const throw();
     };
-
+    
 protected:
-    t_type                      _type;
-    t_coordinate                 _position;
-    t_player                    _player;
+
+    t_color   _color;
+    size_t    _last_move;
+    size_t    _x;
+    size_t    _y;
     
 private:
-
+    t_type    _type;
+    
 };
 
 std::ostream &   operator<<( std::ostream & o, APiece const & i );
