@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 20:41:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 20:08:59 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/22 00:56:53 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ class APiece {
 		
 public:
 	APiece();
+	APiece( t_type type );
 	APiece( t_type type, e_color color, size_t x, size_t y );
 	APiece( APiece const & );
 	virtual ~APiece ();

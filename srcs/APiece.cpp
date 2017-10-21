@@ -6,13 +6,19 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 21:49:45 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 20:17:45 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/22 00:57:25 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "APiece.hpp"
 
 APiece::APiece() {
+    return;
+}
+
+APiece::APiece( t_type type )
+    : _type(type)
+{
     return;
 }
 

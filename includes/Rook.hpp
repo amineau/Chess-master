@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 16:44:47 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/22 00:42:20 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 class Rook : public virtual APiece {
 
 public:
+	Rook();
 	Rook( size_t index, t_color color );
 	Rook( Rook const & );
 	virtual ~Rook ();

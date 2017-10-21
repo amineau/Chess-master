@@ -1,5 +1,5 @@
 NAME = chessmaster
-CC = clang++
+CC = g++
 
 SRCS = main.cpp Board.cpp Move.cpp APiece.cpp Pawn.cpp Rook.cpp
 
@@ -9,7 +9,7 @@ SPATH = srcs
 OPATH = objs
 HPATH = includes
 
-CFLAGS = -Wall -Werror -Wextra -I./$(HPATH)
+CFLAGS = -Wall -Werror -Wextra -std=c++11 -I./$(HPATH)
 
 INC = $(addprefix $(HPATH)/,$(INCS))
 SRC = $(addprefix $(SPATH)/,$(SRCS))

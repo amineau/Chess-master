@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:07:59 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 20:46:22 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/22 00:59:46 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "Pawn.hpp"
 # include "Rook.hpp"
+# include <type_traits>
 
 class Board {
 
@@ -27,11 +28,25 @@ public:
 
 	std::vector<APiece*> &	getPieces() const ;
 
+	
 private:
 	std::vector<APiece*> &	_pieces;
+	
+	template<typename T>
+	void	_init(T t) {
+		size_t	nbPiece = BOARD_MAX;
 
-	void	_initPawns();
-	void	_initRooks();
+		if (t.getType() == ROOK || t.getType() == BISHOP || t.getType() == KNIGHT)
+			nbPiece = 2;
+		else if (t.getType() == KING || t.getType() == QUEEN)
+			nbPiece = 1;
+		std::cout<< nbPiece << std::endl;
+		for (size_t color = 0; color <= 1; color++) {
+			for (size_t i = 0; i < nbPiece; i++) {
+				this->_pieces.push_back(new T(i, static_cast<t_color>(color)));
+			}		
+		}
+	}
 
 };
 

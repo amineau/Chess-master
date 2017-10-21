@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 20:47:41 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/22 01:00:51 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 Board::Board()
 	: _pieces(*(new std::vector<APiece*>()))
 {
-	this->_initPawns();
-	this->_initRooks();
+	this->_init(Rook());
+	this->_init(Pawn());
 	return;
 }
 
@@ -40,21 +40,7 @@ Board &	Board::operator=( Board const & rhs ) {
 
 /* Members functions */
 
-void	Board::_initPawns() {
-	for (size_t color = 0; color <= 1; color++) {
-		for (size_t i = 0; i <= BOARD_MAX; i++) {
-			this->_pieces.push_back(new Pawn(i, static_cast<t_color>(color)));
-		}		
-	}
-}
 
-void	Board::_initRooks() {
-	for (size_t color = 0; color <= 1; color++) {
-		for (size_t i = 0; i <= 1; i++) {
-			this->_pieces.push_back(new Rook(i, static_cast<t_color>(color)));
-		}		
-	}
-}
 
 /* Accessors */
 

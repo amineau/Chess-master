@@ -6,11 +6,17 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 19:52:16 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/22 00:56:30 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Rook.hpp"
+
+Rook::Rook()
+	: APiece(ROOK)
+{
+	return;
+}
 
 Rook::Rook( size_t index, t_color color )
 	: APiece(ROOK, color, index * BOARD_MAX, color * BOARD_MAX)
@@ -19,6 +25,7 @@ Rook::Rook( size_t index, t_color color )
 }
 
 Rook::Rook( Rook const & src )
+	: APiece()
 {
 	*this = src;
 	return;
