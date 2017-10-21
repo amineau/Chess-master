@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 20:41:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 02:55:52 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/21 20:08:59 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,56 +18,58 @@
 # include <vector>
 # include "Move.hpp"
 
+# define BOARD_MAX 7
+
 class Move;
 
 enum e_color {
-    WHITE, BLACK
+	WHITE, BLACK
 };
 
 enum e_type {
-    KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN
+	KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN
 };
 
-typedef enum e_color                t_color;
-typedef enum e_type                 t_type;
+typedef enum e_color	t_color;
+typedef enum e_type		t_type;
 
 class APiece {
-    
+		
 public:
-    APiece();
-    APiece( t_type type, e_color color, size_t x, size_t y );
-    APiece( APiece const & );
-    virtual ~APiece ();
-    
-    APiece &    operator=( APiece const & );
-    
-    t_color const &               getColor() const;
-    t_type const &                getType() const;
-    size_t                        getX() const;
-    size_t                        getY() const;
-    char                          getXRepresentation() const;
-    size_t                        getYRepresentation() const;
-    void                          setPosition(size_t x, size_t y, size_t round);
-    
-    virtual std::vector<Move> & getMoving( std::vector<APiece> & pieces, size_t round ) = 0;
-    // Make a boost::matrix of board instead of a vector of pieces
-    class PieceOutSidePositionException : public std::exception {
-    public:
-        virtual char const * what() const throw();
-    };
-    
+	APiece();
+	APiece( t_type type, e_color color, size_t x, size_t y );
+	APiece( APiece const & );
+	virtual ~APiece ();
+		
+	APiece &	operator=( APiece const & );
+		
+	t_color const &	getColor() const;
+	t_type const &	getType() const;
+	size_t			getX() const;
+	size_t			getY() const;
+	char			getXRepresentation() const;
+	size_t			getYRepresentation() const;
+	void			setPosition(size_t x, size_t y, size_t round);
+		
+	virtual std::vector<Move> &	getMoving( std::vector<APiece*> & pieces, size_t round ) = 0;
+	
+	class PieceOutSidePositionException : public std::exception {
+	public:
+		virtual char const * what() const throw();
+	};
+		
 protected:
 
-    t_color   _color;
-    size_t    _last_move;
-    size_t    _x;
-    size_t    _y;
-    
+	t_color	_color;
+	size_t	_last_move;
+	size_t	_x;
+	size_t	_y;
+		
 private:
-    t_type    _type;
-    
+	t_type	_type;
+		
 };
 
-std::ostream &   operator<<( std::ostream & o, APiece const & i );
+std::ostream &	operator<<( std::ostream & o, APiece const & i );
 
 #endif

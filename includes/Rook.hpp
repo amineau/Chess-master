@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 03:17:24 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/21 16:44:47 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "APiece.hpp"
 
-class Rook : public APiece {
+class Rook : public virtual APiece {
 
 public:
 	Rook( size_t index, t_color color );
@@ -23,7 +23,7 @@ public:
 	virtual ~Rook ();
 
 	Rook &	operator=( Rook const & );
-	virtual std::vector<Move> &   getMoving( std::vector<APiece> & pieces, size_t round );
+	virtual std::vector<Move> &   getMoving( std::vector<APiece*> & pieces, size_t round );
 
 };
 

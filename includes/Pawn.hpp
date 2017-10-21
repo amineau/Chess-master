@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:34:32 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 02:46:12 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/21 19:05:08 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "APiece.hpp"
 
-class Pawn : public APiece {
+class Pawn : public virtual APiece {
 
 public:
 	Pawn( size_t index, t_color color );
@@ -23,7 +23,7 @@ public:
 	virtual ~Pawn ();
 
 	Pawn &	operator=( Pawn const & );
-	virtual std::vector<Move> &   getMoving( std::vector<APiece> & pieces, size_t round );
+	virtual std::vector<Move> &   getMoving( std::vector<APiece*> & pieces, size_t round );
 
 };
 

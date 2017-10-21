@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 21:49:45 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 02:46:32 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/21 20:17:45 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ APiece::APiece( t_type type, e_color color, size_t x, size_t y )
     , _y(y)
     , _type(type)
 {
-    if (this->_x > 7 || this->_y > 7)
+    if (this->_x > BOARD_MAX || this->_y > BOARD_MAX)
         throw APiece::PieceOutSidePositionException();
     return;
 }
@@ -88,6 +88,6 @@ char const *                APiece::PieceOutSidePositionException::what() const 
 /* Operator Overload */
 
 std::ostream &              operator<<( std::ostream & o, APiece const & i ) {
-    o << i.getXRepresentation() << i.getYRepresentation();
+    o << i.getType() << " " << i.getXRepresentation() << i.getYRepresentation();
     return o;
 }

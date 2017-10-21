@@ -6,14 +6,14 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 03:17:29 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/21 19:52:16 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Rook.hpp"
 
 Rook::Rook( size_t index, t_color color )
-	: APiece(ROOK, color, index * 7, color * 7)
+	: APiece(ROOK, color, index * BOARD_MAX, color * BOARD_MAX)
 {
 	return;
 }
@@ -37,34 +37,36 @@ Rook &	Rook::operator=( Rook const & rhs ) {
 	return *this;
 }
 
-std::vector<Move> &	Rook::getMoving( std::vector<APiece>& pieces, size_t ) {
+std::vector<Move> &	Rook::getMoving( std::vector<APiece*>& pieces, size_t ) {
 	std::vector<Move> * moves = new std::vector<Move>();
-	std::vector<APiece>::iterator it;
+	std::vector<APiece*>::iterator it;
 	size_t				x_min = 0;
-	size_t				x_max = 7;
+	size_t				x_max = BOARD_MAX;
 	size_t				y_min = 0;
-	size_t				y_max = 7;
+	size_t				y_max = BOARD_MAX;
 
 	for (it = pieces.begin(); it != pieces.end() && (x_min != x_max || y_min != y_max); it++) {
-		if (it->getX() == this->_x) {
-			if (it->getY() > this->_y && it->getY() < y_max) {
-				if (it->getColor() != this->_color)
-					moves->push_back(Move(this->_x, it->getY(), &(*it)));
-				y_max = it->getY() - 1;
-			} else if (it->getY() < this->_y && it->getY() > y_min) {
-				if (it->getColor() != this->_color)
-					moves->push_back(Move(this->_x, it->getY(), &(*it)));
-				y_min = it->getY() + 1;
+		APiece *	instance = &(**it);
+		
+		if (instance->getX() == this->_x) {
+			if (instance->getY() > this->_y && instance->getY() <= y_max) {
+				if (instance->getColor() != this->_color)
+					moves->push_back(Move(this->_x, instance->getY(), instance));
+				y_max = instance->getY() - 1;
+			} else if (instance->getY() < this->_y && instance->getY() >= y_min) {
+				if (instance->getColor() != this->_color)
+					moves->push_back(Move(this->_x, instance->getY(), instance));
+				y_min = instance->getY() + 1;
 			}
-		} else if (it->getY() == this->_y) {
-			if (it->getX() > this->_x && it->getX() < x_max) {
-				if (it->getColor() != this->_color)
-					moves->push_back(Move(it->getX(), this->_y, &(*it)));
-				x_max = it->getX() - 1;
-			} else if (it->getX() < this->_x && it->getX() > x_min) {
-				if (it->getColor() != this->_color)
-					moves->push_back(Move(it->getX(), this->_y, &(*it)));
-				x_min = it->getX() + 1;
+		} else if (instance->getY() == this->_y) {
+			if (instance->getX() > this->_x && instance->getX() <= x_max) {
+				if (instance->getColor() != this->_color)
+					moves->push_back(Move(instance->getX(), this->_y, instance));
+				x_max = instance->getX() - 1;
+			} else if (instance->getX() < this->_x && instance->getX() >= x_min) {
+				if (instance->getColor() != this->_color)
+					moves->push_back(Move(instance->getX(), this->_y, instance));
+				x_min = instance->getX() + 1;
 			}
 		}
 	}

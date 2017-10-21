@@ -1,22 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Board.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/20 23:31:09 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 20:35:49 by amineau          ###   ########.fr       */
+/*   Created: 2017/10/21 19:07:59 by amineau           #+#    #+#             */
+/*   Updated: 2017/10/21 20:46:22 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Pawn.hpp"
-#include "Rook.hpp"
-#include "Board.hpp"
+#ifndef BOARD_HPP
+# define BOARD_HPP
 
-int main() {
-	Board board;
+# include "Pawn.hpp"
+# include "Rook.hpp"
 
-	std::cout <<board<<std::endl;
-	return 0;
-}
+class Board {
+
+public:
+	Board();
+	Board( Board const & );
+	virtual ~Board ();
+
+	Board &	operator=( Board const & );
+
+	std::vector<APiece*> &	getPieces() const ;
+
+private:
+	std::vector<APiece*> &	_pieces;
+
+	void	_initPawns();
+	void	_initRooks();
+
+};
+
+std::ostream &	operator<<( std::ostream & o, Board const & i );
+
+#endif

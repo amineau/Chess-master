@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:37:38 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/21 01:52:41 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/21 19:51:55 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Move::Move(size_t x, size_t y, APiece * piece)
     , y(y)
     , piece(piece)
 {
-    if (this->x > 7 || this->y > 7)
+    if (this->x > BOARD_MAX || this->y > BOARD_MAX)
         throw Move::MoveOutSidePositionException();
 }
 
