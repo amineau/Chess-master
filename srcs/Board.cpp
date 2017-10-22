@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/23 00:12:14 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/23 00:27:12 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ std::vector<APiece*> &	Board::getBoard() const {
 	return _pieces;
 }
 
-APiece *				Board::getPiece(size_t x, size_t y) const {
+APiece &				Board::getPiece(size_t x, size_t y) const {
 	for (std::vector<APiece*>::iterator it = this->_pieces.begin(); it != this->_pieces.end(); it++)
 		if ((*it)->getX() == x && (*it)->getY() == y)
-			return (*it);
-	return NULL;
+			return **it;
+	throw Board::UnkownPiecePositionException();
 }
 
 
@@ -69,4 +69,10 @@ std::ostream &	operator<<( std::ostream & o, Board const & i ) {
 		o << **it << std::endl;
 	}
 	return o;
+}
+
+/* Exception */
+
+char const *	Board::UnkownPiecePositionException::what() const throw() {
+    return "There is no piece on the target position";
 }

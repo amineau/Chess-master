@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:07:59 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/23 00:12:40 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/23 00:26:58 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ public:
 	Board &	operator=( Board const & );
 
 	std::vector<APiece*> &	getBoard() const;
-	APiece *				getPiece(size_t x, size_t y) const;
+	APiece &				getPiece(size_t x, size_t y) const;
 
+	class UnkownPiecePositionException : public std::exception {
+	public:
+		virtual char const * what() const throw();
+	};
 	
 private:
 	std::vector<APiece*> &	_pieces;
