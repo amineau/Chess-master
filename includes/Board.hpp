@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:07:59 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/22 01:17:17 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/23 00:12:40 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ public:
 
 	Board &	operator=( Board const & );
 
-	std::vector<APiece*> &	getPieces() const ;
+	std::vector<APiece*> &	getBoard() const;
+	APiece *				getPiece(size_t x, size_t y) const;
 
 	
 private:
@@ -39,7 +40,6 @@ private:
 			nbPiece = 2;
 		else if (t.getType() == KING || t.getType() == QUEEN)
 			nbPiece = 1;
-		std::cout<< nbPiece << std::endl;
 		for (size_t color = 0; color <= 1; color++) {
 			for (size_t i = 0; i < nbPiece; i++) {
 				this->_pieces.push_back(new T(i, static_cast<t_color>(color)));

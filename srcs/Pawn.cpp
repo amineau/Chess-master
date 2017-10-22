@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:35:50 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/22 00:56:21 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/23 00:13:04 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ std::vector<Move> &	Pawn::getMoving( std::vector<APiece*>& pieces, size_t round 
 	// 	if (round)
 	// 		;
 	// }
-	std::cout << static_cast<int>(this->_y) + 1 * direction << std::endl;
 	moves->push_back(Move(this->_x, static_cast<int>(this->_y) + 1 * direction, NULL));
 	if (this->_y == static_cast<size_t>(this->_color) * 5 + 1)
 		moves->push_back(Move(this->_x, static_cast<int>(this->_y) + 2 * direction, NULL));
