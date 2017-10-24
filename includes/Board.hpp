@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:07:59 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/23 00:26:58 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/24 02:18:14 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "Pawn.hpp"
 # include "Rook.hpp"
+# include "Move.hpp"
 
 class Board {
 
@@ -25,20 +26,22 @@ public:
 
 	Board &	operator=( Board const & );
 
-	std::vector<APiece*> &	getBoard() const;
-	APiece &				getPiece(size_t x, size_t y) const;
-
+	std::vector<std::vector<APiece*> > const &	getBoard() const;
+	void										moving(APiece * piece, Move & move);
+		
 	class UnkownPiecePositionException : public std::exception {
 	public:
 		virtual char const * what() const throw();
 	};
 	
 private:
-	std::vector<APiece*> &	_pieces;
+	std::vector<std::vector<APiece*> >	_board;
+	size_t								_round;
 	
 	template<typename T>
 	void	_init(T t) {
-		size_t	nbPiece = BOARD_MAX;
+		size_t	nbPiece = BOARD_MAX + 1;
+		T *		piece;
 
 		if (t.getType() == ROOK || t.getType() == BISHOP || t.getType() == KNIGHT)
 			nbPiece = 2;
@@ -46,7 +49,8 @@ private:
 			nbPiece = 1;
 		for (size_t color = 0; color <= 1; color++) {
 			for (size_t i = 0; i < nbPiece; i++) {
-				this->_pieces.push_back(new T(i, static_cast<t_color>(color)));
+				piece = new T(i, static_cast<t_color>(color));
+				this->_board[piece->getY()][piece->getX()] = piece;
 			}		
 		}
 	}

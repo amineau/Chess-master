@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 20:41:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/22 00:56:53 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/24 02:16:58 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ public:
 	size_t			getY() const;
 	char			getXRepresentation() const;
 	size_t			getYRepresentation() const;
-	void			setPosition(size_t x, size_t y, size_t round);
+	void			setPosition(size_t y, size_t x, size_t round);
 		
-	virtual std::vector<Move> &	getMoving( std::vector<APiece*> & pieces, size_t round ) = 0;
+	virtual std::vector<Move> &	getMoving( std::vector<std::vector<APiece*> > const & pieces, size_t round ) = 0;
 	
 	class PieceOutSidePositionException : public std::exception {
 	public:

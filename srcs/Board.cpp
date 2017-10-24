@@ -6,67 +6,77 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/23 00:27:12 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/24 02:22:07 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Board.hpp"
 
 Board::Board()
-	: _pieces(*(new std::vector<APiece*>()))
+	: _board(*(new std::vector<std::vector<APiece*> >()))
+	, _round(0)
 {
-	this->_init(Rook());
+	this->_board.resize(BOARD_MAX + 1);
+	for (int i = 0; i <= BOARD_MAX; ++i)
+    	this->_board[i].resize(BOARD_MAX + 1);
 	this->_init(Pawn());
+	this->_init(Rook());
 	return;
 }
 
 Board::Board( Board const & src )
-	: _pieces(*(new std::vector<APiece*>()))
+	: _board(*(new std::vector<std::vector<APiece*> >()))
+	, _round(0)
 {
 	*this = src;
 	return;
 }
 
 Board::~Board() {
-	std::vector<APiece*>::iterator it;
-	for (it = this->_pieces.begin(); it != this->_pieces.end(); it++)
-		delete &(**it);
-	delete &this->_pieces;
+	// std::vector<APiece*>::iterator it;
+	// for (it = this->_pieces.begin(); it != this->_pieces.end(); it++)
+	// 	delete &(**it);
+	// delete this->_board;
 	return;
 }
 
 Board &	Board::operator=( Board const & rhs ) {
 	if (this != &rhs) {
-		this->_pieces = rhs._pieces;
+		this->_board = rhs._board;
 	}
 	return *this;
 }
 
 /* Members functions */
 
-
+void		Board::moving(APiece * piece, Move & move) {
+	if (move.piece)
+		delete move.piece;
+	this->_board[move.y][move.x] = piece;
+	this->_board[piece->getY()][piece->getX()] = NULL;
+	piece->setPosition(move.y, move.x, this->_round); 
+	this->_round++;
+}
 
 /* Accessors */
 
-std::vector<APiece*> &	Board::getBoard() const {
-	return _pieces;
+std::vector<std::vector<APiece*> > const &	Board::getBoard() const {
+	return this->_board;
 }
-
-APiece &				Board::getPiece(size_t x, size_t y) const {
-	for (std::vector<APiece*>::iterator it = this->_pieces.begin(); it != this->_pieces.end(); it++)
-		if ((*it)->getX() == x && (*it)->getY() == y)
-			return **it;
-	throw Board::UnkownPiecePositionException();
-}
-
 
 /* Operator Overload */
 
 std::ostream &	operator<<( std::ostream & o, Board const & i ) {
-	std::vector<APiece*> & pieces = i.getBoard();
+	std::vector<std::vector<APiece*> > const & pieces = i.getBoard();
 
-	for (std::vector<APiece*>::iterator it = pieces.begin(); it != pieces.end(); it++) {
-		o << **it << std::endl;
+	for (int y = BOARD_MAX; y >= 0; --y) {
+		for (int x = 0; x <= BOARD_MAX; ++x){
+			if (pieces[y][x])
+				o << *(pieces[y][x]) << " ";
+			else 
+				o << ". ";
+		}
+		o << std::endl;
 	}
 	return o;
 }

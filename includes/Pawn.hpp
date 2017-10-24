@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:34:32 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/22 00:50:02 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/24 01:55:10 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ public:
 	virtual ~Pawn ();
 
 	Pawn &	operator=( Pawn const & );
-	virtual std::vector<Move> &   getMoving( std::vector<APiece*> & pieces, size_t round );
+	virtual std::vector<Move> &   getMoving( std::vector<std::vector<APiece*> > const &, size_t round );
 
 };
 

@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:35:50 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/23 00:13:04 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/24 01:55:22 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,14 @@ Pawn &	Pawn::operator=( Pawn const & rhs ) {
 	return *this;
 }
 
-std::vector<Move> &	Pawn::getMoving( std::vector<APiece*>& pieces, size_t round ) {
+std::vector<Move> &	Pawn::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_t round ) {
 	std::vector<Move> * moves = new std::vector<Move>();
 	int					direction = this->_color == WHITE ? 1 : -1;
 
 	(void)round;
 	(void)pieces;
 	// for (std::vector<APiece*>::iterator it = pieces.begin(); it != pieces.end(); it++) {
+	// 	APiece *	instance = &(**it);
 	// 	if (round)
 	// 		;
 	// }
