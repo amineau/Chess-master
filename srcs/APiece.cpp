@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 21:49:45 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/24 02:17:13 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/24 22:20:46 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,6 @@ char const *	APiece::PieceOutSidePositionException::what() const throw() {
 /* Operator Overload */
 
 std::ostream &	operator<<( std::ostream & o, APiece const & i ) {
-	o << i.getType(); //<< " " << i.getXRepresentation() << i.getYRepresentation();
+	o << type[i.getType()]; //<< " " << i.getXRepresentation() << i.getYRepresentation();
 	return o;
 }

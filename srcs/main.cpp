@@ -6,12 +6,10 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:31:09 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/24 02:25:45 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/24 23:45:39 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Pawn.hpp"
-#include "Rook.hpp"
 #include "Board.hpp"
 
 void displayMoves(std::vector<Move> & moves) {
@@ -25,30 +23,19 @@ int main() {
 
 	std::cout <<board<<std::endl;
 	std::vector<std::vector<APiece*> > const &	pieces = board.getBoard();
-	std::vector<Move> &		moves = pieces[1][0]->getMoving(pieces, 0);
+	std::vector<Move> &		moves = pieces[1][3]->getMoving(pieces, 0);
 	displayMoves(moves);
-	board.moving(pieces[1][0], moves.front());
-	std::cout <<board<<std::endl;
-	
-	moves = pieces[2][0]->getMoving(pieces, 0);
-	displayMoves(moves);
-	board.moving(pieces[2][0], moves.front());
-	std::cout <<board<<std::endl;
-	
-	moves = pieces[0][0]->getMoving(pieces, 0);
-	displayMoves(moves);
-	board.moving(pieces[0][0], moves.back());
+	board.moving(pieces[1][3], moves.back());
 	std::cout <<board<<std::endl;
 
-	moves = pieces[2][0]->getMoving(pieces, 0);
-	displayMoves(moves);
-	board.moving(pieces[2][0], moves[6]);
-	std::cout <<board<<std::endl;
 
-	moves = pieces[2][7]->getMoving(pieces, 0);
+	moves = pieces[0][2]->getMoving(pieces, 0);
 	displayMoves(moves);
-	board.moving(pieces[2][7], moves.back());
+	board.moving(pieces[0][2], moves[2]);
 	std::cout <<board<<std::endl;
+	
+	moves = pieces[3][5]->getMoving(pieces, 0);
+	displayMoves(moves);
 
 	// std::cout << *moves.front().piece << std::endl;
 	// delete &moves;

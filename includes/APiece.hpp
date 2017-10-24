@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 20:41:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/24 02:16:58 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/24 23:17:00 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <iostream>
 # include <algorithm>
 # include <vector>
+# include <map>
 # include "Move.hpp"
 
 # define BOARD_MAX 7
@@ -32,6 +33,20 @@ enum e_type {
 
 typedef enum e_color	t_color;
 typedef enum e_type		t_type;
+
+static std::pair<int, const char> map_data[] = {
+    std::make_pair(KING, 'K'),
+    std::make_pair(QUEEN, 'Q'),
+    std::make_pair(ROOK, 'R'),
+    std::make_pair(BISHOP, 'B'),
+    std::make_pair(KNIGHT, 'N'),
+    std::make_pair(PAWN, 'P')
+};
+
+static std::map<int, const char> type(map_data,
+    map_data + sizeof map_data / sizeof map_data[0]);
+
+
 
 class APiece {
 		

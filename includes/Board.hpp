@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:07:59 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/24 02:18:14 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/24 23:33:02 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "Pawn.hpp"
 # include "Rook.hpp"
+# include "Bishop.hpp"
 # include "Move.hpp"
 
 class Board {
