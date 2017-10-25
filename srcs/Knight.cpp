@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/25 21:34:31 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 00:50:02 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ Knight &	Knight::operator=( Knight const & rhs ) {
 	return *this;
 }
 
-std::vector<Move> &	Knight::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_t ) {
-	std::vector<Move> * moves = new std::vector<Move>();
+Move &	Knight::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_t ) {
+	Move *	moves = new Move(this);
 	int tab[4] = { -2, -1, 2, 1 };
 	int x;
 	int y;
@@ -56,14 +56,14 @@ std::vector<Move> &	Knight::getMoving( std::vector<std::vector<APiece*> > const 
 			for (int j = 0; j < 4; j++) {
 				y = this->_y + tab[j];
 				if (y >= 0 && y <= BOARD_MAX && i%2 != j%2) {
+					
 					if (pieces[y][x] && pieces[y][x]->getColor() != this->_color)
-						moves->push_back(Move(x, y, pieces[y][x]));
+						moves->push(x, y, pieces[y][x]);
 					else if (!pieces[y][x])
-						moves->push_back(Move(x, y, NULL));
+						moves->push(x, y);
 				}
 			}
 		}
 	}
-
 	return *moves;
 }

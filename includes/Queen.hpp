@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Pawn.hpp                                           :+:      :+:    :+:   */
+/*   Queen.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/20 23:34:32 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 00:26:39 by amineau          ###   ########.fr       */
+/*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
+/*   Updated: 2017/10/26 00:26:34 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PAWN_HPP
-# define PAWN_HPP
+#ifndef QUEEN_HPP
+# define QUEEN_HPP
 
-# include "APiece.hpp"
+# include "Bishop.hpp"
+# include "Rook.hpp"
 
-class Pawn : public virtual APiece {
+class Queen : public Bishop, public Rook {
 
 public:
-	Pawn();	
-	Pawn( size_t index, t_color color );
-	Pawn( Pawn const & );
-	virtual ~Pawn ();
+	Queen();
+	Queen( size_t index, t_color color );
+	Queen( Queen const & );
+	virtual ~Queen ();
 
-	Pawn &	operator=( Pawn const & );
-
+	Queen &	operator=( Queen const & );
 	virtual Move &	getMoving( std::vector<std::vector<APiece*> > const &, size_t round );
 
 };

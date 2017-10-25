@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/25 21:12:27 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 00:26:42 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ public:
 	virtual ~Knight ();
 
 	Knight &	operator=( Knight const & );
-	virtual std::vector<Move> &   getMoving( std::vector<std::vector<APiece*> > const &, size_t round );
+
+	virtual Move &	getMoving( std::vector<std::vector<APiece*> > const &, size_t round );
 
 };
 

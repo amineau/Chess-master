@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/25 21:15:57 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 00:45:29 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,12 @@ Board::~Board() {
 	return;
 }
 
-Board &	Board::operator=( Board const & rhs ) {
-	if (this != &rhs) {
-		this->_board = rhs._board;
-	}
-	return *this;
-}
-
 /* Members functions */
 
-void		Board::moving(APiece * piece, Move & move) {
-	if (move.piece)
-		delete move.piece;
+void		Board::moving(Destination const & move) {
+	APiece *	piece = move.getPlayer();
+	if (move.getTarget())
+		delete move.getTarget();
 	this->_board[move.y][move.x] = piece;
 	this->_board[piece->getY()][piece->getX()] = NULL;
 	piece->setPosition(move.y, move.x, this->_round); 
@@ -68,9 +62,25 @@ std::vector<std::vector<APiece*> > const &	Board::getBoard() const {
 
 /* Operator Overload */
 
+Board &	Board::operator=( Board const & rhs ) {
+	if (this != &rhs) {
+		this->_board = rhs._board;
+	}
+	return *this;
+}
+
 std::ostream &	operator<<( std::ostream & o, Board const & i ) {
 	std::vector<std::vector<APiece*> > const & pieces = i.getBoard();
 
+	// for (int y = BOARD_MAX; y >= 0; --y) {
+	// 	for (int x = 0; x <= BOARD_MAX; ++x){
+	// 		if (pieces[y][x])
+	// 			o << pieces[y][x] << " ";
+	// 		else 
+	// 			o << "0x000000000000 ";
+	// 	}
+	// 	o << std::endl;
+	// }
 	for (int y = BOARD_MAX; y >= 0; --y) {
 		for (int x = 0; x <= BOARD_MAX; ++x){
 			if (pieces[y][x])

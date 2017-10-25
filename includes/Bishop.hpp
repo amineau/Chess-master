@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/24 23:22:45 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 00:26:44 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ public:
 	virtual ~Bishop ();
 
 	Bishop &	operator=( Bishop const & );
-	virtual std::vector<Move> &   getMoving( std::vector<std::vector<APiece*> > const &, size_t round );
+	virtual Move &	getMoving( std::vector<std::vector<APiece*> > const &, size_t round );
 
 };
 

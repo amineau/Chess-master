@@ -1,52 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Move.hpp                                           :+:      :+:    :+:   */
+/*   Destination.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:33:11 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 01:15:24 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/25 22:27:25 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MOVE_HPP
-# define MOVE_HPP
+#ifndef COORDINATE_HPP
+# define COORDINATE_HPP
 
 # include <iostream>
 # include "APiece.hpp"
-# include "Destination.hpp"
 
 class APiece;
-class Destination;
 
-class Move {
+class Destination {
 
 public:
-	Move( APiece * player );
-	Move( Move const & );
-	virtual ~Move ();
+	Destination(size_t x, size_t y, APiece * player, APiece * target);
+	Destination(size_t x, size_t y, APiece * player);
+	Destination( Destination const & );
+	virtual ~Destination ();
 
-	void	push(size_t x, size_t y, APiece * target);
-	void	push(size_t x, size_t y);
-	void	push(Destination dest);
+	APiece *	getTarget() const;
+	APiece *	getPlayer() const;
 
-	std::vector<Destination> const &	getMoves() const;
-	Destination const &					getDestination(size_t y, size_t x);
+	Destination &	operator=( Destination const & );
 
-	Move &	operator=( Move const & );
-	Move &	operator+( Move const & );
+	size_t		x;
+	size_t		y;
 
-	class MoveDoesntExistException : public std::exception {
+	class DestinationOutSidePositionException : public std::exception {
 	public:
 		virtual char const * what() const throw();
 	};
 
 private:
-	std::vector<Destination>	_moves;
-	APiece *					_player;
-};
+	APiece *	_target;
+	APiece *	_player;
 
-std::ostream &	operator<<( std::ostream & o, Move const & i );
+};
 
 #endif

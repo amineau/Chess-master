@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/24 02:09:38 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 00:41:03 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,30 +44,30 @@ Rook &	Rook::operator=( Rook const & rhs ) {
 	return *this;
 }
 
-std::vector<Move> &	Rook::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_t ) {
-	std::vector<Move> * moves = new std::vector<Move>();
+Move &	Rook::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_t ) {
+	Move *	moves = new Move(this);
 	int x;
 	int y;
 
 	for (x = this->_x + 1; x <= BOARD_MAX && !pieces[this->_y][x];x++)
-		moves->push_back(Move(x, this->_y, NULL));
+		moves->push(x, this->_y);
 	if (x <= BOARD_MAX && pieces[this->_y][x]->getColor() != this->_color)
-		moves->push_back(Move(x, this->_y, pieces[this->_y][x]));
+		moves->push(x, this->_y, pieces[this->_y][x]);
 
 	for (x = this->_x - 1; x >= 0 && !pieces[this->_y][x];x--)
-		moves->push_back(Move(x, this->_y, NULL));
+		moves->push(x, this->_y);
 	if (x >= 0 && pieces[this->_y][x]->getColor() != this->_color)
-		moves->push_back(Move(x, this->_y, pieces[this->_y][x]));
+		moves->push(x, this->_y, pieces[this->_y][x]);
 
 	for (y = this->_y + 1; y <= BOARD_MAX && !pieces[y][this->_x];y++)
-		moves->push_back(Move(this->_x, y, NULL));
+		moves->push(this->_x, y);
 	if (y <= BOARD_MAX && pieces[y][this->_x]->getColor() != this->_color)
-		moves->push_back(Move(this->_x, y, pieces[y][this->_x]));
+		moves->push(this->_x, y, pieces[y][this->_x]);
 
 	for (y = this->_y - 1; y >= 0 && !pieces[y][this->_x];y--)
-		moves->push_back(Move(this->_x, y, NULL));
+		moves->push(this->_x, y);
 	if (y >= 0 && pieces[y][this->_x]->getColor() != this->_color)
-		moves->push_back(Move(this->_x, y, pieces[y][this->_x]));
+		moves->push(this->_x, y, pieces[y][this->_x]);
 
 	return *moves;
 }
