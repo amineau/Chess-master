@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 01:37:54 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 01:52:37 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ Board::Board()
 	this->_init(Bishop());
 	this->_init(Knight());
 	this->_init(Queen());
+	this->_init(King());
 	return;
 }
 
