@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 00:41:14 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 01:44:30 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ Move &	Bishop::getMoving( std::vector<std::vector<APiece*> > const & pieces, siz
 
 	for (i = 1; static_cast<int>(this->_y) - i >= 0 && this->_x + i <= BOARD_MAX
 		&& !pieces[this->_y - i][this->_x + i]; i++)
-		moves->push(this->_x - i, this->_y - i);
+		moves->push(this->_x + i, this->_y - i);
 	if (static_cast<int>(this->_y) - i >= 0 && this->_x + i <= BOARD_MAX
 		&& pieces[this->_y - i][this->_x + i]->getColor() != this->_color)
 		moves->push(this->_x + i, this->_y - i, pieces[this->_y - i][this->_x + i]);
 
 	for (i = 1; this->_y + i <= BOARD_MAX && static_cast<int>(this->_x) - i >=0
 		&& !pieces[this->_y + i][this->_x - i]; i++)
-		moves->push(this->_x + i, this->_y + i);
+		moves->push(this->_x - i, this->_y + i);
 	if (this->_y + i <= BOARD_MAX && static_cast<int>(this->_x) - i >=0
 		&& pieces[this->_y + i][this->_x - i]->getColor() != this->_color)
 		moves->push(this->_x - i, this->_y + i, pieces[this->_y + i][this->_x - i]);

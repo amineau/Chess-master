@@ -6,11 +6,16 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:37:38 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 01:15:38 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 01:36:50 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Move.hpp"
+
+Move::Move()
+{
+	return;
+}
 
 Move::Move( APiece * player )
 	: _player(player)
@@ -61,18 +66,21 @@ void	Move::push(Destination dest) {
 Move &	Move::operator=( Move const & rhs ) {
 	if (this != &rhs) {
 		this->_moves = rhs._moves;
-		this->_player = rhs._player;
+		// this->_player = rhs._player;
 	}
 	return *this;
 }
 
-Move &	Move::operator+( Move const & rhs ) {
-	if (this != &rhs && &this->_player == &rhs._player) {
-		for (std::vector<const Destination>::iterator it = rhs._moves.begin(); it != rhs._moves.end(); it++) {
-			this->push(*it);
-		}
+Move	Move::operator+( Move const & rhs ) const {
+	Move move = Move();
+
+	for (std::vector<const Destination>::iterator it = rhs._moves.begin(); it != rhs._moves.end(); it++) {
+		move.push(*it);
 	}
-	return *this;
+	for (std::vector<const Destination>::iterator it = this->_moves.begin(); it != this->_moves.end(); it++) {
+		move.push(*it);
+	}
+	return move;
 }
 
 std::ostream &	operator<<( std::ostream & o, Move const & i ) {

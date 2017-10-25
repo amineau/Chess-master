@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:33:11 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 01:15:24 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 01:31:06 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class Destination;
 class Move {
 
 public:
+	Move();
 	Move( APiece * player );
 	Move( Move const & );
 	virtual ~Move ();
@@ -35,7 +36,7 @@ public:
 	Destination const &					getDestination(size_t y, size_t x);
 
 	Move &	operator=( Move const & );
-	Move &	operator+( Move const & );
+	Move	operator+( Move const & ) const;
 
 	class MoveDoesntExistException : public std::exception {
 	public:
