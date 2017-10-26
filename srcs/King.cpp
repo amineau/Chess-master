@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 01:49:08 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 15:53:49 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ Move &	King::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_
 		if (x >= 0 && x <= BOARD_MAX) {
 			for (int j = -1; j <= 1; j++) {
 				y = this->_y + j;
-				if (y >= 0 && y <= BOARD_MAX) {
+				if (y >= 0 && y <= BOARD_MAX && (i || j)) {
 					if (pieces[y][x] && pieces[y][x]->getColor() != this->_color)
 						moves->push(x, y, pieces[y][x]);
 					else if (!pieces[y][x])

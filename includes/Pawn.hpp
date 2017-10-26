@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:34:32 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 00:26:39 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 17:10:16 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@ public:
 
 	Pawn &	operator=( Pawn const & );
 
+	size_t			getLastY() const;
+	void			setPosition(size_t y, size_t x, size_t round);	
 	virtual Move &	getMoving( std::vector<std::vector<APiece*> > const &, size_t round );
 
+private:
+	size_t	_last_y;
 };
 
 #endif

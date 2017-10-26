@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:31:09 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 01:51:07 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 17:35:19 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,20 @@ int main() {
 	std::vector<std::vector<APiece*> > const &	pieces = board.getBoard();
 	Move &	moves = pieces[0][4]->getMoving(pieces, 0);
 	std::cout << moves <<std::endl;
+	size_t round = 0;
 	// board.moving(moves.getDestination(3, 3));
 	
-	// moves = pieces[3][3]->getMoving(pieces, 0);
-	// board.moving(moves.getDestination(4, 3));
+	moves = pieces[1][4]->getMoving(pieces, round++);
+	board.moving(moves.getDestination(3, 4));
+	moves = pieces[3][4]->getMoving(pieces, round++);
+	board.moving(moves.getDestination(4, 4));
 
+	moves = pieces[6][3]->getMoving(pieces, round++);
+	board.moving(moves.getDestination(4, 3));
+
+	moves = pieces[4][4]->getMoving(pieces, round++);
+	std::cout << moves <<std::endl;
+	board.moving(moves.getDestination(5, 3));
 	
 
 	// moves = pieces[0][2]->getMoving(pieces, 0);

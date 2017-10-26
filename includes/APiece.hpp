@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 20:41:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 00:26:48 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 17:28:38 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,10 @@ public:
 	t_type const &	getType() const;
 	size_t			getX() const;
 	size_t			getY() const;
+	size_t			getLastMove() const;
 	char			getXRepresentation() const;
 	size_t			getYRepresentation() const;
-	void			setPosition(size_t y, size_t x, size_t round);
+	virtual void	setPosition(size_t y, size_t x, size_t round);
 		
 	virtual Move &	getMoving( std::vector<std::vector<APiece*> > const & pieces, size_t round ) = 0;
 	

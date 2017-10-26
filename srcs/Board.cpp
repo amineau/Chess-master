@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 01:52:37 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 18:13:26 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,12 @@ Board::~Board() {
 
 void		Board::moving(Destination const & move) {
 	APiece *	piece = move.getPlayer();
-	if (move.getTarget())
-		delete move.getTarget();
+	APiece *	target = move.getTarget();
+	
+	if (target) {
+		this->_board[target->getY()][target->getX()] = NULL;
+		delete target;
+	}
 	this->_board[move.y][move.x] = piece;
 	this->_board[piece->getY()][piece->getX()] = NULL;
 	piece->setPosition(move.y, move.x, this->_round); 

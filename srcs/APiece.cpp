@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 21:49:45 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/24 22:20:46 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 17:09:15 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ size_t			APiece::getX() const {
 
 size_t			APiece::getY() const {
 	return this->_y;
+}
+
+size_t			APiece::getLastMove() const {
+	return this->_last_move;
 }
 
 t_color const &	APiece::getColor() const {
