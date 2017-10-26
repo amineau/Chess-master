@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 15:53:49 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 18:53:49 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,19 @@ Move &	King::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_
 						moves->push(x, y);
 				}
 			}
+		}
+	}
+	// Rook
+	if (!this->_last_move) {
+		for (int i = 1; this->_x - i == 0 || (this->_x - i > 0 && !pieces[this->_y][this->_x - i]); i++) {
+			// check echec
+			if (this->_x - i == 0 && pieces[this->_y][this->_x - i]->getLastMove() == 0)
+				moves->push(this->_x - 2, this->_y);
+		}
+		for (int i = 1; this->_x + i == BOARD_MAX || (this->_x + i < BOARD_MAX && !pieces[this->_y][this->_x + i]); i++) {
+			// check echec
+			if (this->_x + i == BOARD_MAX && pieces[this->_y][this->_x + i]->getLastMove() == 0)
+				moves->push(this->_x + 2, this->_y);
 		}
 	}
 	return *moves;

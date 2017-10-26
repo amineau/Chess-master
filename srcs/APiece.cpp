@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 21:49:45 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 17:09:15 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/26 18:54:24 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ APiece::APiece( t_type type )
 
 APiece::APiece( t_type type, e_color color, size_t x, size_t y )
 	: _color(color)
+	, _last_move(0)
 	, _x(x)
 	, _y(y)
 	, _type(type)
