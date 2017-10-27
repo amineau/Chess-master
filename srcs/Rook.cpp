@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 00:41:03 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/27 20:08:37 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ Rook &	Rook::operator=( Rook const & rhs ) {
 	return *this;
 }
 
-Move &	Rook::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_t ) {
-	Move *	moves = new Move(this);
+Move *	Rook::calculMoves( std::vector<std::vector<APiece*> > const & pieces, size_t ) {
 	int x;
 	int y;
+	Move *	moves = new Move(this);
 
 	for (x = this->_x + 1; x <= BOARD_MAX && !pieces[this->_y][x];x++)
 		moves->push(x, this->_y);
@@ -68,6 +68,5 @@ Move &	Rook::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_
 		moves->push(this->_x, y);
 	if (y >= 0 && pieces[y][this->_x]->getColor() != this->_color)
 		moves->push(this->_x, y, pieces[y][this->_x]);
-
-	return *moves;
+	return moves;
 }

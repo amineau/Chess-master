@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:07:59 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 01:49:47 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/27 20:10:00 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include "Queen.hpp"
 # include "King.hpp"
 # include "Move.hpp"
+# include "APiece.hpp"
+
+class APieces;
 
 class Board {
 
@@ -32,6 +35,7 @@ public:
 
 	std::vector<std::vector<APiece*> > const &	getBoard() const;
 	void	moving(Destination const & move);
+	void	updateDestinations();
 		
 	class UnkownPiecePositionException : public std::exception {
 	public:

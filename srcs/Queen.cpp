@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 01:40:14 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/27 20:21:54 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ Queen &	Queen::operator=( Queen const & rhs ) {
 	return *this;
 }
 
-Move &	Queen::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_t round) {
+Move *	Queen::calculMoves( std::vector<std::vector<APiece*> > const & pieces, size_t round) {
 	Move *	moves = new Move(this);
 
-	*moves = Bishop::getMoving(pieces, round) + Rook::getMoving(pieces, round);
-	return *moves;
+	*moves = *Bishop::calculMoves(pieces, round) + *Rook::calculMoves(pieces, round);
+	return moves;
 }

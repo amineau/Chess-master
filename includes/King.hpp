@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 01:47:14 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/27 20:09:20 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ public:
 
 	King &	operator=( King const & );
 
-	virtual Move &	getMoving( std::vector<std::vector<APiece*> > const &, size_t round );
+	virtual Move *	calculMoves( std::vector<std::vector<APiece*> > const &, size_t round );
 
 };
 

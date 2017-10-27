@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 18:53:49 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/27 20:22:09 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ King &	King::operator=( King const & rhs ) {
 	return *this;
 }
 
-Move &	King::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_t ) {
-	Move *	moves = new Move(this);
+Move *	King::calculMoves( std::vector<std::vector<APiece*> > const & pieces, size_t ) {
 	int x;
 	int y;
+	Move *	moves = new Move(this);
 
 	for (int i = -1; i <= 1; i++) {
 		x = this->_x + i;
@@ -76,5 +76,5 @@ Move &	King::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_
 				moves->push(this->_x + 2, this->_y);
 		}
 	}
-	return *moves;
+	return moves;
 }

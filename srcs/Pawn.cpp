@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:35:50 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 17:35:03 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/27 20:08:43 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ size_t	Pawn::getLastY() const {
 }
 
 
-Move &	Pawn::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_t round ) {
+Move *	Pawn::calculMoves( std::vector<std::vector<APiece*> > const & pieces, size_t round ) {
 	Move *	moves = new Move(this);
 	Pawn *	pawn;
 	int		x;
@@ -95,5 +95,5 @@ Move &	Pawn::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_
 				&& pawn->getLastMove() == round - 1)
 				moves->push(x, 2 + pawn->getColor() * 3, pawn);
 		}
-	return *moves;
+	return moves;
 }

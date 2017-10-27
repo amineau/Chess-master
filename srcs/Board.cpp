@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 19:09:19 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/27 20:29:52 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ Board::Board()
 	this->_init(Knight());
 	this->_init(Queen());
 	this->_init(King());
+	this->updateDestinations();	
 	return;
 }
 
@@ -64,7 +65,19 @@ void		Board::moving(Destination const & move) {
 	this->_board[piece->getY()][piece->getX()] = NULL;
 	piece->setPosition(move.y, move.x, this->_round); 
 	this->_round++;
+	this->updateDestinations();
 }
+
+void		Board::updateDestinations() {
+	std::vector<std::vector<APiece*> >::iterator	row;
+	std::vector<APiece*>::iterator					it;
+
+	for (row = this->_board.begin(); row != this->_board.end(); row++)
+		for (it = row->begin(); it != row->end(); it++)
+			if (*it)
+				(*it)->update(this->_board, this->_round);
+}
+
 
 /* Accessors */
 
@@ -95,12 +108,22 @@ std::ostream &	operator<<( std::ostream & o, Board const & i ) {
 	// }
 	for (int y = BOARD_MAX; y >= 0; --y) {
 		for (int x = 0; x <= BOARD_MAX; ++x){
+			if ((y + x) % 2)
+				o << "\033[1;40m";
+			else
+				o << "\033[1;47m";
 			if (pieces[y][x])
+			{
+				if (pieces[y][x]->getColor() == BLACK)
+					o << "\033[1;31m";
+				else
+					o << "\033[1;32m";
 				o << *(pieces[y][x]) << " ";
+			}
 			else 
-				o << ". ";
+				o << "  ";
 		}
-		o << std::endl;
+		o << "\033[0m" << std::endl;
 	}
 	return o;
 }

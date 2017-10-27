@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 01:44:30 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/27 20:09:09 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ Bishop &	Bishop::operator=( Bishop const & rhs ) {
 	return *this;
 }
 
-Move &	Bishop::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_t ) {
+Move *	Bishop::calculMoves( std::vector<std::vector<APiece*> > const & pieces, size_t ) {
 	Move *	moves = new Move(this);
 	int i;
 
@@ -75,7 +75,5 @@ Move &	Bishop::getMoving( std::vector<std::vector<APiece*> > const & pieces, siz
 	if (this->_y + i <= BOARD_MAX && static_cast<int>(this->_x) - i >=0
 		&& pieces[this->_y + i][this->_x - i]->getColor() != this->_color)
 		moves->push(this->_x - i, this->_y + i, pieces[this->_y + i][this->_x - i]);
-
-
-	return *moves;
+	return moves;
 }

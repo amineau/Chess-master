@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 21:49:45 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 18:54:24 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/27 20:21:29 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ APiece::APiece( t_type type, e_color color, size_t x, size_t y )
 	, _last_move(0)
 	, _x(x)
 	, _y(y)
+	, _moves(NULL)
 	, _type(type)
 {
 	if (this->_x > BOARD_MAX || this->_y > BOARD_MAX)
@@ -88,6 +89,18 @@ char			APiece::getXRepresentation() const {
 }
 size_t			APiece::getYRepresentation() const {
 	return this->_y + 1;
+}
+
+Move &			APiece::getMoves() const {
+	return *this->_moves;
+}
+
+/* Members functions */
+
+void			APiece::update( std::vector<std::vector<APiece*> > const & pieces, size_t round ) {
+	if (this->_moves)
+		delete this->_moves;
+	this->_moves = calculMoves(pieces, round);
 }
 
 /* Exception */

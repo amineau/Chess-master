@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 00:50:02 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/27 20:09:05 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ Knight &	Knight::operator=( Knight const & rhs ) {
 	return *this;
 }
 
-Move &	Knight::getMoving( std::vector<std::vector<APiece*> > const & pieces, size_t ) {
+Move *	Knight::calculMoves( std::vector<std::vector<APiece*> > const & pieces, size_t ) {
 	Move *	moves = new Move(this);
 	int tab[4] = { -2, -1, 2, 1 };
 	int x;
@@ -65,5 +65,5 @@ Move &	Knight::getMoving( std::vector<std::vector<APiece*> > const & pieces, siz
 			}
 		}
 	}
-	return *moves;
+	return moves;
 }
