@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/28 23:10:47 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/29 01:46:19 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,9 @@ Board &	Board::operator=( Board const & rhs ) {
 
 std::ostream &	operator<<( std::ostream & o, Board const & i ) {
 	std::vector<std::vector<APiece*> > const & pieces = i.getBoard();
-
+	o << "\033[38;5;232;48;5;215m                    " << std::endl;
 	for (int y = BOARD_MAX; y >= 0; --y) {
+		o << "\033[38;5;232;48;5;215m" << y + 1 << " ";		
 		for (int x = 0; x <= BOARD_MAX; ++x){
 			if ((y + x) % 2)
 				o << "\033[48;5;255m";
@@ -164,8 +165,9 @@ std::ostream &	operator<<( std::ostream & o, Board const & i ) {
 			else 
 				o << "  ";
 		}
-		o << "\033[0m" << std::endl;
+		o << "\033[38;5;232;48;5;215m  \033[0m" << std::endl;
 	}
+	o << "\033[38;5;232;48;5;215m  a b c d e f g h   \033[0m" << std::endl;	
 	return o;
 }
 
