@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:37:38 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 01:36:50 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/28 17:56:29 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ Move &	Move::operator=( Move const & rhs ) {
 Move	Move::operator+( Move const & rhs ) const {
 	Move move = Move();
 
-	for (std::vector<const Destination>::iterator it = rhs._moves.begin(); it != rhs._moves.end(); it++) {
+	for (std::vector<Destination>::const_iterator it = rhs._moves.begin(); it != rhs._moves.end(); it++) {
 		move.push(*it);
 	}
-	for (std::vector<const Destination>::iterator it = this->_moves.begin(); it != this->_moves.end(); it++) {
+	for (std::vector<Destination>::const_iterator it = this->_moves.begin(); it != this->_moves.end(); it++) {
 		move.push(*it);
 	}
 	return move;
@@ -85,7 +85,7 @@ Move	Move::operator+( Move const & rhs ) const {
 
 std::ostream &	operator<<( std::ostream & o, Move const & i ) {
 	// std::vector<Destination>::iterator	it;
-	for (std::vector<const Destination>::iterator it = i.getMoves().begin(); it != i.getMoves().end(); it++)
+	for (std::vector<Destination>::const_iterator it = i.getMoves().begin(); it != i.getMoves().end(); it++)
 		o << it->x << " " << it->y << " " << it->getTarget() << std::endl;
 	return o;
 }

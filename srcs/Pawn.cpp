@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:35:50 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/27 20:08:43 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/28 17:57:52 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ Move *	Pawn::calculMoves( std::vector<std::vector<APiece*> > const & pieces, siz
 	}
 
 	// En Passant Capture
-	if (this->_y == 4 - this->_color)
+	if (static_cast<int>(this->_y) == 4 - this->_color)
 		for (int i = -1; i <= 1; i += 2) {
 			x = static_cast<int>(this->_x) + i;
 			pawn = dynamic_cast<Pawn*>(pieces[this->_y][x]);
 			if (x >= 0 && x <= BOARD_MAX && pawn
 				&& pawn->getColor() != this->_color
-				&& pawn->getLastY() == pawn->getColor() * 5 + 1
+				&& static_cast<int>(pawn->getLastY()) == pawn->getColor() * 5 + 1
 				&& pawn->getLastMove() == round - 1)
 				moves->push(x, 2 + pawn->getColor() * 3, pawn);
 		}

@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/27 20:21:54 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/28 17:58:21 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ Queen::Queen( size_t, t_color color )
 
 Queen::Queen( Queen const & src )
 	: APiece()
+	, Bishop()
+	, Rook()
 {
 	*this = src;
 	return;
