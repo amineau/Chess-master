@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:33:11 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/26 01:31:06 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/29 00:02:05 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ public:
 	void	push(Destination dest);
 
 	std::vector<Destination> const &	getMoves() const;
-	Destination const &					getDestination(size_t y, size_t x);
+	Destination const *					getDestination(size_t y, size_t x);
 
 	Move &	operator=( Move const & );
 	Move	operator+( Move const & ) const;

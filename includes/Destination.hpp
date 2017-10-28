@@ -45,4 +45,6 @@ private:
 
 };
 
+std::ostream &	operator<<( std::ostream & o, Destination const & i );
+
 #endif

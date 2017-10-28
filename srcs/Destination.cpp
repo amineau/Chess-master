@@ -61,6 +61,33 @@ Destination &	Destination::operator=( Destination const & rhs ) {
 	return *this;
 }
 
+/* Operator Overload */
+
+std::ostream &	operator<<( std::ostream & o, Destination const & i ) {
+	if (i.getPlayer()->getType() == KING
+		&& i.x == i.getPlayer()->getX() + 2) {
+		o << "O-O";
+		return o;
+	}
+	if (i.getPlayer()->getType() == KING
+		&& i.x == i.getPlayer()->getX() + 2) {
+		o << "O-O-O";
+		return o;
+	}
+	if (i.getPlayer()->getType() != PAWN)
+		o << *i.getPlayer();
+	if (i.getTarget()) {
+		if (i.getPlayer()->getType() == PAWN)
+			o << i.getPlayer()->getXRepresentation();
+		o << "x";
+	}
+	o << static_cast<char>(i.x + 'a') << i.y + 1;
+	if (i.getPlayer()->getType() == PAWN
+		&& i.getTarget() && i.getTarget()->getX() == i.getPlayer()->getX())
+		o << "e.p.";
+	return o;
+}
+
 /* Exception */
 
 char const *	Destination::DestinationOutSidePositionException::what() const throw() {

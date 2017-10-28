@@ -1,24 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Game.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/20 23:31:09 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/28 23:17:46 by amineau          ###   ########.fr       */
+/*   Created: 2017/10/28 19:46:32 by amineau           #+#    #+#             */
+/*   Updated: 2017/10/28 23:35:35 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Game.hpp"
+#ifndef GAME_HPP
+# define GAME_HPP
 
-int main() {
-	Game game;
+# include <iostream>
+# include "Board.hpp"
 
-	game.start();
-	// std::cout << board.moving(moves->getDestination(3, 4)) << std::endl;
-	
-	// std::cout <<board<<std::endl;
-	
-	return 0;
-}
+struct Position {
+	size_t x;
+	size_t y;
+};
+
+typedef struct Position t_position;
+
+class Game {
+
+public:
+	Game();
+	Game( Game const & );
+	virtual ~Game();
+
+	void	start();
+	void	end();
+
+	Game &	operator=( Game const & );
+
+private:
+	Board	_board;
+
+	t_position *	_getCoordinate(std::string entry) const;
+		
+
+};
+
+#endif

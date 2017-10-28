@@ -6,13 +6,14 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:07:59 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/27 20:10:00 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/28 23:10:49 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BOARD_HPP
 # define BOARD_HPP
 
+# include <sstream>
 # include "Pawn.hpp"
 # include "Rook.hpp"
 # include "Bishop.hpp"
@@ -34,10 +35,19 @@ public:
 	Board &	operator=( Board const & );
 
 	std::vector<std::vector<APiece*> > const &	getBoard() const;
-	void	moving(Destination const & move);
-	void	updateDestinations();
+	size_t				getRound() const;
+	
+	std::string const	moving(Destination const & move);
+	bool				isCheck();
+	void				updateDestinations();
+	APiece *			getKing(t_color color);
 		
 	class UnkownPiecePositionException : public std::exception {
+	public:
+		virtual char const * what() const throw();
+	};
+
+	class KingNotFoundException : public std::exception {
 	public:
 		virtual char const * what() const throw();
 	};

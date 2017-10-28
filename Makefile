@@ -1,9 +1,11 @@
 NAME = chessmaster
 CC = g++
 
-SRCS = main.cpp Board.cpp Destination.cpp Move.cpp APiece.cpp Pawn.cpp Rook.cpp Bishop.cpp Knight.cpp Queen.cpp King.cpp
+SRCS = main.cpp Game.cpp Board.cpp Destination.cpp Move.cpp APiece.cpp \
+		Pawn.cpp Rook.cpp Bishop.cpp Knight.cpp Queen.cpp King.cpp
 
-INC = Board.hpp Destination.hpp Move.hpp APiece.hpp Pawn.hpp Rook.hpp Bishop.hpp Knight.hpp Queen.hpp King.hpp
+INC = Board.hpp Game.hpp Destination.hpp Move.hpp APiece.hpp Pawn.hpp \
+		Rook.hpp Bishop.hpp Knight.hpp Queen.hpp King.hpp
 
 SPATH = srcs
 OPATH = objs

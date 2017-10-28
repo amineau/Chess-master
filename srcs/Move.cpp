@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:37:38 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/28 17:56:29 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/29 00:02:48 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,19 @@ Move::~Move() {
 }
 
 /* Accessors */
+
 std::vector<Destination> const &	Move::getMoves() const {
 	return this->_moves;
 }
 
-Destination const &					Move::getDestination(size_t y, size_t x) {
+Destination const *					Move::getDestination(size_t y, size_t x) {
 	std::vector<Destination>::iterator it;
 
 	for (it = this->_moves.begin(); it != this->_moves.end(); it++)
 		if (it->x == x && it->y == y)
-			return *it;
-	throw MoveDoesntExistException();
+			return &(*it);
+	return NULL;
+	// throw MoveDoesntExistException();
 }
 
 /* Members functions */
@@ -86,7 +88,7 @@ Move	Move::operator+( Move const & rhs ) const {
 std::ostream &	operator<<( std::ostream & o, Move const & i ) {
 	// std::vector<Destination>::iterator	it;
 	for (std::vector<Destination>::const_iterator it = i.getMoves().begin(); it != i.getMoves().end(); it++)
-		o << it->x << " " << it->y << " " << it->getTarget() << std::endl;
+		o << *it << std::endl;
 	return o;
 }
 

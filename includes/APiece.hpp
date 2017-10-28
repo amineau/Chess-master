@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 20:41:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/27 19:49:57 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/28 23:18:35 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ enum e_type {
 typedef enum e_color	t_color;
 typedef enum e_type		t_type;
 
-static std::pair<int, const char> map_data[] = {
+static std::pair<int, const char> map_type[] = {
     std::make_pair(KING, 'K'),
     std::make_pair(QUEEN, 'Q'),
     std::make_pair(ROOK, 'R'),
@@ -43,8 +43,16 @@ static std::pair<int, const char> map_data[] = {
     std::make_pair(PAWN, 'P')
 };
 
-static std::map<int, const char> type(map_data,
-    map_data + sizeof map_data / sizeof map_data[0]);
+static std::map<int, const char> type(map_type,
+	map_type + sizeof map_type / sizeof map_type[0]);
+	
+static std::pair<int, const char*> map_color[] = {
+	std::make_pair(WHITE, "WHITE"),
+	std::make_pair(BLACK, "BLACK")
+};
+	
+static std::map<int, const char*> color(map_color,
+	map_color + sizeof map_color / sizeof map_color[0]);
 
 
 
