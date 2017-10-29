@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 19:47:36 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/29 02:25:14 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/29 13:53:33 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,13 @@ void	Game::start() {
 				<< "Where do you want to go ? : ";
 			std::cin >> entry;
 			if (!(destination = this->_getCoordinate(entry)))
-				std::cout << "\033[31m" << entry << " is not a valid entry\033[31m" << std::endl;
+				std::cout << "\033[31m" << entry << " is not a valid entry\033[m" << std::endl;
 			else if (!(toGo = moves->getDestination(destination->y, destination->x)))	
-				std::cout << "\033[31mThe destination is not correct\033[31m" << std::endl;
+				std::cout << "\033[31mThe destination is not correct\033[m" << std::endl;
 			else
 				break;
 			destination = NULL;
 		}
-		this->_board.moving(*toGo);
+		std::cout << this->_board.moving(*toGo) << std::endl;
 	}
 }

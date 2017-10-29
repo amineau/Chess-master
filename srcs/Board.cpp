@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/29 02:13:47 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/29 13:39:12 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ std::string	const 	Board::moving(Destination const & move) {
 	}
 	if (piece->getType() == KING) {
 		if (move.x == piece->getX() + 2)
-		this->moving(Destination(piece->getX() + 1, move.y, this->_board[move.y][BOARD_MAX]));
+			this->moving(Destination(piece->getX() + 1, move.y, this->_board[move.y][BOARD_MAX]));
 		else if (move.x == piece->getX() - 2)
-		this->moving(Destination(piece->getX() - 1, move.y, this->_board[move.y][0]));
+			this->moving(Destination(piece->getX() - 1, move.y, this->_board[move.y][0]));
 	}
 	this->_board[move.y][move.x] = piece;
 	this->_board[piece->getY()][piece->getX()] = NULL;

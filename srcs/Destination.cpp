@@ -75,7 +75,7 @@ std::ostream &	operator<<( std::ostream & o, Destination const & i ) {
 		return o;
 	}
 	if (i.getPlayer()->getType() != PAWN)
-		o << *i.getPlayer();
+		o << *i.getPlayer() << " ";
 	if (i.getTarget()) {
 		if (i.getPlayer()->getType() == PAWN)
 			o << i.getPlayer()->getXRepresentation();
