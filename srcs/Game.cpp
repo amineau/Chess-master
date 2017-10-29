@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 19:47:36 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/29 00:07:45 by amineau          ###   ########.fr       */
+/*   Updated: 2017/10/29 02:25:14 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,26 +70,30 @@ void	Game::start() {
 		destination = NULL;		
 		std::cout << this->_board;
 		while (!toMove) {
-			std::cout << "[" << color[player] << "]" << std::endl
+			std::cout << "\033[1m[" << color[player] << "]\033[m" << std::endl
 				<< "Which piece do you want to play ? : ";
 			std::cin >> entry;
 			if (!(toMove = this->_getCoordinate(entry)))
-				std::cout << entry << " is not a valid entry" << std::endl;
+				std::cout << "\033[31m" << entry << " is not a valid entry\033[m" << std::endl;
 			else if (!pieces[toMove->y][toMove->x] || pieces[toMove->y][toMove->x]->getColor() != player)	
-				std::cout << "There is no piece to you on the " <<entry << std::endl;
-			else
-				break;
+				std::cout << "\033[31mThere is no piece to you on the " <<entry << "\033[m" << std::endl;
+			else {
+				moves = &pieces[toMove->y][toMove->x]->getMoves();
+				if (!moves->getMoves().size())
+					std::cout << "\033[31mNo moves possible for this piece\033[m" << std::endl;
+				else
+					break;
+			}
 			toMove = NULL;
 		}
-		moves = &pieces[toMove->y][toMove->x]->getMoves();
 		while (!destination) {
-			std::cout << "Possibles moves :" <<std::endl << *moves
+			std::cout << "Possibles moves :" << std::endl << *moves
 				<< "Where do you want to go ? : ";
 			std::cin >> entry;
 			if (!(destination = this->_getCoordinate(entry)))
-				std::cout << entry << " is not a valid entry" << std::endl;
+				std::cout << "\033[31m" << entry << " is not a valid entry\033[31m" << std::endl;
 			else if (!(toGo = moves->getDestination(destination->y, destination->x)))	
-				std::cout << "The destination is not correct" << std::endl;
+				std::cout << "\033[31mThe destination is not correct\033[31m" << std::endl;
 			else
 				break;
 			destination = NULL;
