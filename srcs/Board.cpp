@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/29 13:39:12 by amineau          ###   ########.fr       */
+/*   Updated: 2017/12/07 07:38:16 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,13 @@ std::string	const 	Board::moving(Destination const & move) {
 		delete target;
 	}
 	if (piece->getType() == KING) {
-		if (move.x == piece->getX() + 2)
+		if (move.x == piece->getX() + 2) {
 			this->moving(Destination(piece->getX() + 1, move.y, this->_board[move.y][BOARD_MAX]));
-		else if (move.x == piece->getX() - 2)
+			this->_round--;
+		} else if (move.x == piece->getX() - 2) {
 			this->moving(Destination(piece->getX() - 1, move.y, this->_board[move.y][0]));
+			this->_round--;
+		}
 	}
 	this->_board[move.y][move.x] = piece;
 	this->_board[piece->getY()][piece->getX()] = NULL;
@@ -146,7 +149,7 @@ Board &	Board::operator=( Board const & rhs ) {
 
 std::ostream &	operator<<( std::ostream & o, Board const & i ) {
 	std::vector<std::vector<APiece*> > const & pieces = i.getBoard();
-	o << "\033[38;5;232;48;5;215m                    " << std::endl;
+	o << "\033[38;5;232;48;5;215m                    \033[0m" << std::endl;
 	for (int y = BOARD_MAX; y >= 0; --y) {
 		o << "\033[38;5;232;48;5;215m" << y + 1 << " ";		
 		for (int x = 0; x <= BOARD_MAX; ++x){
