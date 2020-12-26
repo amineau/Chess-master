@@ -13,19 +13,20 @@
 #ifndef ROOK_HPP
 # define ROOK_HPP
 
-# include "APiece.hpp"
+# include "Piece.hpp"
 
-class Rook : public virtual APiece {
+class Rook : public virtual Piece {
 
 public:
 	Rook();
-	Rook( size_t index, t_color color );
+	Rook( bool isWhite );
 	Rook( Rook const & );
-	virtual ~Rook ();
+	~Rook ();
 
-	Rook &	operator=( Rook const & );
+	bool	canMoves(Board board, Spot start, Spot end) const;
 
-	virtual Move *	calculMoves( std::vector<std::vector<APiece*> > const &, size_t round );
+private:
+	t_type	_type;
 };
 
 #endif

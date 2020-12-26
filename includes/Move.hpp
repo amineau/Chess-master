@@ -14,38 +14,34 @@
 # define MOVE_HPP
 
 # include <iostream>
-# include "APiece.hpp"
-# include "Destination.hpp"
+# include "Piece.hpp"
+# include "Player.hpp"
+# include "Spot.hpp"
 
-class APiece;
-class Destination;
+class Piece;
 
 class Move {
 
 public:
 	Move();
-	Move( APiece * player );
+	Move(Player * player, Spot *start, Spot *end);
 	Move( Move const & );
-	virtual ~Move ();
+	~Move ();
 
-	void	push(size_t x, size_t y, APiece * target);
-	void	push(size_t x, size_t y);
-	void	push(Destination dest);
-
-	std::vector<Destination> const &	getMoves() const;
-	Destination const *					getDestination(size_t y, size_t x);
+	Player const *	getPlayer() const;
+	Spot const *	getStartSpot() const;
+	Spot const *	getEndSpot() const;
+	Piece const *	getPieceMoved() const;
+	Piece const *	getPieceKilled() const;
 
 	Move &	operator=( Move const & );
-	Move	operator+( Move const & ) const;
-
-	class MoveDoesntExistException : public std::exception {
-	public:
-		virtual char const * what() const throw();
-	};
 
 private:
-	std::vector<Destination>	_moves;
-	APiece *					_player;
+	Player						*_player;
+	Spot						*_start;
+	Spot						*_end;
+	Piece						*_pieceMoved;
+	Piece						*_pieceKilled;
 };
 
 std::ostream &	operator<<( std::ostream & o, Move const & i );

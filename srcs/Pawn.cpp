@@ -13,19 +13,19 @@
 #include "Pawn.hpp"
 
 Pawn::Pawn()
-	: APiece(PAWN)
+	: Piece(PAWN)
 {
 	return;
 }
 
 Pawn::Pawn( size_t index, t_color color )
-	: APiece(PAWN, color, index, color * 5 + 1)
+	: Piece(PAWN, color, index, color * 5 + 1)
 {
 	return;
 }
 
 Pawn::Pawn( Pawn const & src )
-	: APiece()
+	: Piece()
 {
 	*this = src;
 	return;
@@ -49,7 +49,7 @@ Pawn &	Pawn::operator=( Pawn const & rhs ) {
 
 void	Pawn::setPosition(size_t x, size_t y, size_t round) {
 	this->_last_y = this->_y;
-	APiece::setPosition(x, y, round);
+	Piece::setPosition(x, y, round);
 }
 
 /* Accessors */
@@ -59,7 +59,7 @@ size_t	Pawn::getLastY() const {
 }
 
 
-Move *	Pawn::calculMoves( std::vector<std::vector<APiece*> > const & pieces, size_t round ) {
+Move *	Pawn::calculMoves( std::vector<std::vector<Piece*> > const & pieces, size_t round ) {
 	Move *	moves = new Move(this);
 	Pawn *	pawn;
 	int		x;

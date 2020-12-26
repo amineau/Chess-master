@@ -14,20 +14,20 @@
 # define COORDINATE_HPP
 
 # include <iostream>
-# include "APiece.hpp"
+# include "Piece.hpp"
 
-class APiece;
+class Piece;
 
 class Destination {
 
 public:
-	Destination(size_t x, size_t y, APiece * player, APiece * target);
-	Destination(size_t x, size_t y, APiece * player);
+	Destination(size_t x, size_t y, Piece * player, Piece * target);
+	Destination(size_t x, size_t y, Piece * player);
 	Destination( Destination const & );
 	virtual ~Destination ();
 
-	APiece *	getTarget() const;
-	APiece *	getPlayer() const;
+	Piece *	getTarget() const;
+	Piece *	getPlayer() const;
 
 	Destination &	operator=( Destination const & );
 
@@ -40,8 +40,8 @@ public:
 	};
 
 private:
-	APiece *	_target;
-	APiece *	_player;
+	Piece *	_target;
+	Piece *	_player;
 
 };
 

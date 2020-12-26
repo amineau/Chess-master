@@ -14,65 +14,38 @@
 # define BOARD_HPP
 
 # include <sstream>
+# include <vector> 
 # include "Pawn.hpp"
 # include "Rook.hpp"
 # include "Bishop.hpp"
 # include "Knight.hpp"
 # include "Queen.hpp"
 # include "King.hpp"
-# include "Move.hpp"
-# include "APiece.hpp"
+# include "Piece.hpp"
+# include "Spot.hpp"
 
-class APieces;
+class Pieces;
 
 class Board {
 
 public:
 	Board();
 	Board( Board const & );
-	virtual ~Board ();
+	~Board ();
 
+
+	Spot *	getBox(size_t x, size_t y);
+	void	initialize();
+		
 	Board &	operator=( Board const & );
 
-	std::vector<std::vector<APiece*> > const &	getBoard() const;
-	size_t				getRound() const;
-	
-	std::string const	moving(Destination const & move);
-	bool				isCheck();
-	void				updateDestinations();
-	APiece *			getKing(t_color color);
-		
-	class UnkownPiecePositionException : public std::exception {
+	class IndexOutOfBoardException : public std::exception {
 	public:
 		virtual char const * what() const throw();
 	};
 
-	class KingNotFoundException : public std::exception {
-	public:
-		virtual char const * what() const throw();
-	};
-	
 private:
-	std::vector<std::vector<APiece*> >	_board;
-	size_t								_round;
-	
-	template<typename T>
-	void	_init(T t) {
-		size_t	nbPiece = BOARD_MAX + 1;
-		T *		piece;
-
-		if (t.getType() == ROOK || t.getType() == BISHOP || t.getType() == KNIGHT)
-			nbPiece = 2;
-		else if (t.getType() == KING || t.getType() == QUEEN)
-			nbPiece = 1;
-		for (size_t color = 0; color <= 1; color++) {
-			for (size_t i = 0; i < nbPiece; i++) {
-				piece = new T(i, static_cast<t_color>(color));
-				this->_board[piece->getY()][piece->getX()] = piece;
-			}		
-		}
-	}
-
+	Spot	_boxes[8][8];
 };
 
 std::ostream &	operator<<( std::ostream & o, Board const & i );

@@ -12,7 +12,7 @@
 
 #include "Destination.hpp"
 
-Destination::Destination(size_t x, size_t y, APiece * player, APiece * target)
+Destination::Destination(size_t x, size_t y, Piece * player, Piece * target)
 	: x(x)
 	, y(y)
 	, _target(target)
@@ -22,7 +22,7 @@ Destination::Destination(size_t x, size_t y, APiece * player, APiece * target)
 		throw Destination::DestinationOutSidePositionException();
 }
 
-Destination::Destination(size_t x, size_t y, APiece * player)
+Destination::Destination(size_t x, size_t y, Piece * player)
 	: x(x)
 	, y(y)
 	, _target(NULL)
@@ -42,11 +42,11 @@ Destination::~Destination() {
 	return;
 }
 
-APiece *		Destination::getTarget() const {
+Piece *		Destination::getTarget() const {
 	return this->_target;
 }
 
-APiece *		Destination::getPlayer() const {
+Piece *		Destination::getPlayer() const {
 	return this->_player;
 }
 

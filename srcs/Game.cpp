@@ -56,7 +56,7 @@ t_position *	Game::_getCoordinate(std::string entry) const {
 }
 
 void	Game::start() {
-	std::vector<std::vector<APiece*> > const &	pieces = this->_board.getBoard();
+	std::vector<std::vector<Piece*> > const &	pieces = this->_board.getBoard();
 	Move *	moves;
 	t_color	player;
 	std::string		entry;

@@ -13,23 +13,21 @@
 #include "Queen.hpp"
 
 Queen::Queen()
-	: APiece(QUEEN)
+	: Piece()
+	, _type(QUEEN)
 {
 	return;
 }
 
-Queen::Queen( size_t, t_color color )
-	: APiece(QUEEN, color, 3, color * BOARD_MAX)
-	, Bishop()
-	, Rook()
+Queen::Queen( bool isWhite )
+	: Piece(isWhite)
+	, _type(QUEEN)
 {
 	return;
 }
 
 Queen::Queen( Queen const & src )
-	: APiece()
-	, Bishop()
-	, Rook()
+	: Piece()
 {
 	*this = src;
 	return;
@@ -39,18 +37,6 @@ Queen::~Queen() {
 	return;
 }
 
-Queen &	Queen::operator=( Queen const & rhs ) {
-	if (this != &rhs) {
-		this->_color = rhs._color;
-		this->_x = rhs._x;
-		this->_y = rhs._y;
-	}
-	return *this;
-}
-
-Move *	Queen::calculMoves( std::vector<std::vector<APiece*> > const & pieces, size_t round) {
-	Move *	moves = new Move(this);
-
-	*moves = *Bishop::calculMoves(pieces, round) + *Rook::calculMoves(pieces, round);
-	return moves;
+bool	Queen::canMoves(Board board, Spot start, Spot end) const {
+	return (Rook::canMoves(board, start, end) || Bishop::canMoves(board, start, end));
 }

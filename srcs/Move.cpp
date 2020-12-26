@@ -17,8 +17,12 @@ Move::Move()
 	return;
 }
 
-Move::Move( APiece * player )
+Move::Move(Player * player, Spot *start, Spot *end)
 	: _player(player)
+	, _start(start)
+	, _end(end)
+	, _pieceMoved(start->getPiece())
+	, _pieceKilled(end->getPiece())
 {
 	return;
 }
@@ -35,65 +39,43 @@ Move::~Move() {
 
 /* Accessors */
 
-std::vector<Destination> const &	Move::getMoves() const {
-	return this->_moves;
+Player const *	Move::getPlayer() const {
+	return this->_player;
 }
 
-Destination const *					Move::getDestination(size_t y, size_t x) {
-	std::vector<Destination>::iterator it;
+Spot const *	Move::getStartSpot() const {
+	return this->_start;
+}
 
-	for (it = this->_moves.begin(); it != this->_moves.end(); it++)
-		if (it->x == x && it->y == y)
-			return &(*it);
-	return NULL;
-	// throw MoveDoesntExistException();
+Spot const *	Move::getEndSpot() const {
+	return this->_end;
+}
+
+Piece const *	Move::getPieceMoved() const {
+	return this->_pieceMoved;
+}
+
+Piece const *	Move::getPieceKilled() const {
+	return this->_pieceKilled;
 }
 
 /* Members functions */
 
-void	Move::push(size_t x, size_t y, APiece * target) {
-	this->_moves.push_back(Destination(x, y, this->_player, target));
-}
-
-void	Move::push(size_t x, size_t y) {
-	this->_moves.push_back(Destination(x, y, this->_player));
-}
-
-void	Move::push(Destination dest) {
-	this->_moves.push_back(dest);
-}
 
 /* Operators Overload */
 
 Move &	Move::operator=( Move const & rhs ) {
 	if (this != &rhs) {
-		this->_moves = rhs._moves;
-		// this->_player = rhs._player;
+		this->_player = rhs._player;
+		this->_start = rhs._start;
+		this->_end = rhs._end;
+		this->_pieceMoved = rhs._pieceMoved;
+		this->_pieceKilled = rhs._pieceKilled;
 	}
 	return *this;
 }
 
-Move	Move::operator+( Move const & rhs ) const {
-	Move move = Move();
-
-	for (std::vector<Destination>::const_iterator it = rhs._moves.begin(); it != rhs._moves.end(); it++) {
-		move.push(*it);
-	}
-	for (std::vector<Destination>::const_iterator it = this->_moves.begin(); it != this->_moves.end(); it++) {
-		move.push(*it);
-	}
-	return move;
-}
-
 std::ostream &	operator<<( std::ostream & o, Move const & i ) {
-	// std::vector<Destination>::iterator	it;
-	for (std::vector<Destination>::const_iterator it = i.getMoves().begin(); it != i.getMoves().end(); it++)
-		o << *it << std::endl;
+	o << i.getPieceMoved() << i.getEndSpot() << std::endl;
 	return o;
-}
-
-/* Exception */
-
-char const *	Move::MoveDoesntExistException::what() const throw() {
-	return "The destination is not possible";
 }

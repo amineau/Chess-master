@@ -20,13 +20,14 @@ class Queen : public Bishop, public Rook {
 
 public:
 	Queen();
-	Queen( size_t index, t_color color );
+	Queen( bool isWhite );
 	Queen( Queen const & );
-	virtual ~Queen ();
+	~Queen ();
 
-	Queen &	operator=( Queen const & );
-	virtual Move *	calculMoves( std::vector<std::vector<APiece*> > const &, size_t round );
+	bool	canMoves(Board board, Spot start, Spot end) const;
 
+private:
+	t_type	_type;
 };
 
 #endif

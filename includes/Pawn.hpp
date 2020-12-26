@@ -13,24 +13,19 @@
 #ifndef PAWN_HPP
 # define PAWN_HPP
 
-# include "APiece.hpp"
+# include "Piece.hpp"
 
-class Pawn : public virtual APiece {
+class Pawn : public virtual Piece {
 
 public:
 	Pawn();	
-	Pawn( size_t index, t_color color );
+	Pawn( bool isWhite );
 	Pawn( Pawn const & );
-	virtual ~Pawn ();
+	~Pawn ();
 
 	Pawn &	operator=( Pawn const & );
-
-	size_t			getLastY() const;
-	void			setPosition(size_t y, size_t x, size_t round);	
-	virtual Move *	calculMoves( std::vector<std::vector<APiece*> > const &, size_t round );
-
-private:
-	size_t	_last_y;
+	
+	bool	canMoves(Board board, Spot start, Spot end) const;
 };
 
 #endif

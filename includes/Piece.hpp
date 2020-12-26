@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   APiece.hpp                                         :+:      :+:    :+:   */
+/*   Piece.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -17,21 +17,14 @@
 # include <algorithm>
 # include <vector>
 # include <map>
-# include "Move.hpp"
+# include "Spot.hpp"
+# include "Board.hpp"
 
-# define BOARD_MAX 7
-
-class Move;
-
-enum e_color {
-	WHITE, BLACK
-};
 
 enum e_type {
 	KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN
 };
 
-typedef enum e_color	t_color;
 typedef enum e_type		t_type;
 
 static std::pair<int, const char*> map_type[] = {
@@ -45,59 +38,30 @@ static std::pair<int, const char*> map_type[] = {
 
 static std::map<int, const char*> type(map_type,
 	map_type + sizeof map_type / sizeof map_type[0]);
-	
-static std::pair<int, const char*> map_color[] = {
-	std::make_pair(WHITE, "WHITE"),
-	std::make_pair(BLACK, "BLACK")
-};
-	
-static std::map<int, const char*> color(map_color,
-	map_color + sizeof map_color / sizeof map_color[0]);
 
-
-
-class APiece {
+class Piece {
 		
 public:
-	APiece();
-	APiece( t_type type );
-	APiece( t_type type, e_color color, size_t x, size_t y );
-	APiece( APiece const & );
-	virtual ~APiece ();
+	Piece();
+	Piece( bool isWhite );
+	Piece( Piece const & );
+	virtual ~Piece ();
 		
-	APiece &	operator=( APiece const & );
+	Piece &	operator=( Piece const & );
 		
-	t_color const &	getColor() const;
+	bool			isWhite() const;
 	t_type const &	getType() const;
-	size_t			getX() const;
-	size_t			getY() const;
-	size_t			getLastMove() const;
-	char			getXRepresentation() const;
-	size_t			getYRepresentation() const;
-	Move &			getMoves() const;
-	void			update( std::vector<std::vector<APiece*> > const & pieces, size_t round );
-	virtual void	setPosition(size_t y, size_t x, size_t round);
-	
-	virtual Move *	calculMoves( std::vector<std::vector<APiece*> > const & pieces, size_t round ) = 0;
-	
-	class PieceOutSidePositionException : public std::exception {
-	public:
-		virtual char const * what() const throw();
-	};
+	bool			isKilled() const;
+	void			killed();
+	bool			canMoves(Board board, Spot start, Spot end) const;
 		
 protected:
-
-	t_color	_color;
-	size_t	_last_move;
-	size_t	_x;
-	size_t	_y;
-	Move *	_moves;
-
-private:
+	bool	_isWhite;
+	bool	_isKilled;
 	t_type	_type;
-		
+
 };
 
-std::ostream &	operator<<( std::ostream & o, APiece const & i );
+std::ostream &	operator<<( std::ostream & o, Piece const & i );
 
 #endif

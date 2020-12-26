@@ -11,36 +11,39 @@
 /* ************************************************************************** */
 
 #ifndef GAME_HPP
-# define GAME_HPP
+#define GAME_HPP
 
-# include <iostream>
-# include "Board.hpp"
+#include <iostream>
+#include <vector>
+#include "Board.hpp"
+#include "Move.hpp"
 
-struct Position {
+struct Position
+{
 	size_t x;
 	size_t y;
 };
 
 typedef struct Position t_position;
 
-class Game {
+class Game
+{
 
 public:
 	Game();
-	Game( Game const & );
-	virtual ~Game();
+	Game(Game const &);
+	~Game();
 
-	void	start();
-	void	end();
+	void start();
+	void end();
 
-	Game &	operator=( Game const & );
+	Game &operator=(Game const &);
 
 private:
-	Board	_board;
+	Board _board;
 
-	t_position *	_getCoordinate(std::string entry) const;
-		
-
+	t_position *_getCoordinate(std::string entry) const;
+	std::vector<Move *> _movesPlayed;
 };
 
 #endif

@@ -13,19 +13,20 @@
 #ifndef BISHOP_HPP
 # define BISHOP_HPP
 
-# include "APiece.hpp"
+# include "Piece.hpp"
 
-class Bishop : public virtual APiece {
+class Bishop : public virtual Piece {
 
 public:
 	Bishop();
-	Bishop( size_t index, t_color color );
+	Bishop( bool isWhite );
 	Bishop( Bishop const & );
-	virtual ~Bishop ();
+	~Bishop ();
+	
+	bool		canMoves(Board board, Spot start, Spot end) const;
 
-	Bishop &	operator=( Bishop const & );
-	virtual Move *	calculMoves( std::vector<std::vector<APiece*> > const &, size_t round );
-
+private:
+	t_type	_type;
 };
 
 #endif

@@ -13,20 +13,25 @@
 #ifndef KING_HPP
 # define KING_HPP
 
-# include "APiece.hpp"
+# include "Piece.hpp"
 
-class King : public virtual APiece {
+class King : public virtual Piece {
 
 public:
 	King();
-	King( size_t index, t_color color );
+	King( bool isWhite );
 	King( King const & );
-	virtual ~King ();
+	~King ();
 
 	King &	operator=( King const & );
 
-	virtual Move *	calculMoves( std::vector<std::vector<APiece*> > const &, size_t round );
+	bool	canMoves(Board board, Spot start, Spot end) const;
+	bool	isCastlingDone() const;
+	void	setCastlingDone( bool castlingDone );
 
+private:
+	t_type	_type;
+	bool	_castlingDone;
 };
 
 #endif
