@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   King.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/27 20:22:09 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/27 00:10:31 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ King::King()
 	return;
 }
 
-King::King( bool isWhite )
+King::King(bool isWhite)
 	: Piece(isWhite)
 	, _type(KING)
 	, _castlingDone(false)
@@ -28,26 +28,30 @@ King::King( bool isWhite )
 	return;
 }
 
-King::King( King const & src )
+King::King(King const& src)
 	: Piece()
 {
 	*this = src;
 	return;
 }
 
-King::~King() {
+King::~King()
+{
 	return;
 }
 
-bool	King::isCastlingDone() const {
+bool King::isCastlingDone() const
+{
 	return this->_castlingDone;
 }
 
-void	King::setCastlingDone( bool castlingDone ) {
+void King::setCastlingDone(bool castlingDone)
+{
 	this->_castlingDone = castlingDone;
 }
 
-King &	King::operator=( King const & rhs ) {
+King& King::operator=(King const& rhs)
+{
 	if (this != &rhs) {
 		this->_type = rhs._type;
 		this->_castlingDone = rhs._castlingDone;
@@ -55,11 +59,13 @@ King &	King::operator=( King const & rhs ) {
 	return *this;
 }
 
-bool	King::canMoves(Board board, Spot start, Spot end) const {
+bool King::canMoves(Board board, Spot start, Spot end) const
+{
 	int distX = abs(end.getX() - start.getX());
 	int distY = abs(end.getY() - start.getY());
 
-	if (!Piece::canMoves(board, start, end)) return false;
+	if (!Piece::canMoves(board, start, end))
+		return false;
 
 	return distX + distY == 1 || distX * distY == 1;
 }

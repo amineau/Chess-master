@@ -1,27 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Spot.hpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
+/*   Updated: 2020/12/27 00:10:09 by amineau          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SPOT_HPP
-# define SPOT_HPP
-# include <iostream>
-# include "Piece.hpp"
+#define SPOT_HPP
+#include "Piece.hpp"
+#include <iostream>
 
-class Spot
-{
+class Spot {
 public:
-    Spot(size_t x, size_t y);
-    Spot(size_t x, size_t y, Piece * piece);
-    Spot(Spot const & src);
-    ~Spot();
+	Spot();
+	Spot(size_t x, size_t y);
+	Spot(size_t x, size_t y, Piece* piece);
+	Spot(Spot const& src);
+	~Spot();
 
-    size_t  getX() const;
-    size_t  getY() const;
-    Piece  *getPiece() const;
-    void    setPiece(Piece* piece);
+	size_t getX() const;
+	size_t getY() const;
+	Piece* getPiece() const;
+	void   setPiece(Piece* piece);
 
-    Spot &  operator=(Spot const &);
-    bool    operator==(Spot const &) const;
+	Spot& operator=(Spot const&);
+	bool  operator==(Spot const&) const;
+
 private:
-    size_t  _x;
-    size_t  _y;
-    Piece  *_piece;
+	size_t _x;
+	size_t _y;
+	Piece* _piece;
 };
 
 #endif

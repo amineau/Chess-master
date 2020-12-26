@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   Queen.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/27 20:09:12 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/27 00:10:01 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef QUEEN_HPP
-# define QUEEN_HPP
+#define QUEEN_HPP
 
-# include "Bishop.hpp"
-# include "Rook.hpp"
+#include "Bishop.hpp"
+#include "Rook.hpp"
 
 class Queen : public Bishop, public Rook {
 
 public:
 	Queen();
-	Queen( bool isWhite );
-	Queen( Queen const & );
-	~Queen ();
+	Queen(bool isWhite);
+	Queen(Queen const&);
+	~Queen();
 
-	bool	canMoves(Board board, Spot start, Spot end) const;
+	bool canMoves(Board board, Spot start, Spot end) const;
 
 private:
-	t_type	_type;
+	t_type _type;
 };
 
 #endif

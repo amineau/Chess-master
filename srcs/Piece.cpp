@@ -12,27 +12,31 @@
 
 #include "Piece.hpp"
 
-Piece::Piece() {
+Piece::Piece()
+{
 	return;
 }
 
-Piece::Piece( bool isWhite )
+Piece::Piece(bool isWhite)
 	: _isWhite(isWhite)
 	, _isKilled(false)
 {
 	return;
 }
 
-Piece::Piece( Piece const & src ) {
+Piece::Piece(Piece const& src)
+{
 	*this = src;
 	return;
 }
 
-Piece::~Piece() {
+Piece::~Piece()
+{
 	return;
 }
 
-Piece &	Piece::operator=( Piece const & rhs ) {
+Piece& Piece::operator=(Piece const& rhs)
+{
 	if (this != &rhs) {
 		this->_isKilled = rhs._isKilled;
 		this->_isWhite = rhs._isWhite;
@@ -43,34 +47,41 @@ Piece &	Piece::operator=( Piece const & rhs ) {
 
 /* Accessors */
 
-bool			Piece::isWhite() const {
+bool Piece::isWhite() const
+{
 	return this->_isWhite;
 }
 
-t_type const &	Piece::getType() const {
+t_type const& Piece::getType() const
+{
 	return this->_type;
 }
 
 /* Members functions */
 
-bool 			Piece::isKilled() const {
+bool Piece::isKilled() const
+{
 	return this->_isKilled;
 }
 
-void			Piece::killed() {
+void Piece::killed()
+{
 	this->_isKilled = true;
 }
 
-
-bool			Piece::canMoves(Board board, Spot start, Spot end) const {
-	if (start == end) return false;
-	if (end.getPiece()->isWhite() == this->isWhite()) return false;
+bool Piece::canMoves(Board board, Spot start, Spot end) const
+{
+	if (start == end)
+		return false;
+	if (end.getPiece()->isWhite() == this->isWhite())
+		return false;
 	return true;
 }
 
 /* Operator Overload */
 
-std::ostream &	operator<<( std::ostream & o, Piece const & i ) {
+std::ostream& operator<<(std::ostream& o, Piece const& i)
+{
 	o << type[i.getType()];
 	return o;
 }

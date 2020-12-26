@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Board.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2017/12/07 07:38:16 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/27 00:10:25 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ Board::Board()
 	return;
 }
 
-Board::Board( Board const & src )
+Board::Board(Board const& src)
 {
 	*this = src;
 	return;
 }
 
-Board::~Board() {
+Board::~Board()
+{
 	// std::vector<Piece*>::iterator it;
 	// for (it = this->_pieces.begin(); it != this->_pieces.end(); it++)
 	// 	delete &(**it);
@@ -35,7 +36,8 @@ Board::~Board() {
 
 /* Members functions */
 
-void	Board::initialize() {
+void Board::initialize()
+{
 	int x;
 	int y;
 
@@ -74,14 +76,17 @@ void	Board::initialize() {
 
 /* Accessors */
 
-Spot *	Board::getBox( size_t x, size_t y ) {
-	if (x >= 8 || y >= 8) throw Board::IndexOutOfBoardException();
+Spot* Board::getBox(size_t x, size_t y)
+{
+	if (x >= 8 || y >= 8)
+		throw Board::IndexOutOfBoardException();
 	return &this->_boxes[x][y];
 }
 
 /* Operator Overload */
 
-Board &	Board::operator=( Board const & rhs ) {
+Board& Board::operator=(Board const& rhs)
+{
 	if (this != &rhs) {
 		// this->_boxes = rhs._boxes;
 	}
@@ -92,7 +97,7 @@ Board &	Board::operator=( Board const & rhs ) {
 // 	std::vector<std::vector<Piece*> > const & boxes = i.getBoard();
 // 	o << "\033[38;5;232;48;5;215m                    \033[0m" << std::endl;
 // 	for (int y = BOARD_MAX; y >= 0; --y) {
-// 		o << "\033[38;5;232;48;5;215m" << y + 1 << " ";		
+// 		o << "\033[38;5;232;48;5;215m" << y + 1 << " ";
 // 		for (int x = 0; x <= BOARD_MAX; ++x){
 // 			if ((y + x) % 2)
 // 				o << "\033[48;5;255m";
@@ -106,17 +111,18 @@ Board &	Board::operator=( Board const & rhs ) {
 // 					o << "\033[1;38;5;22m";
 // 				o << *(pieces[y][x]) << " ";
 // 			}
-// 			else 
+// 			else
 // 				o << "  ";
 // 		}
 // 		o << "\033[38;5;232;48;5;215m  \033[0m" << std::endl;
 // 	}
-// 	o << "\033[38;5;232;48;5;215m  a b c d e f g h   \033[0m" << std::endl;	
+// 	o << "\033[38;5;232;48;5;215m  a b c d e f g h   \033[0m" << std::endl;
 // 	return o;
 // }
 
 /* Exception */
 
-char const *	Board::IndexOutOfBoardException::what() const throw() {
-    return "x and y must be between 0 and 7";
+char const* Board::IndexOutOfBoardException::what() const throw()
+{
+	return "x and y must be between 0 and 7";
 }

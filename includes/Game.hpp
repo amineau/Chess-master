@@ -3,47 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   Game.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 19:46:32 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/28 23:35:35 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/27 00:44:46 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include <iostream>
-#include <vector>
 #include "Board.hpp"
 #include "Move.hpp"
+#include "Player.hpp"
+#include <iostream>
+#include <vector>
 
-struct Position
-{
-	size_t x;
-	size_t y;
-};
-
-typedef struct Position t_position;
-
-class Game
-{
+class Game {
 
 public:
 	Game();
-	Game(Game const &);
+	Game(Game const&);
 	~Game();
 
-	void start();
-	void end();
+	void start(Player p1, Player p2);
+	void playerMoved(Player, size_t startX, size_t startY, size_t endX, size_t endY);
+	void makeMove(Player player, Move move);
 
-	Game &operator=(Game const &);
+	Game& operator=(Game const&);
 
 private:
-	Board _board;
-
-	t_position *_getCoordinate(std::string entry) const;
-	std::vector<Move *> _movesPlayed;
+	Board			   _board;
+	Player*			   _currentTurn;
+	Player			   _playerWhite;
+	Player			   _playerBlack;
+	std::vector<Move*> _movesPlayed;
 };
 
 #endif

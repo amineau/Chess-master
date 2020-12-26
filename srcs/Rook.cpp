@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Rook.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/27 20:08:37 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/27 00:10:56 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,38 +19,44 @@ Rook::Rook()
 	return;
 }
 
-Rook::Rook( bool isWhite )
+Rook::Rook(bool isWhite)
 	: Piece(isWhite)
 	, _type(ROOK)
 {
 	return;
 }
 
-Rook::Rook( Rook const & src )
+Rook::Rook(Rook const& src)
 	: Piece()
 {
 	*this = src;
 	return;
 }
 
-Rook::~Rook() {
+Rook::~Rook()
+{
 	return;
 }
 
-int sgn(int valeur) {
-    if (valeur < 0) return -1;
-    if (valeur == 0) return 0;
-    return 1;
-} 
+int sgn(int valeur)
+{
+	if (valeur < 0)
+		return -1;
+	if (valeur == 0)
+		return 0;
+	return 1;
+}
 
-bool		Rook::canMoves(Board board, Spot start, Spot end) const {
+bool Rook::canMoves(Board board, Spot start, Spot end) const
+{
 	int i;
 	int distX = abs(end.getX() - start.getX());
 	int distY = abs(end.getY() - start.getY());
 	int signX = sgn(end.getX() - start.getX());
 	int signY = sgn(end.getY() - start.getY());
 
-	if (!Piece::canMoves(board, start, end)) return false;
+	if (!Piece::canMoves(board, start, end))
+		return false;
 
 	if (distX * distY != 0) {
 		return false;

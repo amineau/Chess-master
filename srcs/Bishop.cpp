@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bishop.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/27 20:09:09 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/27 00:10:26 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ Bishop::Bishop()
 	return;
 }
 
-Bishop::Bishop( bool isWhite )
+Bishop::Bishop(bool isWhite)
 	: Piece(isWhite)
 	, _type(BISHOP)
 {
 	return;
 }
 
-Bishop::Bishop( Bishop const & src )
+Bishop::Bishop(Bishop const& src)
 	: Piece()
 {
 	*this = src;
@@ -38,22 +38,26 @@ Bishop::~Bishop()
 	return;
 }
 
+int sgn(int valeur)
+{
+	if (valeur < 0)
+		return -1;
+	if (valeur == 0)
+		return 0;
+	return 1;
+}
 
-int sgn(int valeur) {
-    if (valeur < 0) return -1;
-    if (valeur == 0) return 0;
-    return 1;
-} 
-
-bool		Bishop::canMoves(Board board, Spot start, Spot end) const {
+bool Bishop::canMoves(Board board, Spot start, Spot end) const
+{
 	int i;
 	int signX = sgn(end.getX() - start.getX());
 	int signY = sgn(end.getY() - start.getY());
 	int distX = abs(end.getX() - start.getX());
 	int distY = abs(end.getY() - start.getY());
 
-	if (!Piece::canMoves(board, start, end)) return false;
-	
+	if (!Piece::canMoves(board, start, end))
+		return false;
+
 	if (distX != distY) {
 		return false;
 	}

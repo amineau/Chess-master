@@ -11,57 +11,60 @@
 /* ************************************************************************** */
 
 #ifndef APIECE_HPP
-# define APIECE_HPP
+#define APIECE_HPP
 
-# include <iostream>
-# include <algorithm>
-# include <vector>
-# include <map>
-# include "Spot.hpp"
-# include "Board.hpp"
-
+#include "Board.hpp"
+#include "Spot.hpp"
+#include <algorithm>
+#include <iostream>
+#include <map>
+#include <vector>
 
 enum e_type {
-	KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN
+	KING,
+	QUEEN,
+	ROOK,
+	BISHOP,
+	KNIGHT,
+	PAWN
 };
 
-typedef enum e_type		t_type;
+typedef enum e_type t_type;
 
 static std::pair<int, const char*> map_type[] = {
-    std::make_pair(KING, "\u265A"),
+	std::make_pair(KING, "\u265A"),
 	std::make_pair(QUEEN, "\u265B"),
-    std::make_pair(ROOK, "\u265C"),
-    std::make_pair(BISHOP, "\u265D"),
-    std::make_pair(KNIGHT, "\u265E"),
-    std::make_pair(PAWN, "\u265F")
+	std::make_pair(ROOK, "\u265C"),
+	std::make_pair(BISHOP, "\u265D"),
+	std::make_pair(KNIGHT, "\u265E"),
+	std::make_pair(PAWN, "\u265F")
 };
 
 static std::map<int, const char*> type(map_type,
 	map_type + sizeof map_type / sizeof map_type[0]);
 
 class Piece {
-		
+
 public:
 	Piece();
-	Piece( bool isWhite );
-	Piece( Piece const & );
-	virtual ~Piece ();
-		
-	Piece &	operator=( Piece const & );
-		
-	bool			isWhite() const;
-	t_type const &	getType() const;
-	bool			isKilled() const;
-	void			killed();
-	bool			canMoves(Board board, Spot start, Spot end) const;
-		
-protected:
-	bool	_isWhite;
-	bool	_isKilled;
-	t_type	_type;
+	Piece(bool isWhite);
+	Piece(Piece const&);
+	virtual ~Piece();
 
+	Piece& operator=(Piece const&);
+
+	bool		  isWhite() const;
+	t_type const& getType() const;
+	bool		  isKilled() const;
+	void		  killed();
+	bool		  canMoves(Board board, Spot start, Spot end) const;
+
+protected:
+	bool   _isWhite;
+	bool   _isKilled;
+	t_type _type;
 };
 
-std::ostream &	operator<<( std::ostream & o, Piece const & i );
+std::ostream& operator<<(std::ostream& o, Piece const& i);
 
 #endif
