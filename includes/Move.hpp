@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:33:11 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/27 00:09:37 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/28 18:58:17 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 #include "Piece.hpp"
 #include "Player.hpp"
 #include "Spot.hpp"
-#include <iostream>
-
-class Piece;
 
 class Move {
 

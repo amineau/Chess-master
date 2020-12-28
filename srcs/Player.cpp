@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/27 00:10:46 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/28 19:44:57 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,10 @@ Player& Player::operator=(Player const& rhs)
 bool Player::isWhite() const
 {
 	return this->_isWhite;
+}
+
+std::ostream& operator<<(std::ostream& o, Player const& i)
+{
+	o << (i.isWhite() ? "White" : "Black");
+	return o;
 }

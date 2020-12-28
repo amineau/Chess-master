@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:31:09 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/27 00:42:06 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/27 13:18:23 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int main()
 {
 	Game game;
 
-	game.start();
+	game.initialize();
 
 	return 0;
 }

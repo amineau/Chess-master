@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/27 00:10:31 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/29 00:19:55 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 
 King::King()
 	: Piece()
-	, _type(KING)
 	, _castlingDone(false)
 {
 	return;
 }
 
 King::King(bool isWhite)
-	: Piece(isWhite)
-	, _type(KING)
+	: Piece(KING, isWhite)
 	, _castlingDone(false)
 {
 	return;
@@ -40,6 +38,17 @@ King::~King()
 	return;
 }
 
+King& King::operator=(King const& rhs)
+{
+	if (this != &rhs) {
+		this->_isKilled = rhs._isKilled;
+		this->_type = rhs._type;
+		this->_isWhite = rhs._isWhite;
+		this->_castlingDone = rhs._castlingDone;
+	}
+	return *this;
+}
+
 bool King::isCastlingDone() const
 {
 	return this->_castlingDone;
@@ -48,15 +57,6 @@ bool King::isCastlingDone() const
 void King::setCastlingDone(bool castlingDone)
 {
 	this->_castlingDone = castlingDone;
-}
-
-King& King::operator=(King const& rhs)
-{
-	if (this != &rhs) {
-		this->_type = rhs._type;
-		this->_castlingDone = rhs._castlingDone;
-	}
-	return *this;
 }
 
 bool King::canMoves(Board board, Spot start, Spot end) const
@@ -69,38 +69,3 @@ bool King::canMoves(Board board, Spot start, Spot end) const
 
 	return distX + distY == 1 || distX * distY == 1;
 }
-
-// Move *	King::calculMoves( std::vector<std::vector<Piece*> > const & pieces, size_t ) {
-// 	int x;
-// 	int y;
-// 	Move *	moves = new Move(this);
-
-// 	for (int i = -1; i <= 1; i++) {
-// 		x = this->_x + i;
-// 		if (x >= 0 && x <= BOARD_MAX) {
-// 			for (int j = -1; j <= 1; j++) {
-// 				y = this->_y + j;
-// 				if (y >= 0 && y <= BOARD_MAX && (i || j)) {
-// 					if (pieces[y][x] && pieces[y][x]->getColor() != this->_color)
-// 						moves->push(x, y, pieces[y][x]);
-// 					else if (!pieces[y][x])
-// 						moves->push(x, y);
-// 				}
-// 			}
-// 		}
-// 	}
-// 	// Rook
-// 	if (!this->_last_move) {
-// 		for (int i = 1; this->_x - i == 0 || (this->_x - i > 0 && !pieces[this->_y][this->_x - i]); i++) {
-// 			// check echec
-// 			if (this->_x - i == 0 && pieces[this->_y][this->_x - i]->getLastMove() == 0)
-// 				moves->push(this->_x - 2, this->_y);
-// 		}
-// 		for (int i = 1; this->_x + i == BOARD_MAX || (this->_x + i < BOARD_MAX && !pieces[this->_y][this->_x + i]); i++) {
-// 			// check echec
-// 			if (this->_x + i == BOARD_MAX && pieces[this->_y][this->_x + i]->getLastMove() == 0)
-// 				moves->push(this->_x + 2, this->_y);
-// 		}
-// 	}
-// 	return moves;
-// }

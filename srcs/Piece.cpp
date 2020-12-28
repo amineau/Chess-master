@@ -17,8 +17,9 @@ Piece::Piece()
 	return;
 }
 
-Piece::Piece(bool isWhite)
+Piece::Piece(t_type type, bool isWhite)
 	: _isWhite(isWhite)
+	, _type(type)
 	, _isKilled(false)
 {
 	return;
@@ -52,7 +53,7 @@ bool Piece::isWhite() const
 	return this->_isWhite;
 }
 
-t_type const& Piece::getType() const
+t_type Piece::getType() const
 {
 	return this->_type;
 }
@@ -71,6 +72,7 @@ void Piece::killed()
 
 bool Piece::canMoves(Board board, Spot start, Spot end) const
 {
+	(void)board;
 	if (start == end)
 		return false;
 	if (end.getPiece()->isWhite() == this->isWhite())

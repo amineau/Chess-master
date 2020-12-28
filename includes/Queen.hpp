@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/27 00:10:01 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/29 00:19:08 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@ public:
 	Queen(Queen const&);
 	~Queen();
 
-	bool canMoves(Board board, Spot start, Spot end) const;
+	Queen& operator=(Queen const&);
 
-private:
-	t_type _type;
+	bool canMoves(Board board, Spot start, Spot end) const;
 };
 
 #endif

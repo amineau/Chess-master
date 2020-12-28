@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/27 00:10:33 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/29 00:20:23 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 Knight::Knight()
 	: Piece()
-	, _type(KNIGHT)
 {
 	return;
 }
 
 Knight::Knight(bool isWhite)
-	: Piece(isWhite)
-	, _type(KNIGHT)
+	: Piece(KNIGHT, isWhite)
 {
 	return;
 }
@@ -36,6 +34,16 @@ Knight::Knight(Knight const& src)
 Knight::~Knight()
 {
 	return;
+}
+
+Knight& Knight::operator=(Knight const& rhs)
+{
+	if (this != &rhs) {
+		this->_isKilled = rhs._isKilled;
+		this->_isWhite = rhs._isWhite;
+		this->_type = rhs._type;
+	}
+	return *this;
 }
 
 bool Knight::canMoves(Board board, Spot start, Spot end) const

@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/27 00:09:33 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/29 00:17:40 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ public:
 	Bishop(Bishop const&);
 	~Bishop();
 
-	bool canMoves(Board board, Spot start, Spot end) const;
+	Bishop& operator=(Bishop const&);
 
-private:
-	t_type _type;
+	bool canMoves(Board board, Spot start, Spot end) const;
 };
 
 #endif

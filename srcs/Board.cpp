@@ -6,11 +6,17 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/27 00:10:25 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/29 00:52:53 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Board.hpp"
+#include "Bishop.hpp"
+#include "King.hpp"
+#include "Knight.hpp"
+#include "Pawn.hpp"
+#include "Queen.hpp"
+#include "Rook.hpp"
 
 Board::Board()
 {
@@ -50,7 +56,7 @@ void Board::initialize()
 	this->_boxes[6][0] = Spot(6, 0, new Bishop(true));
 	this->_boxes[7][0] = Spot(7, 0, new Rook(true));
 
-	for (x = 0; x < 7; x++) {
+	for (x = 0; x <= 7; x++) {
 		this->_boxes[x][1] = Spot(x, 1, new Pawn(true));
 	}
 
@@ -63,7 +69,7 @@ void Board::initialize()
 	this->_boxes[6][7] = Spot(6, 7, new Bishop(false));
 	this->_boxes[7][7] = Spot(7, 7, new Rook(false));
 
-	for (x = 0; x < 7; x++) {
+	for (x = 0; x <= 7; x++) {
 		this->_boxes[x][6] = Spot(x, 6, new Pawn(false));
 	}
 
@@ -76,11 +82,11 @@ void Board::initialize()
 
 /* Accessors */
 
-Spot* Board::getBox(size_t x, size_t y)
+Spot Board::getBox(size_t x, size_t y) const
 {
 	if (x >= 8 || y >= 8)
 		throw Board::IndexOutOfBoardException();
-	return &this->_boxes[x][y];
+	return this->_boxes[x][y];
 }
 
 /* Operator Overload */
@@ -93,32 +99,33 @@ Board& Board::operator=(Board const& rhs)
 	return *this;
 }
 
-// std::ostream &	operator<<( std::ostream & o, Board const & i ) {
-// 	std::vector<std::vector<Piece*> > const & boxes = i.getBoard();
-// 	o << "\033[38;5;232;48;5;215m                    \033[0m" << std::endl;
-// 	for (int y = BOARD_MAX; y >= 0; --y) {
-// 		o << "\033[38;5;232;48;5;215m" << y + 1 << " ";
-// 		for (int x = 0; x <= BOARD_MAX; ++x){
-// 			if ((y + x) % 2)
-// 				o << "\033[48;5;255m";
-// 			else
-// 				o << "\033[48;5;75m";
-// 			if (pieces[y][x])
-// 			{
-// 				if (pieces[y][x]->getColor() == BLACK)
-// 					o << "\033[1;38;5;232m";
-// 				else
-// 					o << "\033[1;38;5;22m";
-// 				o << *(pieces[y][x]) << " ";
-// 			}
-// 			else
-// 				o << "  ";
-// 		}
-// 		o << "\033[38;5;232;48;5;215m  \033[0m" << std::endl;
-// 	}
-// 	o << "\033[38;5;232;48;5;215m  a b c d e f g h   \033[0m" << std::endl;
-// 	return o;
-// }
+std::ostream& operator<<(std::ostream& o, Board const& i)
+{
+	Piece* piece;
+
+	o << "\033[38;5;232;48;5;215m                    \033[0m" << std::endl;
+	for (int y = 7; y >= 0; --y) {
+		o << "\033[38;5;232;48;5;215m" << y + 1 << " ";
+		for (int x = 0; x <= 7; ++x) {
+			if ((y + x) % 2)
+				o << "\033[48;5;255m";
+			else
+				o << "\033[48;5;75m";
+			piece = i.getBox(x, y).getPiece();
+			if (piece != NULL) {
+				if (piece->isWhite())
+					o << "\033[1;38;5;22m";
+				else
+					o << "\033[1;38;5;232m";
+				o << *piece << " ";
+			} else
+				o << "  ";
+		}
+		o << "\033[38;5;232;48;5;215m  \033[0m" << std::endl;
+	}
+	o << "\033[38;5;232;48;5;215m  a b c d e f g h   \033[0m" << std::endl;
+	return o;
+}
 
 /* Exception */
 

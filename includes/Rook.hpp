@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/27 00:10:03 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/29 00:13:47 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ public:
 	Rook(Rook const&);
 	~Rook();
 
-	bool canMoves(Board board, Spot start, Spot end) const;
+	Rook& operator=(Rook const&);
 
-private:
-	t_type _type;
+	bool canMoves(Board board, Spot start, Spot end) const;
 };
 
 #endif

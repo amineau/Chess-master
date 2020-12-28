@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/27 00:10:26 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/29 00:17:34 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 Bishop::Bishop()
 	: Piece()
-	, _type(BISHOP)
 {
 	return;
 }
 
 Bishop::Bishop(bool isWhite)
-	: Piece(isWhite)
-	, _type(BISHOP)
+	: Piece(BISHOP, isWhite)
 {
 	return;
 }
@@ -38,13 +36,14 @@ Bishop::~Bishop()
 	return;
 }
 
-int sgn(int valeur)
+Bishop& Bishop::operator=(Bishop const& rhs)
 {
-	if (valeur < 0)
-		return -1;
-	if (valeur == 0)
-		return 0;
-	return 1;
+	if (this != &rhs) {
+		this->_isKilled = rhs._isKilled;
+		this->_isWhite = rhs._isWhite;
+		this->_type = rhs._type;
+	}
+	return *this;
 }
 
 bool Bishop::canMoves(Board board, Spot start, Spot end) const
@@ -63,44 +62,10 @@ bool Bishop::canMoves(Board board, Spot start, Spot end) const
 	}
 
 	for (i = 1; start.getX() + i * signX != end.getX(); i++) {
-		if (board.getBox(start.getX() + i * signX, start.getY() + i * signY)->getPiece() != NULL) {
+		if (board.getBox(start.getX() + i * signX, start.getY() + i * signY).getPiece() != NULL) {
 			return false;
 		}
 	}
 
 	return true;
 }
-
-// Move *	Bishop::calculMoves( std::vector<std::vector<Piece*> > const & pieces, size_t ) {
-// 	Move *	moves = new Move(this);
-// 	int i;
-
-// 	for (i = 1; this->_y + i <= BOARD_MAX && this->_x + i <= BOARD_MAX
-// 		&& !pieces[this->_y + i][this->_x + i]; i++)
-// 		moves->push(this->_x + i, this->_y + i);
-// 	if (this->_y + i <= BOARD_MAX && this->_x + i <= BOARD_MAX
-// 		&& pieces[this->_y + i][this->_x + i]->getColor() != this->_color)
-// 		moves->push(this->_x + i, this->_y + i, pieces[this->_y + i][this->_x + i]);
-
-// 	for (i = 1; static_cast<int>(this->_y) - i >= 0 && static_cast<int>(this->_x) - i >=0
-// 		&& !pieces[this->_y - i][this->_x - i]; i++)
-// 		moves->push(this->_x - i, this->_y - i);
-// 	if (static_cast<int>(this->_y) - i >= 0 && static_cast<int>(this->_x) - i >=0
-// 		&& pieces[this->_y - i][this->_x - i]->getColor() != this->_color)
-// 		moves->push(this->_x - i, this->_y - i, pieces[this->_y - i][this->_x - i]);
-
-// 	for (i = 1; static_cast<int>(this->_y) - i >= 0 && this->_x + i <= BOARD_MAX
-// 		&& !pieces[this->_y - i][this->_x + i]; i++)
-// 		moves->push(this->_x + i, this->_y - i);
-// 	if (static_cast<int>(this->_y) - i >= 0 && this->_x + i <= BOARD_MAX
-// 		&& pieces[this->_y - i][this->_x + i]->getColor() != this->_color)
-// 		moves->push(this->_x + i, this->_y - i, pieces[this->_y - i][this->_x + i]);
-
-// 	for (i = 1; this->_y + i <= BOARD_MAX && static_cast<int>(this->_x) - i >=0
-// 		&& !pieces[this->_y + i][this->_x - i]; i++)
-// 		moves->push(this->_x - i, this->_y + i);
-// 	if (this->_y + i <= BOARD_MAX && static_cast<int>(this->_x) - i >=0
-// 		&& pieces[this->_y + i][this->_x - i]->getColor() != this->_color)
-// 		moves->push(this->_x - i, this->_y + i, pieces[this->_y + i][this->_x - i]);
-// 	return moves;
-// }

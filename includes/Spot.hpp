@@ -6,14 +6,16 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/27 00:10:09 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/28 19:35:24 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SPOT_HPP
 #define SPOT_HPP
-#include "Piece.hpp"
+
 #include <iostream>
+
+class Piece;
 
 class Spot {
 public:
@@ -36,5 +38,7 @@ private:
 	size_t _y;
 	Piece* _piece;
 };
+
+std::ostream& operator<<(std::ostream& o, Spot const& i);
 
 #endif

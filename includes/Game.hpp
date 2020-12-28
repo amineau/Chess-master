@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 19:46:32 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/27 00:44:46 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/28 19:00:14 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ public:
 	Game(Game const&);
 	~Game();
 
+	void initialize();
 	void start(Player p1, Player p2);
 	void playerMoved(Player, size_t startX, size_t startY, size_t endX, size_t endY);
 	void makeMove(Player player, Move move);

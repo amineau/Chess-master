@@ -6,11 +6,12 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/27 00:10:59 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/28 18:24:58 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Spot.hpp"
+#include "Piece.hpp"
 
 Spot::Spot()
 {
@@ -73,6 +74,7 @@ Spot& Spot::operator=(Spot const& rhs)
 		this->_y = rhs._y;
 		this->_piece = rhs._piece;
 	}
+	return *this;
 }
 
 bool Spot::operator==(Spot const& rhs) const

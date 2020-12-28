@@ -10,15 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef APIECE_HPP
-#define APIECE_HPP
+#ifndef PIECE_HPP
+#define PIECE_HPP
 
 #include "Board.hpp"
 #include "Spot.hpp"
-#include <algorithm>
-#include <iostream>
+#include "utils.hpp"
 #include <map>
-#include <vector>
 
 enum e_type {
 	KING,
@@ -47,22 +45,22 @@ class Piece {
 
 public:
 	Piece();
-	Piece(bool isWhite);
+	Piece(t_type type, bool isWhite);
 	Piece(Piece const&);
 	virtual ~Piece();
 
 	Piece& operator=(Piece const&);
 
-	bool		  isWhite() const;
-	t_type const& getType() const;
-	bool		  isKilled() const;
-	void		  killed();
-	bool		  canMoves(Board board, Spot start, Spot end) const;
+	bool   isWhite() const;
+	t_type getType() const;
+	bool   isKilled() const;
+	void   killed();
+	bool   canMoves(Board board, Spot start, Spot end) const;
 
 protected:
 	bool   _isWhite;
-	bool   _isKilled;
 	t_type _type;
+	bool   _isKilled;
 };
 
 std::ostream& operator<<(std::ostream& o, Piece const& i);
