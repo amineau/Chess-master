@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 19:47:36 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/04 16:25:20 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/04 18:04:07 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ bool Game::makeMove(Player* player, Move move)
 {
 	Piece* piece = move.getPieceMoved();
 	Piece* pieceKilled = move.getPieceKilled();
+	std::cout << piece << std::endl;
 	if (!piece || piece->isWhite() != player->isWhite() || player != this->_currentTurn)
 		return false;
 	if (!piece->canMoves(&this->_board, move.getStartSpot(), move.getEndSpot()))
@@ -62,30 +63,35 @@ bool Game::makeMove(Player* player, Move move)
 		pieceKilled->killed();
 	move.getEndSpot()->setPiece(piece);
 	move.getStartSpot()->setPiece(NULL);
+	this->_currentTurn = this->_currentTurn->isWhite() ? &this->_playerBlack : &this->_playerWhite;
 	return true;
 }
 
 void Game::initialize()
 {
-	char entry = 0;
+	// char entry = 0;
 
-	while (entry != '1' && entry != '2') {
-		if (entry != 0)
-			std::cout << "Enter a valid choice" << std::endl;
-		std::cout << "1/ Start a new game" << std::endl
-				  << "2/ Quit" << std::endl
-				  << "Enter the option number : ";
-		std::cin >> entry;
-	}
+	// while (entry != '1' && entry != '2') {
+	// 	if (entry != 0)
+	// 		std::cout << "Enter a valid choice" << std::endl;
+	// 	std::cout << "1/ Start a new game" << std::endl
+	// 			  << "2/ Quit" << std::endl
+	// 			  << "Enter the option number : ";
+	// 	std::cin >> entry;
+	// }
 
-	if (entry == '1') {
-		this->start(Player(true), Player(false));
-	}
+	// if (entry == '1') {
+	this->start(Player(true), Player(false));
+	// }
 }
 
 void Game::start(Player p1, Player p2)
 {
 	std::string entry;
+	std::string arg1;
+	std::string arg2;
+	std::string arg3;
+	std::string arg4;
 
 	this->_playerWhite = p1;
 	this->_playerBlack = p2;
@@ -99,6 +105,7 @@ void Game::start(Player p1, Player p2)
 			std::cout << std::endl
 					  << "\thelp\tDisplay this command" << std::endl
 					  << "\tdisplay\tDisplay game board" << std::endl
+					  << "\tmove x y x y\tMove from x y start position to x y end position" << std::endl
 					  << "\tturn\tCurrent player turn" << std::endl
 					  << "\texit\tQuit program" << std::endl
 					  << "\tquit\tQuit program" << std::endl
@@ -108,7 +115,16 @@ void Game::start(Player p1, Player p2)
 		} else if (!entry.compare("display")) {
 			std::cout << this->_board;
 		} else if (!entry.compare("move")) {
-			this->playerMoved(this->_currentTurn, 3, 2, 3, 4);
+			std::cin >> arg1 >> arg2 >> arg3 >> arg4;
+			if (this->playerMoved(
+					this->_currentTurn,
+					std::stoi(arg1),
+					std::stoi(arg2),
+					std::stoi(arg3),
+					std::stoi(arg4)))
+				std::cout << "Move ok" << std::endl;
+			else
+				std::cout << "Incorrect move" << std::endl;
 		} else if (!entry.compare("exit") || !entry.compare("quit")) {
 			break;
 		} else {
