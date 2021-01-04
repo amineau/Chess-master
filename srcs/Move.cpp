@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:37:38 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/04 16:13:05 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/04 19:12:43 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,6 @@ Move& Move::operator=(Move const& rhs)
 
 std::ostream& operator<<(std::ostream& o, Move const& i)
 {
-	o << i.getPieceMoved() << i.getEndSpot() << std::endl;
+	o << *i.getPieceMoved() << ' ' << *i.getEndSpot();
 	return o;
 }

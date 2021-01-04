@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/29 12:42:02 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/04 19:20:35 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ void Board::initialize()
 	int y;
 
 	this->_boxes[0][0] = Spot(0, 0, new Rook(true));
-	this->_boxes[1][0] = Spot(1, 0, new Bishop(true));
-	this->_boxes[2][0] = Spot(2, 0, new Knight(true));
+	this->_boxes[1][0] = Spot(1, 0, new Knight(true));
+	this->_boxes[2][0] = Spot(2, 0, new Bishop(true));
 	this->_boxes[3][0] = Spot(3, 0, new Queen(true));
 	this->_boxes[4][0] = Spot(4, 0, new King(true));
-	this->_boxes[5][0] = Spot(5, 0, new Knight(true));
-	this->_boxes[6][0] = Spot(6, 0, new Bishop(true));
+	this->_boxes[5][0] = Spot(5, 0, new Bishop(true));
+	this->_boxes[6][0] = Spot(6, 0, new Knight(true));
 	this->_boxes[7][0] = Spot(7, 0, new Rook(true));
 
 	for (x = 0; x <= 7; x++) {
@@ -61,12 +61,12 @@ void Board::initialize()
 	}
 
 	this->_boxes[0][7] = Spot(0, 7, new Rook(false));
-	this->_boxes[1][7] = Spot(1, 7, new Bishop(false));
-	this->_boxes[2][7] = Spot(2, 7, new Knight(false));
+	this->_boxes[1][7] = Spot(1, 7, new Knight(false));
+	this->_boxes[2][7] = Spot(2, 7, new Bishop(false));
 	this->_boxes[3][7] = Spot(3, 7, new Queen(false));
 	this->_boxes[4][7] = Spot(4, 7, new King(false));
-	this->_boxes[5][7] = Spot(5, 7, new Knight(false));
-	this->_boxes[6][7] = Spot(6, 7, new Bishop(false));
+	this->_boxes[5][7] = Spot(5, 7, new Bishop(false));
+	this->_boxes[6][7] = Spot(6, 7, new Knight(false));
 	this->_boxes[7][7] = Spot(7, 7, new Rook(false));
 
 	for (x = 0; x <= 7; x++) {

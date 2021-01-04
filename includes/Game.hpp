@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 19:46:32 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/29 12:53:46 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/04 18:39:14 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ public:
 	Game& operator=(Game const&);
 
 private:
-	Board			   _board;
-	Player*			   _currentTurn;
-	Player			   _playerWhite;
-	Player			   _playerBlack;
-	std::vector<Move*> _movesPlayed;
+	Board			  _board;
+	Player*			  _currentTurn;
+	Player			  _playerWhite;
+	Player			  _playerBlack;
+	std::vector<Move> _movesPlayed;
 };
 
 #endif

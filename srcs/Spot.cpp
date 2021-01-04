@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/04 16:05:09 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/04 19:14:03 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,6 @@ bool Spot::operator==(Spot const& rhs) const
 
 std::ostream& operator<<(std::ostream& o, Spot const& i)
 {
-	o << static_cast<char>(i.getX() + 'a') << i.getY() << std::endl;
+	o << static_cast<char>(i.getX() + 'a') << i.getY();
 	return o;
 }
