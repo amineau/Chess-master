@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/29 00:19:55 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/04 15:54:44 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ void King::setCastlingDone(bool castlingDone)
 	this->_castlingDone = castlingDone;
 }
 
-bool King::canMoves(Board board, Spot start, Spot end) const
+bool King::canMoves(Board* board, Spot* start, Spot* end) const
 {
-	int distX = abs(end.getX() - start.getX());
-	int distY = abs(end.getY() - start.getY());
+	int distX = abs(end->getX() - start->getX());
+	int distY = abs(end->getY() - start->getY());
 
 	if (!Piece::canMoves(board, start, end))
 		return false;

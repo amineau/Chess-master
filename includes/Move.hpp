@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:33:11 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/28 18:58:17 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/04 16:12:53 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ public:
 	Move(Move const&);
 	~Move();
 
-	Player const* getPlayer() const;
-	Spot const*	  getStartSpot() const;
-	Spot const*	  getEndSpot() const;
-	Piece const*  getPieceMoved() const;
-	Piece const*  getPieceKilled() const;
+	Player* getPlayer() const;
+	Spot*	getStartSpot() const;
+	Spot*	getEndSpot() const;
+	Piece*	getPieceMoved() const;
+	Piece*	getPieceKilled() const;
 
 	Move& operator=(Move const&);
 

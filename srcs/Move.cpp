@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:37:38 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/28 18:58:21 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/04 16:13:05 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,27 @@ Move::~Move()
 
 /* Accessors */
 
-Player const* Move::getPlayer() const
+Player* Move::getPlayer() const
 {
 	return this->_player;
 }
 
-Spot const* Move::getStartSpot() const
+Spot* Move::getStartSpot() const
 {
 	return this->_start;
 }
 
-Spot const* Move::getEndSpot() const
+Spot* Move::getEndSpot() const
 {
 	return this->_end;
 }
 
-Piece const* Move::getPieceMoved() const
+Piece* Move::getPieceMoved() const
 {
 	return this->_pieceMoved;
 }
 
-Piece const* Move::getPieceKilled() const
+Piece* Move::getPieceKilled() const
 {
 	return this->_pieceKilled;
 }

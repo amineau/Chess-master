@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/29 00:21:33 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/04 15:53:20 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ Queen& Queen::operator=(Queen const& rhs)
 	return *this;
 }
 
-bool Queen::canMoves(Board board, Spot start, Spot end) const
+bool Queen::canMoves(Board* board, Spot* start, Spot* end) const
 {
 	return (Rook::canMoves(board, start, end) || Bishop::canMoves(board, start, end));
 }

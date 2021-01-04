@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/29 00:18:53 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/04 15:53:20 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ public:
 
 	Knight& operator=(Knight const&);
 
-	bool canMoves(Board board, Spot start, Spot end) const;
+	bool canMoves(Board* board, Spot* start, Spot* end) const;
 };
 
 #endif

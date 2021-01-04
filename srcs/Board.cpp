@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/29 00:52:53 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/29 12:42:02 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,11 @@ void Board::initialize()
 
 /* Accessors */
 
-Spot Board::getBox(size_t x, size_t y) const
+Spot* Board::getBox(size_t x, size_t y) const
 {
 	if (x >= 8 || y >= 8)
 		throw Board::IndexOutOfBoardException();
-	return this->_boxes[x][y];
+	return const_cast<Spot*>(&this->_boxes[x][y]);
 }
 
 /* Operator Overload */
@@ -111,7 +111,7 @@ std::ostream& operator<<(std::ostream& o, Board const& i)
 				o << "\033[48;5;255m";
 			else
 				o << "\033[48;5;75m";
-			piece = i.getBox(x, y).getPiece();
+			piece = i.getBox(x, y)->getPiece();
 			if (piece != NULL) {
 				if (piece->isWhite())
 					o << "\033[1;38;5;22m";

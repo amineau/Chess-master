@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/29 00:17:34 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/04 15:54:18 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ Bishop& Bishop::operator=(Bishop const& rhs)
 	return *this;
 }
 
-bool Bishop::canMoves(Board board, Spot start, Spot end) const
+bool Bishop::canMoves(Board* board, Spot* start, Spot* end) const
 {
 	int i;
-	int signX = sgn(end.getX() - start.getX());
-	int signY = sgn(end.getY() - start.getY());
-	int distX = abs(end.getX() - start.getX());
-	int distY = abs(end.getY() - start.getY());
+	int signX = sgn(end->getX() - start->getX());
+	int signY = sgn(end->getY() - start->getY());
+	int distX = abs(end->getX() - start->getX());
+	int distY = abs(end->getY() - start->getY());
 
 	if (!Piece::canMoves(board, start, end))
 		return false;
@@ -61,8 +61,8 @@ bool Bishop::canMoves(Board board, Spot start, Spot end) const
 		return false;
 	}
 
-	for (i = 1; start.getX() + i * signX != end.getX(); i++) {
-		if (board.getBox(start.getX() + i * signX, start.getY() + i * signY).getPiece() != NULL) {
+	for (i = 1; start->getX() + i * signX != end->getX(); i++) {
+		if (board->getBox(start->getX() + i * signX, start->getY() + i * signY)->getPiece() != NULL) {
 			return false;
 		}
 	}

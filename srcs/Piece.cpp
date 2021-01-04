@@ -70,12 +70,12 @@ void Piece::killed()
 	this->_isKilled = true;
 }
 
-bool Piece::canMoves(Board board, Spot start, Spot end) const
+bool Piece::canMoves(Board* board, Spot* start, Spot* end) const
 {
 	(void)board;
 	if (start == end)
 		return false;
-	if (end.getPiece()->isWhite() == this->isWhite())
+	if (end->getPiece()->isWhite() == this->isWhite())
 		return false;
 	return true;
 }

@@ -55,7 +55,7 @@ public:
 	t_type getType() const;
 	bool   isKilled() const;
 	void   killed();
-	bool   canMoves(Board board, Spot start, Spot end) const;
+	bool   canMoves(Board* board, Spot* start, Spot* end) const;
 
 protected:
 	bool   _isWhite;

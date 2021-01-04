@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:35:50 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/29 00:21:06 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/04 15:56:10 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,22 @@ Pawn& Pawn::operator=(Pawn const& rhs)
 
 /* Members functions */
 
-bool Pawn::canMoves(Board board, Spot start, Spot end) const
+bool Pawn::canMoves(Board* board, Spot* start, Spot* end) const
 {
-	bool isWhite = start.getPiece()->isWhite();
+	bool isWhite = start->getPiece()->isWhite();
 	int	 direction = isWhite ? 1 : -1;
-	int	 deltaX = end.getX() - start.getX();
-	int	 deltaY = end.getY() - start.getY();
+	int	 deltaX = end->getX() - start->getX();
+	int	 deltaY = end->getY() - start->getY();
 
 	if (!Piece::canMoves(board, start, end))
 		return false;
-	if (end.getPiece() == NULL) {
-		if (start.getX() != end.getX())
+	if (end->getPiece() == NULL) {
+		if (start->getX() != end->getX())
 			return false;
-		else if ((start.getY() == 1 && isWhite) || (start.getY() == 6 && !isWhite)) {
+		else if ((start->getY() == 1 && isWhite) || (start->getY() == 6 && !isWhite)) {
 			if (deltaY != direction || deltaY != direction * 2)
 				return false;
-			if (deltaY == direction * 2 && board.getBox(start.getX(), start.getY() + direction).getPiece() != NULL)
+			if (deltaY == direction * 2 && board->getBox(start->getX(), start->getY() + direction)->getPiece() != NULL)
 				return false;
 		} else {
 			if (deltaY != direction)

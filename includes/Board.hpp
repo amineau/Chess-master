@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:07:59 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/28 22:54:58 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/29 12:42:00 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ public:
 	Board(Board const&);
 	~Board();
 
-	Spot getBox(size_t x, size_t y) const;
-	void initialize();
+	Spot* getBox(size_t x, size_t y) const;
+	void  initialize();
 
 	Board& operator=(Board const&);
 

@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 19:47:36 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/29 00:10:15 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/04 16:25:20 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,27 @@ Game& Game::operator=(Game const& rhs)
 /* Accessors */
 
 /* Members functions */
+
+bool Game::playerMoved(Player* player, size_t startX, size_t startY, size_t endX, size_t endY)
+{
+	Move move = Move(player, this->_board.getBox(startX, startY), this->_board.getBox(endX, endY));
+	return this->makeMove(player, move);
+}
+
+bool Game::makeMove(Player* player, Move move)
+{
+	Piece* piece = move.getPieceMoved();
+	Piece* pieceKilled = move.getPieceKilled();
+	if (!piece || piece->isWhite() != player->isWhite() || player != this->_currentTurn)
+		return false;
+	if (!piece->canMoves(&this->_board, move.getStartSpot(), move.getEndSpot()))
+		return false;
+	if (pieceKilled)
+		pieceKilled->killed();
+	move.getEndSpot()->setPiece(piece);
+	move.getStartSpot()->setPiece(NULL);
+	return true;
+}
 
 void Game::initialize()
 {
@@ -86,6 +107,8 @@ void Game::start(Player p1, Player p2)
 			std::cout << *this->_currentTurn << std::endl;
 		} else if (!entry.compare("display")) {
 			std::cout << this->_board;
+		} else if (!entry.compare("move")) {
+			this->playerMoved(this->_currentTurn, 3, 2, 3, 4);
 		} else if (!entry.compare("exit") || !entry.compare("quit")) {
 			break;
 		} else {

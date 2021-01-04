@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 19:46:32 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/28 19:00:14 by amineau          ###   ########.fr       */
+/*   Updated: 2020/12/29 12:53:46 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ public:
 
 	void initialize();
 	void start(Player p1, Player p2);
-	void playerMoved(Player, size_t startX, size_t startY, size_t endX, size_t endY);
-	void makeMove(Player player, Move move);
+	bool playerMoved(Player* player, size_t startX, size_t startY, size_t endX, size_t endY);
+	bool makeMove(Player* player, Move move);
 
 	Game& operator=(Game const&);
 
