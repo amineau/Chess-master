@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 19:46:32 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/04 18:39:14 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/05 18:36:43 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ public:
 	Game();
 	Game(Game const&);
 	~Game();
+
+	Board			  getBoard() const;
+	std::vector<Move> getMovesPlayed() const;
+	Player			  getPlayerWhite() const;
+	Player			  getPlayerBlack() const;
 
 	void initialize();
 	void start(Player p1, Player p2);

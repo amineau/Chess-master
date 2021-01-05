@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/04 15:57:19 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/05 19:37:32 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,43 @@ bool Rook::canMoves(Board* board, Spot* start, Spot* end) const
 	}
 
 	for (i = 1; start->getY() + i * signY != end->getY(); i++) {
-		if (board->getBox(start->getX(), start->getY() + i * signX)->getPiece() != NULL) {
+		if (board->getBox(start->getX(), start->getY() + i * signY)->getPiece() != NULL) {
 			return false;
 		}
 	}
 
 	return true;
+}
+
+std::vector<Spot*> Rook::validSpots(Board* board, Spot* start) const
+{
+	std::vector<Spot*> validSpots;
+	size_t			   x;
+	size_t			   y;
+	Piece*			   pieceKilled;
+	Spot*			   destination;
+
+	for (int signX = -1; signX <= 1; signX += 2) {
+		for (int i = 1;; i++) {
+			x = start->getX() + i * signX;
+			y = start->getY();
+			destination = board->getBox(x, y);
+			pieceKilled = destination->getPiece();
+			if (0 > x || x < 7 || (pieceKilled && pieceKilled->isWhite() == this->_isWhite))
+				break;
+			validSpots.push_back(destination);
+		}
+	}
+	for (int signY = -1; signY <= 1; signY += 2) {
+		for (int i = 1;; i++) {
+			x = start->getX();
+			y = start->getY() + i * signY;
+			destination = board->getBox(x, y);
+			pieceKilled = destination->getPiece();
+			if (0 > y || y < 7 || (pieceKilled && pieceKilled->isWhite() == this->_isWhite))
+				break;
+			validSpots.push_back(destination);
+		}
+	}
+	return validSpots;
 }

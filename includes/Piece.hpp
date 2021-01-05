@@ -17,6 +17,7 @@
 #include "Spot.hpp"
 #include "utils.hpp"
 #include <map>
+#include <vector>
 
 enum e_type {
 	KING,
@@ -55,7 +56,8 @@ public:
 	t_type getType() const;
 	bool   isKilled() const;
 	void   killed();
-	bool   canMoves(Board* board, Spot* start, Spot* end) const;
+	bool virtual canMoves(Board* board, Spot* start, Spot* end) const;
+	std::vector<Spot*> virtual validSpots(Board* board, Spot* start) const;
 
 protected:
 	bool   _isWhite;

@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/04 15:53:20 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/05 19:20:27 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ public:
 
 	Bishop& operator=(Bishop const&);
 
-	bool canMoves(Board* board, Spot* start, Spot* end) const;
+	bool			   canMoves(Board* board, Spot* start, Spot* end) const;
+	std::vector<Spot*> validSpots(Board* board, Spot* start) const;
 };
 
 #endif

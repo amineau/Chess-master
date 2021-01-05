@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 19:47:36 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/04 19:15:07 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/05 18:10:32 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,25 @@ Game& Game::operator=(Game const& rhs)
 }
 
 /* Accessors */
+
+Board Game::getBoard() const
+{
+	return this->_board;
+}
+
+std::vector<Move> Game::getMovesPlayed() const
+{
+	return this->_movesPlayed;
+}
+
+Player Game::getPlayerWhite() const
+{
+	return this->_playerWhite;
+}
+Player Game::getPlayerBlack() const
+{
+	return this->_playerBlack;
+}
 
 /* Members functions */
 
