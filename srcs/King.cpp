@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/04 15:54:44 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/07 16:25:56 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,23 @@ bool King::canMoves(Board* board, Spot* start, Spot* end) const
 		return false;
 
 	return distX + distY == 1 || distX * distY == 1;
+}
+
+std::vector<Spot*> King::validSpots(Board* board, Spot* start) const
+{
+	std::vector<Spot*> validSpots;
+	Piece*			   pieceKilled;
+	Spot*			   destination;
+
+	for (int x = start->getX() - 1; x <= static_cast<int>(start->getX()) + 1; x++) {
+		for (int y = start->getY() - 1; y <= static_cast<int>(start->getY()) + 1; y++) {
+			if (static_cast<size_t>(x) <= 7 && static_cast<size_t>(y) <= 7) {
+				destination = board->getBox(x, y);
+				pieceKilled = destination->getPiece();
+				if (!pieceKilled || pieceKilled->isWhite() != this->_isWhite)
+					validSpots.push_back(destination);
+			}
+		}
+	}
+	return validSpots;
 }

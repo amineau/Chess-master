@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/04 15:54:59 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/07 16:24:11 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,27 @@ bool Knight::canMoves(Board* board, Spot* start, Spot* end) const
 	if (distX * distY != 2)
 		return false;
 	return true;
+}
+
+std::vector<Spot*> Knight::validSpots(Board* board, Spot* start) const
+{
+	std::vector<Spot*> validSpots;
+	size_t			   distX;
+	size_t			   distY;
+	Piece*			   pieceKilled;
+	Spot*			   destination;
+
+	for (int x = start->getX() - 2; x <= static_cast<int>(start->getX()) + 2; x++) {
+		for (int y = start->getY() - 2; y <= static_cast<int>(start->getY()) + 2; y++) {
+			distX = abs(x - start->getX());
+			distY = abs(y - start->getY());
+			if (static_cast<size_t>(x) <= 7 && static_cast<size_t>(y) <= 7) {
+				destination = board->getBox(x, y);
+				pieceKilled = destination->getPiece();
+				if (distX * distY == 2 && (!pieceKilled || pieceKilled->isWhite() != this->_isWhite))
+					validSpots.push_back(destination);
+			}
+		}
+	}
+	return validSpots;
 }

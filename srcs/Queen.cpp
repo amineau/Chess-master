@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/04 15:53:20 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/07 14:39:01 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,16 @@ Queen& Queen::operator=(Queen const& rhs)
 bool Queen::canMoves(Board* board, Spot* start, Spot* end) const
 {
 	return (Rook::canMoves(board, start, end) || Bishop::canMoves(board, start, end));
+}
+
+std::vector<Spot*> Queen::validSpots(Board* board, Spot* start) const
+{
+	std::vector<Spot*> validSpots;
+	std::vector<Spot*> rookValidSpots = Rook::validSpots(board, start);
+	std::vector<Spot*> bishopValidSpots = Bishop::validSpots(board, start);
+
+	validSpots.reserve(rookValidSpots.size() + bishopValidSpots.size());
+	validSpots.insert(validSpots.end(), rookValidSpots.begin(), rookValidSpots.end());
+	validSpots.insert(validSpots.end(), bishopValidSpots.begin(), bishopValidSpots.end());
+	return validSpots;
 }

@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 19:47:36 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/05 18:10:32 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/07 19:16:32 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,10 @@ void Game::start(Player p1, Player p2)
 	std::string arg3;
 	std::string arg4;
 
+	Spot*			   spot;
+	Piece*			   piece;
+	std::vector<Spot*> validMoves;
+
 	this->_playerWhite = p1;
 	this->_playerBlack = p2;
 	this->_board = Board();
@@ -126,6 +130,7 @@ void Game::start(Player p1, Player p2)
 					  << "\thelp\tDisplay this command" << std::endl
 					  << "\tdisplay\tDisplay game board" << std::endl
 					  << "\tmove x y x y\tMove from x y start position to x y end position" << std::endl
+					  << "\tvalid-moves x y\tValid moves to a piece at x y position" << std::endl
 					  << "\tlist\tList of moves" << std::endl
 					  << "\tturn\tCurrent player turn" << std::endl
 					  << "\texit\tQuit program" << std::endl
@@ -146,6 +151,17 @@ void Game::start(Player p1, Player p2)
 				std::cout << "Move ok" << std::endl;
 			else
 				std::cout << "Incorrect move" << std::endl;
+		} else if (!entry.compare("valid-moves")) {
+			std::cin >> arg1 >> arg2;
+			spot = this->_board.getBox(std::stoi(arg1), std::stoi(arg2));
+			piece = spot->getPiece();
+			if (piece) {
+				validMoves = piece->validSpots(&this->_board, spot);
+				for (Spot* spot : validMoves) {
+					std::cout << *spot << std::endl;
+				}
+			} else
+				std::cout << "No piece in " << *spot << std::endl;
 		} else if (!entry.compare("list")) {
 			for (std::vector<Move>::iterator it = this->_movesPlayed.begin(); it != this->_movesPlayed.end(); ++it) {
 				std::cout << *it;

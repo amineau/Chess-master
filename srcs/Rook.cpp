@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/05 19:37:32 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/07 19:15:46 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,11 @@ std::vector<Spot*> Rook::validSpots(Board* board, Spot* start) const
 		for (int i = 1;; i++) {
 			x = start->getX() + i * signX;
 			y = start->getY();
+			if (x > 7)
+				break;
 			destination = board->getBox(x, y);
 			pieceKilled = destination->getPiece();
-			if (0 > x || x < 7 || (pieceKilled && pieceKilled->isWhite() == this->_isWhite))
+			if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
 				break;
 			validSpots.push_back(destination);
 		}
@@ -99,9 +101,11 @@ std::vector<Spot*> Rook::validSpots(Board* board, Spot* start) const
 		for (int i = 1;; i++) {
 			x = start->getX();
 			y = start->getY() + i * signY;
+			if (y > 7)
+				break;
 			destination = board->getBox(x, y);
 			pieceKilled = destination->getPiece();
-			if (0 > y || y < 7 || (pieceKilled && pieceKilled->isWhite() == this->_isWhite))
+			if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
 				break;
 			validSpots.push_back(destination);
 		}

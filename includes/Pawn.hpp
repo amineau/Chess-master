@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:34:32 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/04 15:53:20 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/07 14:39:32 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ public:
 
 	Pawn& operator=(Pawn const&);
 
-	bool canMoves(Board* board, Spot* start, Spot* end) const;
+	bool			   canMoves(Board* board, Spot* start, Spot* end) const;
+	std::vector<Spot*> validSpots(Board* board, Spot* start) const;
 };
 
 #endif

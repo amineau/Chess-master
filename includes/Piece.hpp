@@ -57,7 +57,7 @@ public:
 	bool   isKilled() const;
 	void   killed();
 	bool virtual canMoves(Board* board, Spot* start, Spot* end) const;
-	std::vector<Spot*> virtual validSpots(Board* board, Spot* start) const;
+	std::vector<Spot*> virtual validSpots(Board* board, Spot* start) const = 0;
 
 protected:
 	bool   _isWhite;
