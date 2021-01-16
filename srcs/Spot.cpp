@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/07 19:20:58 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/08 19:13:38 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ Spot::Spot(size_t x, size_t y)
 	, _y(y)
 	, _piece(NULL)
 {
+	// std::cout << "Constructor Spot without Piece called" << std::endl;
 	return;
 }
 
@@ -31,17 +32,22 @@ Spot::Spot(size_t x, size_t y, Piece* piece)
 	, _y(y)
 	, _piece(piece)
 {
+	// std::cout << "Constructor Spot with Piece called" << std::endl;
 	return;
 }
 
 Spot::Spot(Spot const& src)
 {
+	// std::cout << "Constructor Spot by REF called" << std::endl;
 	*this = src;
 	return;
 }
 
 Spot::~Spot()
 {
+	// std::cout << "Deconstructor Spot called" << std::endl;
+	if (this->_piece)
+		delete this->_piece;
 	return;
 }
 

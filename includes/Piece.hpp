@@ -30,32 +30,41 @@ enum e_type {
 
 typedef enum e_type t_type;
 
-static std::pair<int, const char*> map_type[] = {
-	std::make_pair(KING, "\u265A"),
-	std::make_pair(QUEEN, "\u265B"),
-	std::make_pair(ROOK, "\u265C"),
-	std::make_pair(BISHOP, "\u265D"),
-	std::make_pair(KNIGHT, "\u265E"),
-	std::make_pair(PAWN, "\u265F")
+static std::map<int, const char*> pieceRepr = {
+	{ KING, "\u265A" },
+	{ QUEEN, "\u265B" },
+	{ ROOK, "\u265C" },
+	{ BISHOP, "\u265D" },
+	{ KNIGHT, "\u265E" },
+	{ PAWN, "\u265F" }
 };
 
-static std::map<int, const char*> type(map_type,
-	map_type + sizeof map_type / sizeof map_type[0]);
+static std::map<const char, int> pieceChar = {
+	{ 'K', KING },
+	{ 'Q', QUEEN },
+	{ 'R', ROOK },
+	{ 'B', BISHOP },
+	{ 'N', KNIGHT },
+	{ 'P', PAWN }
+};
 
 class Piece {
 
 public:
 	Piece();
+	Piece(t_type type);
 	Piece(t_type type, bool isWhite);
 	Piece(Piece const&);
 	virtual ~Piece();
 
 	Piece& operator=(Piece const&);
 
-	bool   isWhite() const;
-	t_type getType() const;
-	bool   isKilled() const;
-	void   killed();
+	bool		isWhite() const;
+	void		setIsWhite(bool);
+	t_type		getType() const;
+	bool		isKilled() const;
+	void		killed();
+	const char* getRepr() const;
 	bool virtual canMoves(Board* board, Spot* start, Spot* end) const;
 	std::vector<Spot*> virtual validSpots(Board* board, Spot* start) const = 0;
 

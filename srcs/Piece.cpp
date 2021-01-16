@@ -14,25 +14,37 @@
 
 Piece::Piece()
 {
+	// std::cout << "Constructor Piece called" << std::endl;
 	return;
 }
 
-Piece::Piece(t_type type, bool isWhite)
-	: _isWhite(isWhite)
-	, _type(type)
+Piece::Piece(t_type typePiece)
+	: _type(typePiece)
 	, _isKilled(false)
 {
+	// std::cout << "Constructor Piece called for child " << pieceRepr[this->_type] << std::endl;
+	return;
+}
+
+Piece::Piece(t_type typePiece, bool isWhite)
+	: _isWhite(isWhite)
+	, _type(typePiece)
+	, _isKilled(false)
+{
+	// std::cout << "Constructor Piece called for child " << pieceRepr[this->_type] << std::endl;
 	return;
 }
 
 Piece::Piece(Piece const& src)
 {
 	*this = src;
+	// std::cout << "Constructor Piece by REF called for child " << pieceRepr[this->_type] << std::endl;
 	return;
 }
 
 Piece::~Piece()
 {
+	// std::cout << "Deconstructor Piece called for child " << pieceRepr[this->_type] << std::endl;
 	return;
 }
 
@@ -43,6 +55,7 @@ Piece& Piece::operator=(Piece const& rhs)
 		this->_isWhite = rhs._isWhite;
 		this->_type = rhs._type;
 	}
+	std::cout << "Constructor Piece by operator= called for child " << pieceRepr[this->_type] << std::endl;
 	return *this;
 }
 
@@ -51,6 +64,11 @@ Piece& Piece::operator=(Piece const& rhs)
 bool Piece::isWhite() const
 {
 	return this->_isWhite;
+}
+
+void Piece::setIsWhite(bool isWhite)
+{
+	this->_isWhite = isWhite;
 }
 
 t_type Piece::getType() const
@@ -70,6 +88,11 @@ void Piece::killed()
 	this->_isKilled = true;
 }
 
+const char* Piece::getRepr() const
+{
+	return pieceRepr[this->getType()];
+}
+
 bool Piece::canMoves(Board* board, Spot* start, Spot* end) const
 {
 	(void)board;
@@ -84,6 +107,6 @@ bool Piece::canMoves(Board* board, Spot* start, Spot* end) const
 
 std::ostream& operator<<(std::ostream& o, Piece const& i)
 {
-	o << type[i.getType()];
+	o << i.getRepr();
 	return o;
 }

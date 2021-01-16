@@ -3,17 +3,19 @@ CC = g++
 
 SRCS = main.cpp Game.cpp Board.cpp Move.cpp Piece.cpp \
 		Pawn.cpp Rook.cpp Bishop.cpp Knight.cpp Queen.cpp King.cpp \
-		Spot.cpp Player.cpp utils.cpp
+		Spot.cpp Player.cpp utils.cpp chessmaster.cpp UserInterfaceCLI.cpp \
+		UserInterfaceNcurses.cpp
 
 INC = Board.hpp Game.hpp Move.hpp Piece.hpp Pawn.hpp \
 		Rook.hpp Bishop.hpp Knight.hpp Queen.hpp King.hpp \
-		Spot.hpp Player.hpp utils.hpp
+		Spot.hpp Player.hpp utils.hpp chessmaster.hpp UserInterface.hpp \
+		UserInterfaceCLI.hpp UserInterfaceNcurses.hpp
 
 SPATH = srcs
 OPATH = objs
 HPATH = includes
 
-CFLAGS = -Wall -Werror -Wextra -g -I./$(HPATH)
+CFLAGS = -Wall -Werror -Wextra -I./$(HPATH) -lncursesw
 
 INC = $(addprefix $(HPATH)/,$(INCS))
 SRC = $(addprefix $(SPATH)/,$(SRCS))
@@ -30,7 +32,7 @@ CYAN    = \033[36m
 all: $(OPATH) $(NAME) $(INC)
 
 $(NAME): $(OBJ)
-		@$(CC) $(CFLAGS) -o $@ $^ \
+		@$(CC) -o $@ $^ $(CFLAGS) \
 		&& printf "$(YELLOW)%-30s$(DARK)-->>\t$(GREEN)$@$(WHITE)\n" "Compilation"\
 		|| (printf "$(YELLOW)%-30s$(DARK)-->>\t$(RED)$@$(WHITE)\n" "Compilation" \
 		&& exit 1)
@@ -45,6 +47,15 @@ $(OPATH)/%.o: $(SPATH)/%.cpp
 		&& printf "%-30s$(DARK)-->>\t$(GREEN)$@$(WHITE)\n" "$<" \
 		|| (printf "%-30s$(DARK)-->>\t$(RED)$@$(WHITE)\n" "$<" \
 		&& exit 1)
+
+debug: CFLAGS += -g
+debug: $(OPATH) $(NAME) $(INC)
+		gdb $(NAME)
+
+leaks: CFLAGS += -ggdb3
+leaks: $(OPATH) $(NAME) $(INC)
+		valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+			./$(NAME)
 
 clean:
 		@printf "$(YELLOW)%-30s$(WHITE)" "Deleting $(OPATH)"

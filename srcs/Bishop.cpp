@@ -6,14 +6,14 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/07 19:22:24 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/08 19:13:28 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bishop.hpp"
 
 Bishop::Bishop()
-	: Piece()
+	: Piece(BISHOP)
 {
 	return;
 }

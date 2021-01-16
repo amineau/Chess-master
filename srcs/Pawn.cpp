@@ -6,13 +6,14 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:35:50 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/07 19:24:14 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/08 19:13:34 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Pawn.hpp"
 
 Pawn::Pawn()
+	: Piece(PAWN)
 {
 	return;
 }
@@ -57,7 +58,7 @@ bool Pawn::canMoves(Board* board, Spot* start, Spot* end) const
 		if (start->getX() != end->getX())
 			return false;
 		else if ((start->getY() == 1 && isWhite) || (start->getY() == 6 && !isWhite)) {
-			if (deltaY != direction || deltaY != direction * 2)
+			if (deltaY != direction && deltaY != direction * 2)
 				return false;
 			if (deltaY == direction * 2 && board->getBox(start->getX(), start->getY() + direction)->getPiece() != NULL)
 				return false;

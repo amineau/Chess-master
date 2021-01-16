@@ -6,14 +6,14 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/07 16:25:56 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/08 19:13:31 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "King.hpp"
 
 King::King()
-	: Piece()
+	: Piece(KING)
 	, _castlingDone(false)
 {
 	return;

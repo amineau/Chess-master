@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 19:46:32 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/05 18:36:43 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/16 01:10:40 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "Board.hpp"
 #include "Move.hpp"
 #include "Player.hpp"
+#include <fstream>
 #include <iostream>
 #include <vector>
 
@@ -26,24 +27,40 @@ public:
 	Game(Game const&);
 	~Game();
 
-	Board			  getBoard() const;
+	Board*			  getBoard() const;
+	void			  setBoard(Board* board);
+	Player*			  getCurrentTurn() const;
+	void			  setCurrentTurn(Player* player);
 	std::vector<Move> getMovesPlayed() const;
-	Player			  getPlayerWhite() const;
-	Player			  getPlayerBlack() const;
+	Player*			  getPlayerWhite() const;
+	Player*			  getPlayerBlack() const;
 
-	void initialize();
-	void start(Player p1, Player p2);
+	void load(const char* file);
+	void exporter(const char* file);
+
 	bool playerMoved(Player* player, size_t startX, size_t startY, size_t endX, size_t endY);
 	bool makeMove(Player* player, Move move);
 
 	Game& operator=(Game const&);
 
+	class ParsingFileException : public std::exception {
+	public:
+		ParsingFileException(size_t line) throw();
+		ParsingFileException(size_t line, size_t column) throw();
+		virtual char const* what() const throw();
+
+	private:
+		std::string _message;
+	};
+
 private:
-	Board			  _board;
+	Board*			  _board;
 	Player*			  _currentTurn;
-	Player			  _playerWhite;
-	Player			  _playerBlack;
+	Player*			  _playerWhite;
+	Player*			  _playerBlack;
 	std::vector<Move> _movesPlayed;
 };
+
+std::istream& operator>>(std::istream& is, Game& game);
 
 #endif

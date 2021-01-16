@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/04 19:20:35 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/15 23:10:22 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,81 +20,95 @@
 
 Board::Board()
 {
-	this->initialize();
+	// std::cout << "Constructor Board called" << std::endl;
 	return;
 }
 
 Board::Board(Board const& src)
 {
+	// std::cout << "Constructor Board by REF called" << std::endl;
 	*this = src;
 	return;
 }
 
 Board::~Board()
 {
-	// std::vector<Piece*>::iterator it;
-	// for (it = this->_pieces.begin(); it != this->_pieces.end(); it++)
-	// 	delete &(**it);
-	// delete this->_board;
+	// std::cout << "Deconstructor Board called" << std::endl;
+	for (size_t y = 0; y < 8; y++) {
+		for (size_t x = 0; x < 8; x++) {
+			delete this->_boxes[x][y];
+		}
+	}
 
 	return;
 }
 
 /* Members functions */
 
-void Board::initialize()
-{
-	int x;
-	int y;
-
-	this->_boxes[0][0] = Spot(0, 0, new Rook(true));
-	this->_boxes[1][0] = Spot(1, 0, new Knight(true));
-	this->_boxes[2][0] = Spot(2, 0, new Bishop(true));
-	this->_boxes[3][0] = Spot(3, 0, new Queen(true));
-	this->_boxes[4][0] = Spot(4, 0, new King(true));
-	this->_boxes[5][0] = Spot(5, 0, new Bishop(true));
-	this->_boxes[6][0] = Spot(6, 0, new Knight(true));
-	this->_boxes[7][0] = Spot(7, 0, new Rook(true));
-
-	for (x = 0; x <= 7; x++) {
-		this->_boxes[x][1] = Spot(x, 1, new Pawn(true));
-	}
-
-	this->_boxes[0][7] = Spot(0, 7, new Rook(false));
-	this->_boxes[1][7] = Spot(1, 7, new Knight(false));
-	this->_boxes[2][7] = Spot(2, 7, new Bishop(false));
-	this->_boxes[3][7] = Spot(3, 7, new Queen(false));
-	this->_boxes[4][7] = Spot(4, 7, new King(false));
-	this->_boxes[5][7] = Spot(5, 7, new Bishop(false));
-	this->_boxes[6][7] = Spot(6, 7, new Knight(false));
-	this->_boxes[7][7] = Spot(7, 7, new Rook(false));
-
-	for (x = 0; x <= 7; x++) {
-		this->_boxes[x][6] = Spot(x, 6, new Pawn(false));
-	}
-
-	for (x = 0; x < 8; x++) {
-		for (y = 2; y < 6; y++) {
-			this->_boxes[x][y] = Spot(x, y);
-		}
-	}
-}
-
 /* Accessors */
 
 Spot* Board::getBox(size_t x, size_t y) const
 {
-	if (x >= 8 || y >= 8)
+	if (x > 7 || y > 7)
 		throw Board::IndexOutOfBoardException();
-	return const_cast<Spot*>(&this->_boxes[x][y]);
+	return this->_boxes[x][y];
+}
+
+void Board::setBox(size_t x, size_t y, Spot* spot)
+{
+	if (x > 7 || y > 7)
+		throw Board::IndexOutOfBoardException();
+	this->_boxes[x][y] = spot;
+}
+
+void Board::raiseOnInvalidKingNumber() const
+{
+	Piece* piece;
+	size_t kingWhite = 0;
+	size_t kingBlack = 0;
+
+	for (size_t y = 0; y < 8; y++) {
+		for (size_t x = 0; x < 8; x++) {
+			piece = this->getBox(x, y)->getPiece();
+			if (piece && piece->getType() == KING) {
+				if (piece->isWhite())
+					kingWhite++;
+				else
+					kingBlack++;
+			}
+		}
+	}
+	if (kingBlack != 1 || kingWhite != 1)
+		throw Board::InvalidNumberOfKingException();
 }
 
 /* Operator Overload */
 
 Board& Board::operator=(Board const& rhs)
 {
+	Piece* piece;
 	if (this != &rhs) {
-		// this->_boxes = rhs._boxes;
+		for (size_t y = 0; y < 8; y++) {
+			for (size_t x = 0; x < 8; x++) {
+				piece = rhs._boxes[x][y]->getPiece();
+				if (piece) {
+					if (piece->getType() == KING)
+						this->_boxes[x][y] = new Spot(x, y, new King(dynamic_cast<King const&>(*rhs._boxes[x][y]->getPiece())));
+					if (piece->getType() == QUEEN)
+						this->_boxes[x][y] = new Spot(x, y, new Queen(dynamic_cast<Queen const&>(*rhs._boxes[x][y]->getPiece())));
+					if (piece->getType() == BISHOP)
+						this->_boxes[x][y] = new Spot(x, y, new Bishop(dynamic_cast<Bishop const&>(*rhs._boxes[x][y]->getPiece())));
+					if (piece->getType() == KNIGHT)
+						this->_boxes[x][y] = new Spot(x, y, new Knight(dynamic_cast<Knight const&>(*rhs._boxes[x][y]->getPiece())));
+					if (piece->getType() == ROOK)
+						this->_boxes[x][y] = new Spot(x, y, new Rook(dynamic_cast<Rook const&>(*rhs._boxes[x][y]->getPiece())));
+					if (piece->getType() == PAWN)
+						this->_boxes[x][y] = new Spot(x, y, new Pawn(dynamic_cast<Pawn const&>(*rhs._boxes[x][y]->getPiece())));
+
+				} else
+					this->_boxes[x][y] = new Spot(x, y);
+			}
+		}
 	}
 	return *this;
 }
@@ -132,4 +146,9 @@ std::ostream& operator<<(std::ostream& o, Board const& i)
 char const* Board::IndexOutOfBoardException::what() const throw()
 {
 	return "x and y must be between 0 and 7";
+}
+
+char const* Board::InvalidNumberOfKingException::what() const throw()
+{
+	return "There is not one King by player";
 }

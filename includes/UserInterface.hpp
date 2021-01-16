@@ -1,32 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Knight.hpp                                         :+:      :+:    :+:   */
+/*   UserInterface.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:16 by amineau          ###   ########.fr       */
+/*   Created: 2021/01/15 13:01:26 by amineau           #+#    #+#             */
+/*   Updated: 2021/01/16 01:15:07 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef KNIGHT_HPP
-#define KNIGHT_HPP
+#ifndef USERINTERFACE_HPP
+#define USERINTERFACE_HPP
 
-#include "Piece.hpp"
+#include "Game.hpp"
+#include "chessmaster.hpp"
 
-class Knight : public virtual Piece {
+#define NEWGAME 1
+#define LOADGAME 2
+#define QUIT 3
 
+class UserInterface {
 public:
-	Knight();
-	Knight(bool isWhite);
-	Knight(Knight const&);
-	~Knight();
+	virtual ~UserInterface() {};
+	short virtual displayMenu() const = 0;
+	void virtual start() = 0;
+	// void virtual loadGame(Save save) = 0;
+	// Save virtual saveGame() = 0;
 
-	Knight& operator=(Knight const&);
-
-	bool			   canMoves(Board* board, Spot* start, Spot* end) const;
-	std::vector<Spot*> validSpots(Board* board, Spot* start) const;
+protected:
+	Game _game;
 };
 
 #endif

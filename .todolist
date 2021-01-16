@@ -1,0 +1,19 @@
+- Vérifier l'appel au constructeur et au deconstructeur --> Fait, ajout de make leaks
+- Permettre la copie d'un board, de ses spots et de ses pièces --> Fait
+- Permettre de commencer une partie avancée (Parser un fichier avec la nouvelle position initiale des pièces) --> Fait
+
+
+- Creer une interface utilisateur en NCurses --> En cours
+
+- Prévoir le rook
+- Prévoir la prise en passant
+- Prévoir l'amélioration de pion
+- Calculer si le roi est en echec
+- Gérer la fin de partie
+
+- Enlever les validMoves qui mettent le roi en echec
+
+- Ajouter un timer
+
+- Permettre les commentaires commençant pas # dans le fichier de parsing
+- Ajouter les moves au parsing

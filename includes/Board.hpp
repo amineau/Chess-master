@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:07:59 by amineau           #+#    #+#             */
-/*   Updated: 2020/12/29 12:42:00 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/15 23:09:56 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #define BOARD_HPP
 
 #include "Spot.hpp"
+#include <map>
+#include <sstream>
 
 class Board {
 
@@ -23,7 +25,8 @@ public:
 	~Board();
 
 	Spot* getBox(size_t x, size_t y) const;
-	void  initialize();
+	void  setBox(size_t x, size_t y, Spot* spot);
+	void  raiseOnInvalidKingNumber() const;
 
 	Board& operator=(Board const&);
 
@@ -32,8 +35,13 @@ public:
 		virtual char const* what() const throw();
 	};
 
+	class InvalidNumberOfKingException : public std::exception {
+	public:
+		virtual char const* what() const throw();
+	};
+
 private:
-	Spot _boxes[8][8];
+	Spot* _boxes[8][8];
 };
 
 std::ostream& operator<<(std::ostream& o, Board const& i);

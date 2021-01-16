@@ -6,14 +6,14 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/07 19:15:46 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/08 19:13:37 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Rook.hpp"
 
 Rook::Rook()
-	: Piece()
+	: Piece(ROOK)
 {
 	return;
 }

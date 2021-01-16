@@ -6,11 +6,18 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 19:47:36 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/07 19:16:32 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/16 01:16:15 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Game.hpp"
+#include "Bishop.hpp"
+#include "Board.hpp"
+#include "King.hpp"
+#include "Knight.hpp"
+#include "Pawn.hpp"
+#include "Queen.hpp"
+#include "Rook.hpp"
 
 Game::Game()
 {
@@ -42,9 +49,14 @@ Game& Game::operator=(Game const& rhs)
 
 /* Accessors */
 
-Board Game::getBoard() const
+Board* Game::getBoard() const
 {
 	return this->_board;
+}
+
+void Game::setBoard(Board* board)
+{
+	this->_board = board;
 }
 
 std::vector<Move> Game::getMovesPlayed() const
@@ -52,11 +64,22 @@ std::vector<Move> Game::getMovesPlayed() const
 	return this->_movesPlayed;
 }
 
-Player Game::getPlayerWhite() const
+Player* Game::getCurrentTurn() const
+{
+	return this->_currentTurn;
+}
+
+void Game::setCurrentTurn(Player* player)
+{
+	this->_currentTurn = player;
+}
+
+Player* Game::getPlayerWhite() const
 {
 	return this->_playerWhite;
 }
-Player Game::getPlayerBlack() const
+
+Player* Game::getPlayerBlack() const
 {
 	return this->_playerBlack;
 }
@@ -65,7 +88,7 @@ Player Game::getPlayerBlack() const
 
 bool Game::playerMoved(Player* player, size_t startX, size_t startY, size_t endX, size_t endY)
 {
-	Move move = Move(player, this->_board.getBox(startX, startY), this->_board.getBox(endX, endY));
+	Move move = Move(player, this->_board->getBox(startX, startY), this->_board->getBox(endX, endY));
 	return this->makeMove(player, move);
 }
 
@@ -73,108 +96,112 @@ bool Game::makeMove(Player* player, Move move)
 {
 	Piece* piece = move.getPieceMoved();
 	Piece* pieceKilled = move.getPieceKilled();
-	std::cout << piece << std::endl;
 	if (!piece || piece->isWhite() != player->isWhite() || player != this->_currentTurn)
 		return false;
-	if (!piece->canMoves(&this->_board, move.getStartSpot(), move.getEndSpot()))
+	if (!piece->canMoves(this->_board, move.getStartSpot(), move.getEndSpot()))
 		return false;
 	if (pieceKilled)
 		pieceKilled->killed();
 	move.getEndSpot()->setPiece(piece);
 	move.getStartSpot()->setPiece(NULL);
-	this->_currentTurn = this->_currentTurn->isWhite() ? &this->_playerBlack : &this->_playerWhite;
+	this->_currentTurn = this->_currentTurn->isWhite() ? this->_playerBlack : this->_playerWhite;
 	this->_movesPlayed.push_back(move);
 	return true;
 }
 
-void Game::initialize()
+void Game::load(const char* file)
 {
-	// char entry = 0;
+	std::ifstream infile(file);
+	this->_playerWhite = new Player(true);
+	this->_playerBlack = new Player(false);
 
-	// while (entry != '1' && entry != '2') {
-	// 	if (entry != 0)
-	// 		std::cout << "Enter a valid choice" << std::endl;
-	// 	std::cout << "1/ Start a new game" << std::endl
-	// 			  << "2/ Quit" << std::endl
-	// 			  << "Enter the option number : ";
-	// 	std::cin >> entry;
-	// }
-
-	// if (entry == '1') {
-	this->start(Player(true), Player(false));
-	// }
+	infile >> *this;
 }
 
-void Game::start(Player p1, Player p2)
+std::istream& operator>>(std::istream& is, Game& game)
 {
-	std::string entry;
-	std::string arg1;
-	std::string arg2;
-	std::string arg3;
-	std::string arg4;
+	std::string line;
+	Board*		board = new Board();
+	int			lineNumber = 0;
+	Piece*		piece;
 
-	Spot*			   spot;
-	Piece*			   piece;
-	std::vector<Spot*> validMoves;
-
-	this->_playerWhite = p1;
-	this->_playerBlack = p2;
-	this->_board = Board();
-	this->_currentTurn = &this->_playerWhite;
-	std::cout << this->_board;
-	while (1) {
-		std::cout << "Command : ";
-		std::cin >> entry;
-		if (!entry.compare("help")) {
-			std::cout << std::endl
-					  << "\thelp\tDisplay this command" << std::endl
-					  << "\tdisplay\tDisplay game board" << std::endl
-					  << "\tmove x y x y\tMove from x y start position to x y end position" << std::endl
-					  << "\tvalid-moves x y\tValid moves to a piece at x y position" << std::endl
-					  << "\tlist\tList of moves" << std::endl
-					  << "\tturn\tCurrent player turn" << std::endl
-					  << "\texit\tQuit program" << std::endl
-					  << "\tquit\tQuit program" << std::endl
-					  << std::endl;
-		} else if (!entry.compare("turn")) {
-			std::cout << *this->_currentTurn << std::endl;
-		} else if (!entry.compare("display")) {
-			std::cout << this->_board;
-		} else if (!entry.compare("move")) {
-			std::cin >> arg1 >> arg2 >> arg3 >> arg4;
-			if (this->playerMoved(
-					this->_currentTurn,
-					std::stoi(arg1),
-					std::stoi(arg2),
-					std::stoi(arg3),
-					std::stoi(arg4)))
-				std::cout << "Move ok" << std::endl;
-			else
-				std::cout << "Incorrect move" << std::endl;
-		} else if (!entry.compare("valid-moves")) {
-			std::cin >> arg1 >> arg2;
-			spot = this->_board.getBox(std::stoi(arg1), std::stoi(arg2));
-			piece = spot->getPiece();
-			if (piece) {
-				validMoves = piece->validSpots(&this->_board, spot);
-				for (Spot* spot : validMoves) {
-					std::cout << *spot << std::endl;
+	while (lineNumber <= 16 && std::getline(is, line)) {
+		if ((line.length() != 8 && lineNumber != 8)
+			|| (lineNumber == 8 && line.length() != 0))
+			throw Game::ParsingFileException(lineNumber);
+		if (lineNumber < 8)
+			for (int x = 0; x < 8; x++) {
+				if (line[x] == '.')
+					board->setBox(x, 7 - lineNumber, new Spot(x, 7 - lineNumber));
+				else {
+					switch (line[x]) {
+					case 'K':
+						piece = new King();
+						break;
+					case 'Q':
+						piece = new Queen();
+						break;
+					case 'B':
+						piece = new Bishop();
+						break;
+					case 'N':
+						piece = new Knight();
+						break;
+					case 'R':
+						piece = new Rook();
+						break;
+					case 'P':
+						piece = new Pawn();
+						break;
+					default:
+						throw Game::ParsingFileException(lineNumber, x);
+					}
+					board->setBox(x, 7 - lineNumber, new Spot(x, 7 - lineNumber, piece));
 				}
-			} else
-				std::cout << "No piece in " << *spot << std::endl;
-		} else if (!entry.compare("list")) {
-			for (std::vector<Move>::iterator it = this->_movesPlayed.begin(); it != this->_movesPlayed.end(); ++it) {
-				std::cout << *it;
-				if (it->getPlayer()->isWhite())
-					std::cout << ' ';
-				else
-					std::cout << std::endl;
 			}
-			std::cout << std::endl;
-		} else if (!entry.compare("exit") || !entry.compare("quit")) {
-			break;
-		} else {
-			std::cout << "Not a valid entry. Type help for command list" << std::endl;
-		}
+		else if (lineNumber > 8)
+			for (int x = 0; x < 8; x++) {
+				piece = board->getBox(x, 16 - lineNumber)->getPiece();
+				if ((line[x] == '.' && piece)
+					|| ((line[x] == 'W' || line[x] == 'B') && !piece)
+					|| (line[x] != '.' && line[x] != 'W' && line[x] != 'B'))
+					throw Game::ParsingFileException(lineNumber, x);
+				if (line[x] == 'B')
+					piece->setIsWhite(false);
+				else if (line[x] == 'W')
+					piece->setIsWhite(true);
+			}
+		lineNumber++;
 	}
+	board->raiseOnInvalidKingNumber();
+	game.setBoard(board);
+	if (std::getline(is, line) && line.length() != 0)
+		throw Game::ParsingFileException(lineNumber);
+	lineNumber++;
+	if (std::getline(is, line)) {
+		if (line.compare("W") == 0)
+			game.setCurrentTurn(game.getPlayerWhite());
+		else if (line.compare("B") == 0)
+			game.setCurrentTurn(game.getPlayerBlack());
+		else
+			throw Game::ParsingFileException(lineNumber);
+	} else
+		throw Game::ParsingFileException(lineNumber);
+
+	return is;
+}
+
+Game::ParsingFileException::ParsingFileException(size_t line) throw()
+{
+	this->_message = "Parsing failed at line " + std::to_string(line);
+}
+
+Game::ParsingFileException::ParsingFileException(size_t line, size_t column) throw()
+{
+	this->_message = "Parsing failed at line " + std::to_string(line) + " and column " + std::to_string(column);
+}
+
+char const* Game::ParsingFileException::what() const throw()
+{
+	return this->_message.c_str();
 }

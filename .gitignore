@@ -3,3 +3,7 @@ objs
 chessmaster
 # editor config
 .vscode
+# others
+.todolist
+aide
+sos
