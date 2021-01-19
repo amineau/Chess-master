@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:02:37 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/16 00:53:04 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/16 01:41:49 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ public:
 	void  start();
 
 	UserInterfaceCLI& operator=(UserInterfaceCLI const&);
+
+private:
+	void displayBoard() const;
 };
 
 #endif

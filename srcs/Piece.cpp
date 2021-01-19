@@ -88,11 +88,6 @@ void Piece::killed()
 	this->_isKilled = true;
 }
 
-const char* Piece::getRepr() const
-{
-	return pieceRepr[this->getType()];
-}
-
 bool Piece::canMoves(Board* board, Spot* start, Spot* end) const
 {
 	(void)board;
@@ -107,6 +102,7 @@ bool Piece::canMoves(Board* board, Spot* start, Spot* end) const
 
 std::ostream& operator<<(std::ostream& o, Piece const& i)
 {
-	o << i.getRepr();
+	const char repr = i.isWhite() ? toupper(pieceRepr[i.getType()]) : pieceRepr[i.getType()];
+	o << repr;
 	return o;
 }

@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:23 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/19 23:11:48 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ public:
 	Spot(Spot const& src);
 	~Spot();
 
-	size_t getX() const;
-	size_t getY() const;
-	Piece* getPiece() const;
-	void   setPiece(Piece* piece);
+	size_t		getX() const;
+	size_t		getY() const;
+	Piece*		getPiece() const;
+	void		setPiece(Piece* piece);
+	const char* getRepr() const;
 
 	Spot& operator=(Spot const&);
 	bool  operator==(Spot const&) const;

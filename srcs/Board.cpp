@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/15 23:10:22 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/20 00:14:56 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,17 @@
 
 Board::Board()
 {
-	// std::cout << "Constructor Board called" << std::endl;
 	return;
 }
 
 Board::Board(Board const& src)
 {
-	// std::cout << "Constructor Board by REF called" << std::endl;
 	*this = src;
 	return;
 }
 
 Board::~Board()
 {
-	// std::cout << "Deconstructor Board called" << std::endl;
 	for (size_t y = 0; y < 8; y++) {
 		for (size_t x = 0; x < 8; x++) {
 			delete this->_boxes[x][y];
@@ -50,8 +47,15 @@ Board::~Board()
 Spot* Board::getBox(size_t x, size_t y) const
 {
 	if (x > 7 || y > 7)
-		throw Board::IndexOutOfBoardException();
+		return NULL;
 	return this->_boxes[x][y];
+}
+
+Spot* Board::getBox(const std::string& spot) const
+{
+	if (spot.length() == 2)
+		return this->getBox(spot[0] - 'a', spot[1] - '1');
+	return NULL;
 }
 
 void Board::setBox(size_t x, size_t y, Spot* spot)
@@ -81,6 +85,80 @@ void Board::raiseOnInvalidKingNumber() const
 	if (kingBlack != 1 || kingWhite != 1)
 		throw Board::InvalidNumberOfKingException();
 }
+bool Board::load_fen(const std::string& fen)
+{
+	Spot*		spot;
+	short		x = 0;
+	short		y = 7;
+	int			i = 0;
+	char		fenLower;
+	std::string availableLowerChar("kqbnrp");
+
+	while (fen[i]) {
+		fenLower = tolower(fen[i]);
+		if (x > 8 || y < 0)
+			return false;
+		if ('1' <= fen[i] && fen[i] <= '8') {
+			for (int j = '1'; j <= fen[i]; j++) {
+				this->setBox(x, y, new Spot(x, y));
+				x++;
+			}
+		} else if (availableLowerChar.find(fenLower) != std::string::npos) {
+			if (fenLower == 'k')
+				spot = new Spot(x, y, new King(isupper(fen[i])));
+			else if (fenLower == 'q')
+				spot = new Spot(x, y, new Queen(isupper(fen[i])));
+			else if (fenLower == 'b')
+				spot = new Spot(x, y, new Bishop(isupper(fen[i])));
+			else if (fenLower == 'n')
+				spot = new Spot(x, y, new Knight(isupper(fen[i])));
+			else if (fenLower == 'r')
+				spot = new Spot(x, y, new Rook(isupper(fen[i])));
+			else if (fenLower == 'p')
+				spot = new Spot(x, y, new Pawn(isupper(fen[i])));
+			this->setBox(x, y, spot);
+			x++;
+		} else if (fen[i] == '/') {
+			if (x != 8)
+				return false;
+			x = 0;
+			y--;
+		} else
+			return false;
+		i++;
+	}
+	if (x != 8 && y != 1)
+		return false;
+	return true;
+}
+
+const std::string Board::fen() const
+{
+	Piece*			  piece;
+	short			  numberEmptySpot;
+	std::stringstream ss;
+
+	for (int y = 7; y >= 0; --y) {
+		numberEmptySpot = 0;
+		for (int x = 0; x <= 7; ++x) {
+			piece = this->getBox(x, y)->getPiece();
+			if (piece != NULL) {
+				if (numberEmptySpot) {
+					ss << numberEmptySpot;
+					numberEmptySpot = 0;
+				}
+				ss << *piece;
+			} else {
+				numberEmptySpot++;
+			}
+		}
+		if (numberEmptySpot)
+			ss << numberEmptySpot;
+		if (y != 0)
+			ss << '/';
+	}
+	return ss.str();
+}
 
 /* Operator Overload */
 
@@ -92,6 +170,7 @@ Board& Board::operator=(Board const& rhs)
 			for (size_t x = 0; x < 8; x++) {
 				piece = rhs._boxes[x][y]->getPiece();
 				if (piece) {
+					// TODO: Pointer of function
 					if (piece->getType() == KING)
 						this->_boxes[x][y] = new Spot(x, y, new King(dynamic_cast<King const&>(*rhs._boxes[x][y]->getPiece())));
 					if (piece->getType() == QUEEN)
@@ -111,34 +190,6 @@ Board& Board::operator=(Board const& rhs)
 		}
 	}
 	return *this;
-}
-
-std::ostream& operator<<(std::ostream& o, Board const& i)
-{
-	Piece* piece;
-
-	o << "\033[38;5;232;48;5;215m                    \033[0m" << std::endl;
-	for (int y = 7; y >= 0; --y) {
-		o << "\033[38;5;232;48;5;215m" << y + 1 << " ";
-		for (int x = 0; x <= 7; ++x) {
-			if ((y + x) % 2)
-				o << "\033[48;5;255m";
-			else
-				o << "\033[48;5;75m";
-			piece = i.getBox(x, y)->getPiece();
-			if (piece != NULL) {
-				if (piece->isWhite())
-					o << "\033[1;38;5;22m";
-				else
-					o << "\033[1;38;5;232m";
-				o << *piece << " ";
-			} else
-				o << "  ";
-		}
-		o << "\033[38;5;232;48;5;215m  \033[0m" << std::endl;
-	}
-	o << "\033[38;5;232;48;5;215m  a b c d e f g h   \033[0m" << std::endl;
-	return o;
 }
 
 /* Exception */

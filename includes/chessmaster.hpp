@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 13:32:17 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/16 01:09:22 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/20 00:20:36 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 #define SELECTEDSPOT 15
 
 namespace settings {
-extern char* defaultFile;
-extern char* defaultInterface;
+extern const std::string defaultFenStart;
+extern const std::string defaultInterface;
 }
 
 #endif

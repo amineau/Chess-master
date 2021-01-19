@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Piece.hpp                                         :+:      :+:    :+:   */
+/*   Piece.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/17 20:41:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/10/29 02:11:04 by amineau          ###   ########.fr       */
+/*   Created: 2021/01/20 00:43:39 by amineau           #+#    #+#             */
+/*   Updated: 2021/01/20 00:44:12 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,19 @@ enum e_type {
 
 typedef enum e_type t_type;
 
-static std::map<int, const char*> pieceRepr = {
-	{ KING, "\u265A" },
-	{ QUEEN, "\u265B" },
-	{ ROOK, "\u265C" },
-	{ BISHOP, "\u265D" },
-	{ KNIGHT, "\u265E" },
-	{ PAWN, "\u265F" }
-};
-
-static std::map<const char, int> pieceChar = {
-	{ 'K', KING },
-	{ 'Q', QUEEN },
-	{ 'R', ROOK },
-	{ 'B', BISHOP },
-	{ 'N', KNIGHT },
-	{ 'P', PAWN }
+static std::map<int, const char> pieceRepr = {
+	// { KING, "\u265A" },
+	// { QUEEN, "\u265B" },
+	// { ROOK, "\u265C" },
+	// { BISHOP, "\u265D" },
+	// { KNIGHT, "\u265E" },
+	// { PAWN, "\u265F" }
+	{ KING, 'k' },
+	{ QUEEN, 'q' },
+	{ ROOK, 'r' },
+	{ BISHOP, 'b' },
+	{ KNIGHT, 'n' },
+	{ PAWN, 'p' }
 };
 
 class Piece {
@@ -59,12 +56,11 @@ public:
 
 	Piece& operator=(Piece const&);
 
-	bool		isWhite() const;
-	void		setIsWhite(bool);
-	t_type		getType() const;
-	bool		isKilled() const;
-	void		killed();
-	const char* getRepr() const;
+	bool   isWhite() const;
+	void   setIsWhite(bool);
+	t_type getType() const;
+	bool   isKilled() const;
+	void   killed();
 	bool virtual canMoves(Board* board, Spot* start, Spot* end) const;
 	std::vector<Spot*> virtual validSpots(Board* board, Spot* start) const = 0;
 

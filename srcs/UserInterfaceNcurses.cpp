@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/16 01:17:52 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/20 00:25:34 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,6 @@
 
 UserInterfaceNcurses::UserInterfaceNcurses()
 {
-	return;
-}
-
-UserInterfaceNcurses::UserInterfaceNcurses(UserInterfaceNcurses const& src)
-{
-	*this = src;
-	return;
-}
-
-UserInterfaceNcurses::~UserInterfaceNcurses()
-{
-	return;
-}
-
-UserInterfaceNcurses& UserInterfaceNcurses::operator=(UserInterfaceNcurses const& rhs)
-{
-	if (this != &rhs)
-		this->_game = rhs._game;
-	return *this;
-}
-
-short UserInterfaceNcurses::displayMenu() const
-{
-	char entry = 0;
-
-	while (entry != '1' && entry != '2' && entry != '3') {
-		if (entry != 0)
-			std::cout << "Enter a valid choice" << std::endl;
-		std::cout << "1/ Start new game" << std::endl
-				  << "2/ Load game" << std::endl
-				  << "3/ Quit" << std::endl
-				  << "Enter the option number : ";
-		std::cin >> entry;
-	}
-
-	return entry - '0';
-}
-void UserInterfaceNcurses::start()
-{
-	WINDOW *board, *blackKilled, *whiteKilled, *blackInfo, *whiteInfo, *movePlayed;
-	this->_game = Game();
-	this->_game.load(settings::defaultFile);
-
 	initscr();
 	noecho();
 	cbreak();
@@ -86,6 +43,51 @@ void UserInterfaceNcurses::start()
 	init_pair(WHITESPOTWHITEPIECE, WHITEPIECE, WHITESPOT);
 	init_pair(SELECTEDSPOTBLACKPIECE, BLACKPIECE, SELECTEDSPOT);
 	init_pair(SELECTEDSPOTWHITEPIECE, WHITEPIECE, SELECTEDSPOT);
+	return;
+}
+
+UserInterfaceNcurses::UserInterfaceNcurses(UserInterfaceNcurses const& src)
+{
+	*this = src;
+	return;
+}
+
+UserInterfaceNcurses::~UserInterfaceNcurses()
+{
+	return;
+}
+
+UserInterfaceNcurses& UserInterfaceNcurses::operator=(UserInterfaceNcurses const& rhs)
+{
+	if (this != &rhs)
+		this->_chess = rhs._chess;
+	return *this;
+}
+
+short UserInterfaceNcurses::displayMenu() const
+{
+	char entry = 0;
+
+	while (entry != '1' && entry != '2' && entry != '3') {
+		if (entry != 0)
+			std::cout << "Enter a valid choice" << std::endl;
+		std::cout << "1/ Start new chess" << std::endl
+				  << "2/ Load chess" << std::endl
+				  << "3/ Quit" << std::endl
+				  << "Enter the option number : ";
+		std::cin >> entry;
+	}
+
+	return entry - '0';
+}
+void UserInterfaceNcurses::start()
+{
+	WINDOW *board, *blackKilled, *whiteKilled, *blackInfo, *whiteInfo, *movePlayed;
+	this->_chess = Chess();
+	if (!this->_chess.load_fen(settings::defaultFenStart)) {
+		std::cout << "Wrong parsing";
+		exit(EXIT_FAILURE);
+	}
 
 	board = subwin(stdscr, 10, 20, 4, 8);
 	blackKilled = subwin(stdscr, 5, 4, 4, 4);
@@ -110,14 +112,14 @@ void UserInterfaceNcurses::start()
 	for (short x = 0; x < 8; x++) {
 		for (short y = 0; y < 8; y++) {
 			if ((x + y) % 2 == 0) {
-				if (this->_game.getBoard()->getBox(x, y)->getPiece())
-					if (this->_game.getBoard()->getBox(x, y)->getPiece()->isWhite()) {
+				if (this->_chess.getBoard()->getBox(x, y)->getPiece())
+					if (this->_chess.getBoard()->getBox(x, y)->getPiece()->isWhite()) {
 						wattron(board, COLOR_PAIR(BLACKSPOTWHITEPIECE));
-						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_game.getBoard()->getBox(x, y)->getPiece()->getRepr());
+						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess.getBoard()->getBox(x, y)->getPiece());
 						wattroff(board, COLOR_PAIR(BLACKSPOTWHITEPIECE));
 					} else {
 						wattron(board, COLOR_PAIR(BLACKSPOTBLACKPIECE));
-						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_game.getBoard()->getBox(x, y)->getPiece()->getRepr());
+						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess.getBoard()->getBox(x, y)->getPiece());
 						wattroff(board, COLOR_PAIR(BLACKSPOTBLACKPIECE));
 					}
 				else {
@@ -126,14 +128,14 @@ void UserInterfaceNcurses::start()
 					wattroff(board, COLOR_PAIR(BLACKSPOTBLACKPIECE));
 				}
 			} else {
-				if (this->_game.getBoard()->getBox(x, y)->getPiece())
-					if (this->_game.getBoard()->getBox(x, y)->getPiece()->isWhite()) {
+				if (this->_chess.getBoard()->getBox(x, y)->getPiece())
+					if (this->_chess.getBoard()->getBox(x, y)->getPiece()->isWhite()) {
 						wattron(board, COLOR_PAIR(WHITESPOTWHITEPIECE));
-						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_game.getBoard()->getBox(x, y)->getPiece()->getRepr());
+						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess.getBoard()->getBox(x, y)->getPiece());
 						wattroff(board, COLOR_PAIR(WHITESPOTWHITEPIECE));
 					} else {
 						wattron(board, COLOR_PAIR(WHITESPOTBLACKPIECE));
-						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_game.getBoard()->getBox(x, y)->getPiece()->getRepr());
+						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess.getBoard()->getBox(x, y)->getPiece());
 						wattroff(board, COLOR_PAIR(WHITESPOTBLACKPIECE));
 					}
 				else {

@@ -6,11 +6,11 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:31:09 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/16 01:14:19 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/20 00:24:34 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Game.hpp"
+#include "Chess.hpp"
 #include "UserInterfaceCLI.hpp"
 #include "UserInterfaceNcurses.hpp"
 #include "chessmaster.hpp"

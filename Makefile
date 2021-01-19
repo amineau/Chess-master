@@ -1,12 +1,12 @@
 NAME = chessmaster
 CC = g++
 
-SRCS = main.cpp Game.cpp Board.cpp Move.cpp Piece.cpp \
+SRCS = main.cpp Chess.cpp Board.cpp Move.cpp Piece.cpp \
 		Pawn.cpp Rook.cpp Bishop.cpp Knight.cpp Queen.cpp King.cpp \
 		Spot.cpp Player.cpp utils.cpp chessmaster.cpp UserInterfaceCLI.cpp \
 		UserInterfaceNcurses.cpp
 
-INC = Board.hpp Game.hpp Move.hpp Piece.hpp Pawn.hpp \
+INC = Board.hpp Chess.hpp Move.hpp Piece.hpp Pawn.hpp \
 		Rook.hpp Bishop.hpp Knight.hpp Queen.hpp King.hpp \
 		Spot.hpp Player.hpp utils.hpp chessmaster.hpp UserInterface.hpp \
 		UserInterfaceCLI.hpp UserInterfaceNcurses.hpp

@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:38 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/19 23:14:17 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ Spot::Spot(size_t x, size_t y)
 	, _y(y)
 	, _piece(NULL)
 {
-	// std::cout << "Constructor Spot without Piece called" << std::endl;
 	return;
 }
 
@@ -32,20 +31,17 @@ Spot::Spot(size_t x, size_t y, Piece* piece)
 	, _y(y)
 	, _piece(piece)
 {
-	// std::cout << "Constructor Spot with Piece called" << std::endl;
 	return;
 }
 
 Spot::Spot(Spot const& src)
 {
-	// std::cout << "Constructor Spot by REF called" << std::endl;
 	*this = src;
 	return;
 }
 
 Spot::~Spot()
 {
-	// std::cout << "Deconstructor Spot called" << std::endl;
 	if (this->_piece)
 		delete this->_piece;
 	return;
@@ -88,8 +84,17 @@ bool Spot::operator==(Spot const& rhs) const
 	return (this == &rhs || (this->_x == rhs._x && this->_y == rhs._y));
 }
 
+const char* Spot::getRepr() const
+{
+	std::string str = "";
+
+	str.push_back(this->getX() + 'a');
+	str.push_back(this->getY() + '1');
+	return str.c_str();
+}
+
 std::ostream& operator<<(std::ostream& o, Spot const& i)
 {
-	o << static_cast<char>(i.getX() + 'a') << i.getY() + 1;
+	o << i.getRepr();
 	return o;
 }

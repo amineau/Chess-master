@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:07:59 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/15 23:09:56 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/20 00:42:32 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@ public:
 	~Board();
 
 	Spot* getBox(size_t x, size_t y) const;
+	Spot* getBox(const std::string& spot) const;
 	void  setBox(size_t x, size_t y, Spot* spot);
 	void  raiseOnInvalidKingNumber() const;
+
+	bool			  load_fen(const std::string& fen);
+	const std::string fen() const;
 
 	Board& operator=(Board const&);
 
@@ -43,7 +47,5 @@ public:
 private:
 	Spot* _boxes[8][8];
 };
-
-std::ostream& operator<<(std::ostream& o, Board const& i);
 
 #endif
