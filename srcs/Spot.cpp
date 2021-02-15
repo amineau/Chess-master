@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/19 23:14:17 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:08:14 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Spot::Spot()
 Spot::Spot(size_t x, size_t y)
 	: _x(x)
 	, _y(y)
-	, _piece(NULL)
+	, _piece(0)
 {
 	return;
 }
@@ -42,8 +42,7 @@ Spot::Spot(Spot const& src)
 
 Spot::~Spot()
 {
-	if (this->_piece)
-		delete this->_piece;
+	delete this->_piece;
 	return;
 }
 
@@ -84,13 +83,12 @@ bool Spot::operator==(Spot const& rhs) const
 	return (this == &rhs || (this->_x == rhs._x && this->_y == rhs._y));
 }
 
-const char* Spot::getRepr() const
+const std::string Spot::getRepr() const
 {
-	std::string str = "";
+	std::stringstream ss;
 
-	str.push_back(this->getX() + 'a');
-	str.push_back(this->getY() + '1');
-	return str.c_str();
+	ss << char(this->getX() + 'a') << char(this->getY() + '1');
+	return ss.str();
 }
 
 std::ostream& operator<<(std::ostream& o, Spot const& i)

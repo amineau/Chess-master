@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:36 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 21:54:16 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ Player::Player()
 Player::Player(bool isWhite)
 	: _isWhite(isWhite)
 {
+	std::cout << "Player CONSTRUCTOR " << this->_isWhite << std::endl;
 	return;
 }
 
@@ -31,7 +32,13 @@ Player::Player(Player const& src)
 
 Player::~Player()
 {
+	std::cout << "Player DECONSTRUCTOR " << this->_isWhite << std::endl;
 	return;
+}
+
+bool Player::isWhite() const
+{
+	return this->_isWhite;
 }
 
 Player& Player::operator=(Player const& rhs)
@@ -42,9 +49,9 @@ Player& Player::operator=(Player const& rhs)
 	return *this;
 }
 
-bool Player::isWhite() const
+bool Player::operator==(Player const& rhs)
 {
-	return this->_isWhite;
+	return this->_isWhite == rhs._isWhite;
 }
 
 std::ostream& operator<<(std::ostream& o, Player const& i)

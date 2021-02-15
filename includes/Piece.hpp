@@ -6,18 +6,21 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:43:39 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/20 00:44:12 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:08:43 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIECE_HPP
 #define PIECE_HPP
 
-#include "Board.hpp"
+#include "GameStatus.hpp"
 #include "Spot.hpp"
 #include "utils.hpp"
+#include <iostream>
 #include <map>
 #include <vector>
+
+// class GameStatus;
 
 enum e_type {
 	KING,
@@ -61,8 +64,8 @@ public:
 	t_type getType() const;
 	bool   isKilled() const;
 	void   killed();
-	bool virtual canMoves(Board* board, Spot* start, Spot* end) const;
-	std::vector<Spot*> virtual validSpots(Board* board, Spot* start) const = 0;
+	bool virtual canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const;
+	std::vector<Spot*> virtual validSpots(GameStatus* gameStatus, Spot* start) const = 0;
 
 protected:
 	bool   _isWhite;

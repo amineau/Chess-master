@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/20 00:14:56 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:07:23 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "Rook.hpp"
 
 Board::Board()
+	: _isLoad(false)
 {
 	return;
 }
@@ -31,11 +32,12 @@ Board::Board(Board const& src)
 
 Board::~Board()
 {
-	for (size_t y = 0; y < 8; y++) {
-		for (size_t x = 0; x < 8; x++) {
-			delete this->_boxes[x][y];
+	if (this->_isLoad)
+		for (size_t y = 0; y < 8; y++) {
+			for (size_t x = 0; x < 8; x++) {
+				delete this->_boxes[x][y];
+			}
 		}
-	}
 
 	return;
 }
@@ -47,15 +49,15 @@ Board::~Board()
 Spot* Board::getBox(size_t x, size_t y) const
 {
 	if (x > 7 || y > 7)
-		return NULL;
+		throw Board::IndexOutOfBoardException();
 	return this->_boxes[x][y];
 }
 
 Spot* Board::getBox(const std::string& spot) const
 {
-	if (spot.length() == 2)
-		return this->getBox(spot[0] - 'a', spot[1] - '1');
-	return NULL;
+	if (spot.length() != 2)
+		throw Board::IndexOutOfBoardException();
+	return this->getBox(spot[0] - 'a', spot[1] - '1');
 }
 
 void Board::setBox(size_t x, size_t y, Spot* spot)
@@ -85,7 +87,7 @@ void Board::raiseOnInvalidKingNumber() const
 	if (kingBlack != 1 || kingWhite != 1)
 		throw Board::InvalidNumberOfKingException();
 }
-bool Board::load_fen(const std::string& fen)
+bool Board::loadFen(const std::string& fen)
 {
 	Spot*		spot;
 	short		x = 0;
@@ -94,11 +96,15 @@ bool Board::load_fen(const std::string& fen)
 	char		fenLower;
 	std::string availableLowerChar("kqbnrp");
 
+	if (this->_isLoad) {
+		std::cout << "Please call GameStatus::clear before load" << std::endl;
+		exit(EXIT_FAILURE);
+	}
 	while (fen[i]) {
 		fenLower = tolower(fen[i]);
 		if (x > 8 || y < 0)
 			return false;
-		if ('1' <= fen[i] && fen[i] <= '8') {
+		if ('1' <= fen[i] && fen[i] <= '8' && (!fen[i] || !('1' <= fen[i + 1] && fen[i + 1] <= '8'))) {
 			for (int j = '1'; j <= fen[i]; j++) {
 				this->setBox(x, y, new Spot(x, y));
 				x++;
@@ -129,10 +135,11 @@ bool Board::load_fen(const std::string& fen)
 	}
 	if (x != 8 && y != 1)
 		return false;
+	this->_isLoad = true;
 	return true;
 }
 
-const std::string Board::fen() const
+const std::string Board::exportFen() const
 {
 	Piece*			  piece;
 	short			  numberEmptySpot;

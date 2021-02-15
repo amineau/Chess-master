@@ -6,13 +6,14 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/19 23:11:48 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:08:32 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SPOT_HPP
 #define SPOT_HPP
 
+// #include "Piece.hpp"
 #include <iostream>
 
 class Piece;
@@ -25,11 +26,11 @@ public:
 	Spot(Spot const& src);
 	~Spot();
 
-	size_t		getX() const;
-	size_t		getY() const;
-	Piece*		getPiece() const;
-	void		setPiece(Piece* piece);
-	const char* getRepr() const;
+	size_t			  getX() const;
+	size_t			  getY() const;
+	Piece*			  getPiece() const;
+	void			  setPiece(Piece* piece);
+	const std::string getRepr() const;
 
 	Spot& operator=(Spot const&);
 	bool  operator==(Spot const&) const;

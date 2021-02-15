@@ -13,14 +13,13 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include "Board.hpp"
+// #include "Action.hpp"
+#include "EnPassantMove.hpp"
+#include "Exporter.hpp"
+#include "GameStatus.hpp"
+#include "Loader.hpp"
 #include "Move.hpp"
-#include "Player.hpp"
-#include "utils.hpp"
-#include <cstring>
-#include <fstream>
-#include <iostream>
-#include <vector>
+#include "SimpleMove.hpp"
 
 class Chess {
 
@@ -29,63 +28,22 @@ public:
 	Chess(Chess const&);
 	~Chess();
 
-	Board*			  getBoard() const;
-	Spot*			  getBox(const std::string& pos) const;
-	Piece*			  getPiece(const std::string& pos) const;
-	Player*			  getCurrentTurn() const;
-	std::vector<Move> getMovesPlayed() const;
-	Player*			  getPlayerWhite() const;
-	Player*			  getPlayerBlack() const;
-	Spot*			  getEnPassantTargetSpot() const;
-	short			  getHalfMoveClock() const;
-	short			  getFullMoveCounter() const;
-	bool			  getCastlingKingWhiteAvailable() const;
-	bool			  getCastlingKingBlackAvailable() const;
-	bool			  getCastlingQueenWhiteAvailable() const;
-	bool			  getCastlingQueenBlackAvailable() const;
+	Player*		getPlayerWhite() const;
+	Player*		getPlayerBlack() const;
+	GameStatus* getGameStatus() const;
 
-	void setCurrentTurn(Player* player);
-	void setEnPassantTargetSpot(Spot*);
-	void setCastlingKingWhiteAvailable(bool);
-	void setCastlingKingBlackAvailable(bool);
-	void setCastlingQueenWhiteAvailable(bool);
-	void setCastlingQueenBlackAvailable(bool);
+	bool			  loadFen(const std::string& fen);
+	const std::string exportFen() const;
 
-	bool			  load_fen(const std::string& fen);
-	const std::string fen() const;
-
-	bool playerMoved(Player* player, const std::string& start, const std::string& end);
-	bool makeMove(Player* player, Move move);
+	Move* getMoveAction(Player* player, const std::string& start, const std::string& end) const;
+	void  makeAction(Action*);
 
 	Chess& operator=(Chess const&);
 
 private:
-	bool _loadFenBoard(const std::string&);
-	bool _loadFenCurrentPlayer(const std::string&);
-	bool _loadFenCastlingsAvailable(const std::string&);
-	bool _loadFenEnPassantTargetSpot(const std::string&);
-	bool _loadFenHalfMoveClock(const std::string&);
-	bool _loadFenFullMoveCounter(const std::string&);
-
-	const std::string _fenBoard() const;
-	const std::string _fenCurrentPlayer() const;
-	const std::string _fenCastlingsAvailable() const;
-	const std::string _fenEnPassantTargetSpot() const;
-	const std::string _fenHalfMoveClock() const;
-	const std::string _fenFullMoveCounter() const;
-
-	Board*			  _board;
-	Player*			  _currentTurn;
-	Player*			  _playerWhite;
-	Player*			  _playerBlack;
-	std::vector<Move> _movesPlayed;
-	Spot*			  _enPassantTargetSpot;
-	short			  _halfMoveClock;
-	short			  _fullMoveCounter;
-	bool			  _castlingKingWhiteAvailable;
-	bool			  _castlingKingBlackAvailable;
-	bool			  _castlingQueenWhiteAvailable;
-	bool			  _castlingQueenBlackAvailable;
+	Player*		_playerWhite;
+	Player*		_playerBlack;
+	GameStatus* _gameStatus;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:22 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:08:38 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ public:
 
 	Queen& operator=(Queen const&);
 
-	bool			   canMoves(Board* board, Spot* start, Spot* end) const;
-	std::vector<Spot*> validSpots(Board* board, Spot* start) const;
+	bool			   canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const;
+	std::vector<Spot*> validSpots(GameStatus* gameStatus, Spot* start) const;
 };
 
 #endif

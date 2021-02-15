@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:37 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 21:42:12 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ Rook& Rook::operator=(Rook const& rhs)
 	return *this;
 }
 
-bool Rook::canMoves(Board* board, Spot* start, Spot* end) const
+bool Rook::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 {
 	int i;
 	int distX = abs(end->getX() - start->getX());
@@ -54,7 +54,7 @@ bool Rook::canMoves(Board* board, Spot* start, Spot* end) const
 	int signX = sgn(end->getX() - start->getX());
 	int signY = sgn(end->getY() - start->getY());
 
-	if (!Piece::canMoves(board, start, end))
+	if (!Piece::canMoves(gameStatus, start, end))
 		return false;
 
 	if (distX * distY != 0) {
@@ -62,13 +62,13 @@ bool Rook::canMoves(Board* board, Spot* start, Spot* end) const
 	}
 
 	for (i = 1; start->getX() + i * signX != end->getX(); i++) {
-		if (board->getBox(start->getX() + i * signX, start->getY())->getPiece() != NULL) {
+		if (gameStatus->getPiece(start->getX() + i * signX, start->getY()) != NULL) {
 			return false;
 		}
 	}
 
 	for (i = 1; start->getY() + i * signY != end->getY(); i++) {
-		if (board->getBox(start->getX(), start->getY() + i * signY)->getPiece() != NULL) {
+		if (gameStatus->getPiece(start->getX(), start->getY() + i * signY) != NULL) {
 			return false;
 		}
 	}
@@ -76,7 +76,7 @@ bool Rook::canMoves(Board* board, Spot* start, Spot* end) const
 	return true;
 }
 
-std::vector<Spot*> Rook::validSpots(Board* board, Spot* start) const
+std::vector<Spot*> Rook::validSpots(GameStatus* gameStatus, Spot* start) const
 {
 	std::vector<Spot*> validSpots;
 	size_t			   x;
@@ -84,30 +84,32 @@ std::vector<Spot*> Rook::validSpots(Board* board, Spot* start) const
 	Piece*			   pieceKilled;
 	Spot*			   destination;
 
-	for (int signX = -1; signX <= 1; signX += 2) {
-		for (int i = 1;; i++) {
-			x = start->getX() + i * signX;
-			y = start->getY();
-			if (x > 7)
-				break;
-			destination = board->getBox(x, y);
-			pieceKilled = destination->getPiece();
-			if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
-				break;
-			validSpots.push_back(destination);
+	if (gameStatus->getCurrentTurn()->isWhite() == this->_isWhite) {
+		for (int signX = -1; signX <= 1; signX += 2) {
+			for (int i = 1;; i++) {
+				x = start->getX() + i * signX;
+				y = start->getY();
+				if (x > 7)
+					break;
+				destination = gameStatus->getBox(x, y);
+				pieceKilled = destination->getPiece();
+				if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
+					break;
+				validSpots.push_back(destination);
+			}
 		}
-	}
-	for (int signY = -1; signY <= 1; signY += 2) {
-		for (int i = 1;; i++) {
-			x = start->getX();
-			y = start->getY() + i * signY;
-			if (y > 7)
-				break;
-			destination = board->getBox(x, y);
-			pieceKilled = destination->getPiece();
-			if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
-				break;
-			validSpots.push_back(destination);
+		for (int signY = -1; signY <= 1; signY += 2) {
+			for (int i = 1;; i++) {
+				x = start->getX();
+				y = start->getY() + i * signY;
+				if (y > 7)
+					break;
+				destination = gameStatus->getBox(x, y);
+				pieceKilled = destination->getPiece();
+				if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
+					break;
+				validSpots.push_back(destination);
+			}
 		}
 	}
 	return validSpots;

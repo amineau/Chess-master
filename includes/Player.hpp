@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:21 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:08:39 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ public:
 	~Player();
 
 	Player& operator=(Player const&);
+	bool	operator==(Player const&);
 
 	bool isWhite(void) const;
 

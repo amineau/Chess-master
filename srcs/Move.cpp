@@ -6,28 +6,30 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:37:38 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:33 by amineau          ###   ########.fr       */
+/*   Updated: 2021/01/27 19:24:36 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Move.hpp"
 
 Move::Move()
+	: Action()
 {
 	return;
 }
 
-Move::Move(Player* player, Spot* start, Spot* end)
-	: _player(player)
+Move::Move(GameStatus* gameStatus, Player* player, Spot* start, Spot* end)
+	: Action(gameStatus, player)
 	, _start(start)
 	, _end(end)
-	, _pieceMoved(start->getPiece())
-	, _pieceKilled(end->getPiece())
 {
+	this->_pieceMoved = this->_start->getPiece();
+	this->_pieceKilled = this->_end->getPiece();
 	return;
 }
 
 Move::Move(Move const& src)
+	: Action(src)
 {
 	*this = src;
 	return;
@@ -39,11 +41,6 @@ Move::~Move()
 }
 
 /* Accessors */
-
-Player* Move::getPlayer() const
-{
-	return this->_player;
-}
 
 Spot* Move::getStartSpot() const
 {
@@ -72,7 +69,6 @@ Piece* Move::getPieceKilled() const
 Move& Move::operator=(Move const& rhs)
 {
 	if (this != &rhs) {
-		this->_player = rhs._player;
 		this->_start = rhs._start;
 		this->_end = rhs._end;
 		this->_pieceMoved = rhs._pieceMoved;
@@ -83,6 +79,6 @@ Move& Move::operator=(Move const& rhs)
 
 std::ostream& operator<<(std::ostream& o, Move const& i)
 {
-	o << *i.getPieceMoved() << ' ' << *i.getEndSpot();
+	o << i.getRepr();
 	return o;
 }

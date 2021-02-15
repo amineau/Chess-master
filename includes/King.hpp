@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:14 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:08:54 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "Piece.hpp"
 
-class King : public virtual Piece {
+class King : public Piece {
 
 public:
 	King();
@@ -25,10 +25,10 @@ public:
 
 	King& operator=(King const&);
 
-	bool			   canMoves(Board* board, Spot* start, Spot* end) const;
+	bool			   canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const;
 	bool			   isCastlingDone() const;
 	void			   setCastlingDone(bool castlingDone);
-	std::vector<Spot*> validSpots(Board* board, Spot* start) const;
+	std::vector<Spot*> validSpots(GameStatus* gameStatus, Spot* start) const;
 
 private:
 	bool _castlingDone;

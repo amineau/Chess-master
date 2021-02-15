@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:28 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:07:27 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ Bishop& Bishop::operator=(Bishop const& rhs)
 	return *this;
 }
 
-bool Bishop::canMoves(Board* board, Spot* start, Spot* end) const
+bool Bishop::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 {
 	int i;
 	int signX = sgn(end->getX() - start->getX());
@@ -54,7 +54,7 @@ bool Bishop::canMoves(Board* board, Spot* start, Spot* end) const
 	int distX = abs(end->getX() - start->getX());
 	int distY = abs(end->getY() - start->getY());
 
-	if (!Piece::canMoves(board, start, end))
+	if (!Piece::canMoves(gameStatus, start, end))
 		return false;
 
 	if (distX != distY) {
@@ -62,7 +62,7 @@ bool Bishop::canMoves(Board* board, Spot* start, Spot* end) const
 	}
 
 	for (i = 1; start->getX() + i * signX != end->getX(); i++) {
-		if (board->getBox(start->getX() + i * signX, start->getY() + i * signY)->getPiece() != NULL) {
+		if (gameStatus->getPiece(start->getX() + i * signX, start->getY() + i * signY) != NULL) {
 			return false;
 		}
 	}
@@ -70,7 +70,7 @@ bool Bishop::canMoves(Board* board, Spot* start, Spot* end) const
 	return true;
 }
 
-std::vector<Spot*> Bishop::validSpots(Board* board, Spot* start) const
+std::vector<Spot*> Bishop::validSpots(GameStatus* gameStatus, Spot* start) const
 {
 	std::vector<Spot*> validSpots;
 	size_t			   x;
@@ -78,20 +78,21 @@ std::vector<Spot*> Bishop::validSpots(Board* board, Spot* start) const
 	Piece*			   pieceKilled;
 	Spot*			   destination;
 
-	for (int signX = -1; signX <= 1; signX += 2) {
-		for (int signY = -1; signY <= 1; signY += 2) {
-			for (int i = 1;; i++) {
-				x = start->getX() + i * signX;
-				y = start->getY() + i * signY;
-				if (x > 7 || y > 7)
-					break;
-				destination = board->getBox(x, y);
-				pieceKilled = destination->getPiece();
-				if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
-					break;
-				validSpots.push_back(destination);
+	if (gameStatus->getCurrentTurn()->isWhite() == this->_isWhite)
+		for (int signX = -1; signX <= 1; signX += 2) {
+			for (int signY = -1; signY <= 1; signY += 2) {
+				for (int i = 1;; i++) {
+					x = start->getX() + i * signX;
+					y = start->getY() + i * signY;
+					if (x > 7 || y > 7)
+						break;
+					destination = gameStatus->getBox(x, y);
+					pieceKilled = destination->getPiece();
+					if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
+						break;
+					validSpots.push_back(destination);
+				}
 			}
 		}
-	}
 	return validSpots;
 }

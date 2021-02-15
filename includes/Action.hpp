@@ -1,35 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   UserInterface.hpp                                  :+:      :+:    :+:   */
+/*   Action.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/15 13:01:26 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:08:27 by amineau          ###   ########.fr       */
+/*   Created: 2021/01/23 00:31:31 by amineau           #+#    #+#             */
+/*   Updated: 2021/01/27 19:25:44 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef USERINTERFACE_HPP
-#define USERINTERFACE_HPP
+#ifndef ACTION_HPP
+#define ACTION_HPP
 
-#include "Chess.hpp"
-#include "chessmaster.hpp"
+// #include "Piece.hpp"
+#include "Player.hpp"
+#include "Spot.hpp"
 
-#define NEWGAME 1
-#define LOADGAME 2
-#define QUIT 3
+class GameStatus;
+class Player;
+class Piece;
 
-class UserInterface {
+class Action {
 public:
-	virtual ~UserInterface() {};
-	short virtual displayMenu() const = 0;
-	void virtual start() = 0;
-	// void virtual loadChess(Save save) = 0;
-	// Save virtual saveChess() = 0;
+	Action();
+	Action(Action const&);
+	Action(GameStatus*, Player*);
+	virtual ~Action();
+
+	virtual bool isLegal() const = 0;
+	virtual void execute() = 0;
+
+	virtual Player* getPlayer() const;
+
+	Action& operator=(Action const&);
 
 protected:
-	Chess* _chess;
+	GameStatus* _gameStatus;
+	Player*		_player;
 };
 
 #endif

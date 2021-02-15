@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:34:32 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:19 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:08:45 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "Piece.hpp"
 
-class Pawn : public virtual Piece {
+class Pawn : public Piece {
 
 public:
 	Pawn();
@@ -25,8 +25,9 @@ public:
 
 	Pawn& operator=(Pawn const&);
 
-	bool			   canMoves(Board* board, Spot* start, Spot* end) const;
-	std::vector<Spot*> validSpots(Board* board, Spot* start) const;
+	bool			   canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const;
+	bool			   canMovesEnPassant(GameStatus* gameStatus, Spot* start, Spot* end) const;
+	std::vector<Spot*> validSpots(GameStatus* gameStatus, Spot* start) const;
 };
 
 #endif

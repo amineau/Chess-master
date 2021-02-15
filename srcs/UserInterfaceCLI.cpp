@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/20 00:39:29 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:08:17 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,17 @@ void UserInterfaceCLI::start()
 	std::string arg1;
 	std::string arg2;
 
-	Spot*  spot;
-	Piece* piece;
-	this->_chess = Chess();
+	Spot*		spot;
+	Piece*		piece;
+	GameStatus* gameStatus;
+	Move*		move;
+	this->_chess = new Chess();
 
-	if (!this->_chess.load_fen(settings::defaultFenStart)) {
-		std::cout << "Wrong parsing";
+	if (!this->_chess->loadFen(settings::defaultFenStart)) {
+		std::cout << "Wrong parsing" << std::endl;
 		exit(EXIT_FAILURE);
 	}
+	gameStatus = this->_chess->getGameStatus();
 	while (1) {
 		std::cout << "Command : ";
 		std::cin >> entry;
@@ -81,38 +84,43 @@ void UserInterfaceCLI::start()
 					  << "\tquit\tQuit program" << std::endl
 					  << std::endl;
 		} else if (!entry.compare("turn")) {
-			std::cout << *this->_chess.getCurrentTurn() << std::endl;
+			std::cout << *gameStatus->getCurrentTurn() << std::endl;
 		} else if (!entry.compare("display")) {
 			this->displayBoard();
 		} else if (!entry.compare("fen")) {
-			std::cout << this->_chess.fen() << std::endl;
+			std::cout << this->_chess->exportFen() << std::endl;
 		} else if (!entry.compare("move")) {
 			std::cin >> arg1 >> arg2;
-			if (this->_chess.playerMoved(
-					this->_chess.getCurrentTurn(), arg1, arg2))
+			move = this->_chess->getMoveAction(
+				gameStatus->getCurrentTurn(), arg1, arg2);
+			if (move->isLegal()) {
+				this->_chess->makeAction(move);
 				std::cout << "Move ok" << std::endl;
-			else
+
+			} else {
+				delete move;
 				std::cout << "Incorrect move" << std::endl;
+			}
 		} else if (!entry.compare("valid-moves")) {
 			std::cin >> arg1;
-			spot = this->_chess.getBox(arg1);
-			piece = this->_chess.getPiece(arg1);
+			spot = gameStatus->getBox(arg1);
+			piece = gameStatus->getPiece(arg1);
 			if (piece)
-				for (Spot* validSpot : piece->validSpots(this->_chess.getBoard(), spot))
+				for (Spot* validSpot : piece->validSpots(gameStatus, spot))
 					std::cout << *validSpot << std::endl;
 			else
 				std::cout << "No piece in " << *spot << std::endl;
 		} else if (!entry.compare("list")) {
-			for (auto it = this->_chess.getMovesPlayed().begin(); it != this->_chess.getMovesPlayed().end(); ++it) {
-				std::cout << *it;
-				if (it->getPlayer()->isWhite())
+			for (Move* movePlayed : gameStatus->getMovesPlayed()) {
+				std::cout << *movePlayed;
+				if (movePlayed->getPieceMoved()->isWhite())
 					std::cout << ' ';
 				else
 					std::cout << std::endl;
 			}
 			std::cout << std::endl;
 		} else if (!entry.compare("exit") || !entry.compare("quit")) {
-			delete this->_chess.getBoard();
+			delete this->_chess;
 			break;
 		} else {
 			std::cout << "Not a valid entry. Type help for command list" << std::endl;
@@ -132,7 +140,7 @@ void UserInterfaceCLI::displayBoard() const
 				std::cout << "\033[48;5;255m";
 			else
 				std::cout << "\033[48;5;75m";
-			piece = this->_chess.getBoard()->getBox(x, y)->getPiece();
+			piece = this->_chess->getGameStatus()->getPiece(x, y);
 			if (piece != NULL) {
 				if (piece->isWhite())
 					std::cout << "\033[1;38;5;22m";

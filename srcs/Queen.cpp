@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:37 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:08:06 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ Queen& Queen::operator=(Queen const& rhs)
 	return *this;
 }
 
-bool Queen::canMoves(Board* board, Spot* start, Spot* end) const
+bool Queen::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 {
-	return (Rook::canMoves(board, start, end) || Bishop::canMoves(board, start, end));
+	return (Rook::canMoves(gameStatus, start, end) || Bishop::canMoves(gameStatus, start, end));
 }
 
-std::vector<Spot*> Queen::validSpots(Board* board, Spot* start) const
+std::vector<Spot*> Queen::validSpots(GameStatus* gameStatus, Spot* start) const
 {
 	std::vector<Spot*> validSpots;
-	std::vector<Spot*> rookValidSpots = Rook::validSpots(board, start);
-	std::vector<Spot*> bishopValidSpots = Bishop::validSpots(board, start);
+	std::vector<Spot*> rookValidSpots = Rook::validSpots(gameStatus, start);
+	std::vector<Spot*> bishopValidSpots = Bishop::validSpots(gameStatus, start);
 
 	validSpots.reserve(rookValidSpots.size() + bishopValidSpots.size());
 	validSpots.insert(validSpots.end(), rookValidSpots.begin(), rookValidSpots.end());

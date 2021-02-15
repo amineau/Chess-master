@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:23 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:08:36 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ public:
 
 	Rook& operator=(Rook const&);
 
-	bool			   canMoves(Board* board, Spot* start, Spot* end) const;
-	std::vector<Spot*> validSpots(Board* board, Spot* start) const;
+	bool			   canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const;
+	std::vector<Spot*> validSpots(GameStatus* gameStatus, Spot* start) const;
 };
 
 #endif

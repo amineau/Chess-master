@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:31 by amineau          ###   ########.fr       */
+/*   Updated: 2021/02/15 21:41:00 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,32 +59,33 @@ void King::setCastlingDone(bool castlingDone)
 	this->_castlingDone = castlingDone;
 }
 
-bool King::canMoves(Board* board, Spot* start, Spot* end) const
+bool King::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 {
 	int distX = abs(end->getX() - start->getX());
 	int distY = abs(end->getY() - start->getY());
 
-	if (!Piece::canMoves(board, start, end))
+	if (!Piece::canMoves(gameStatus, start, end))
 		return false;
 
 	return distX + distY == 1 || distX * distY == 1;
 }
 
-std::vector<Spot*> King::validSpots(Board* board, Spot* start) const
+std::vector<Spot*> King::validSpots(GameStatus* gameStatus, Spot* start) const
 {
 	std::vector<Spot*> validSpots;
 	Piece*			   pieceKilled;
 	Spot*			   destination;
 
-	for (int x = start->getX() - 1; x <= static_cast<int>(start->getX()) + 1; x++) {
-		for (int y = start->getY() - 1; y <= static_cast<int>(start->getY()) + 1; y++) {
-			if (static_cast<size_t>(x) <= 7 && static_cast<size_t>(y) <= 7) {
-				destination = board->getBox(x, y);
-				pieceKilled = destination->getPiece();
-				if (!pieceKilled || pieceKilled->isWhite() != this->_isWhite)
-					validSpots.push_back(destination);
+	if (gameStatus->getCurrentTurn()->isWhite() == this->_isWhite)
+		for (int x = start->getX() - 1; x <= static_cast<int>(start->getX()) + 1; x++) {
+			for (int y = start->getY() - 1; y <= static_cast<int>(start->getY()) + 1; y++) {
+				if (static_cast<size_t>(x) <= 7 && static_cast<size_t>(y) <= 7) {
+					destination = gameStatus->getBox(x, y);
+					pieceKilled = destination->getPiece();
+					if (!pieceKilled || pieceKilled->isWhite() != this->_isWhite)
+						validSpots.push_back(destination);
+				}
 			}
 		}
-	}
 	return validSpots;
 }
