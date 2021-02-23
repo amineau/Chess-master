@@ -78,19 +78,19 @@ bool Loader::_fenCastlingsAvailable(const std::string& str)
 	short index = 0;
 
 	if (str[index] && str[index] == 'K') {
-		this->_gameStatus->setKingSideCastlingWhiteAvailable(true);
+		this->_gameStatus->setKingSideCastlingAvailable(true, true);
 		index++;
 	}
 	if (str[index] && str[index] == 'Q') {
-		this->_gameStatus->setKingSideCastlingBlackAvailable(true);
+		this->_gameStatus->setQueenSideCastlingAvailable(true, true);
 		index++;
 	}
 	if (str[index] && str[index] == 'k') {
-		this->_gameStatus->setQueenSideCastlingWhiteAvailable(true);
+		this->_gameStatus->setKingSideCastlingAvailable(true, false);
 		index++;
 	}
 	if (str[index] && str[index] == 'q') {
-		this->_gameStatus->setQueenSideCastlingBlackAvailable(true);
+		this->_gameStatus->setQueenSideCastlingAvailable(true, false);
 		index++;
 	}
 	return (!str[index] || !str.compare("-"));

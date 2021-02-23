@@ -86,7 +86,7 @@ bool Pawn::canMovesEnPassant(GameStatus* gameStatus, Spot* start, Spot* end) con
 	return true;
 }
 
-std::vector<Spot*> Pawn::validSpots(GameStatus* gameStatus, Spot* start) const
+std::vector<Spot*> Pawn::validSpots(const GameStatus* gameStatus, const Spot* start) const
 {
 	std::vector<Spot*> validSpots;
 	const int		   direction = this->_isWhite ? 1 : -1;

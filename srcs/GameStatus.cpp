@@ -128,20 +128,17 @@ short GameStatus::getFullMoveCounter() const
 {
 	return this->_fullMoveCounter;
 }
-bool GameStatus::getKingSideCastlingWhiteAvailable() const
+bool GameStatus::getKingSideCastlingAvailable(bool isWhitePlayer) const
 {
-	return this->_kingSideCastlingWhiteAvailable;
-}
-bool GameStatus::getKingSideCastlingBlackAvailable() const
-{
+	if (isWhitePlayer)
+		return this->_kingSideCastlingWhiteAvailable;
 	return this->_kingSideCastlingBlackAvailable;
 }
-bool GameStatus::getQueenSideCastlingWhiteAvailable() const
+
+bool GameStatus::getQueenSideCastlingAvailable(bool isWhitePlayer) const
 {
-	return this->_queenSideCastlingWhiteAvailable;
-}
-bool GameStatus::getQueenSideCastlingBlackAvailable() const
-{
+	if (isWhitePlayer)
+		return this->_queenSideCastlingWhiteAvailable;
 	return this->_queenSideCastlingBlackAvailable;
 }
 
@@ -174,21 +171,21 @@ void GameStatus::setFullMoveCounter(int fullMoveCounter)
 {
 	this->_fullMoveCounter = fullMoveCounter;
 }
-void GameStatus::setKingSideCastlingWhiteAvailable(bool kingSideCastlingWhiteAvailable)
+
+void GameStatus::setKingSideCastlingAvailable(bool kingSideCastlingAvailable, bool isWhitePlayer)
 {
-	this->_kingSideCastlingWhiteAvailable = kingSideCastlingWhiteAvailable;
+	if (isWhitePlayer)
+		this->_kingSideCastlingWhiteAvailable = kingSideCastlingAvailable;
+	else
+		this->_kingSideCastlingBlackAvailable = kingSideCastlingAvailable;
 }
-void GameStatus::setKingSideCastlingBlackAvailable(bool kingSideCastlingBlackAvailable)
+
+void GameStatus::setQueenSideCastlingAvailable(bool queenSideCastlingAvailable, bool isWhitePlayer)
 {
-	this->_kingSideCastlingBlackAvailable = kingSideCastlingBlackAvailable;
-}
-void GameStatus::setQueenSideCastlingWhiteAvailable(bool queenSideCastlingWhiteAvailable)
-{
-	this->_queenSideCastlingWhiteAvailable = queenSideCastlingWhiteAvailable;
-}
-void GameStatus::setQueenSideCastlingBlackAvailable(bool queenSideCastlingBlackAvailable)
-{
-	this->_queenSideCastlingBlackAvailable = queenSideCastlingBlackAvailable;
+	if (isWhitePlayer)
+		this->_queenSideCastlingWhiteAvailable = queenSideCastlingAvailable;
+	else
+		this->_queenSideCastlingBlackAvailable = queenSideCastlingAvailable;
 }
 
 /* Member functions */
@@ -216,6 +213,36 @@ void GameStatus::incrementHalfMoveClock()
 void GameStatus::incrementFullMoveCounter()
 {
 	this->_fullMoveCounter++; //TODO: idem
+}
+
+bool GameStatus::isAttacked(Spot* spot, bool isWhite) const
+{
+	Piece			   fake(PAWN, isWhite);
+	Piece*			   piece;
+	std::vector<Spot*> validSpots;
+	bool			   spotIsEmpty = spot->getPiece() == NULL;
+
+	if (spotIsEmpty) {
+		spot->setPiece(&fake);
+	}
+	for (int x = 0; x < 7; x++) {
+		for (int y = 0; y < 7; y++) {
+			piece = this->getPiece(x, y);
+			if (piece && piece->isWhite() != isWhite) {
+				validSpots = piece->validSpots(this, this->getBox(x, y));
+				if (std::binary_search(validSpots.begin(), validSpots.end(), spot)) {
+					if (spotIsEmpty) {
+						spot->setPiece(NULL);
+					}
+					return true;
+				}
+			}
+		}
+	}
+	if (spotIsEmpty) {
+		spot->setPiece(NULL);
+	}
+	return false;
 }
 
 void GameStatus::clear()

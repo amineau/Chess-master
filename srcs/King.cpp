@@ -61,8 +61,8 @@ void King::setCastlingDone(bool castlingDone)
 
 bool King::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 {
-	int distX = abs(end->getX() - start->getX());
-	int distY = abs(end->getY() - start->getY());
+	int distX = abs(static_cast<int>(end->getX() - start->getX()));
+	int distY = abs(static_cast<int>(end->getY() - start->getY()));
 
 	if (!Piece::canMoves(gameStatus, start, end))
 		return false;
@@ -70,7 +70,31 @@ bool King::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 	return distX + distY == 1 || distX * distY == 1;
 }
 
-std::vector<Spot*> King::validSpots(GameStatus* gameStatus, Spot* start) const
+bool King::canKingSideCastlingMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
+{
+	if (!Piece::canMoves(gameStatus, start, end))
+		return false;
+
+	return (
+		end->getX() == 6
+		&& gameStatus->getKingSideCastlingAvailable(this->_isWhite)
+		&& gameStatus->isAttacked(end, this->_isWhite)
+		&& gameStatus->isAttacked(gameStatus->getBox(5, end->getY()), this->_isWhite));
+}
+
+bool King::canQueenSideCastlingMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
+{
+	if (!Piece::canMoves(gameStatus, start, end))
+		return false;
+
+	return (
+		end->getX() == 2
+		&& gameStatus->getQueenSideCastlingAvailable(this->_isWhite)
+		&& gameStatus->isAttacked(end, this->_isWhite)
+		&& gameStatus->isAttacked(gameStatus->getBox(3, end->getY()), this->_isWhite));
+}
+
+std::vector<Spot*> King::validSpots(const GameStatus* gameStatus, const Spot* start) const
 {
 	std::vector<Spot*> validSpots;
 	Piece*			   pieceKilled;

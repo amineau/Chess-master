@@ -26,7 +26,7 @@ public:
 	Bishop& operator=(Bishop const&);
 
 	bool			   canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const;
-	std::vector<Spot*> validSpots(GameStatus* gameStatus, Spot* start) const;
+	std::vector<Spot*> validSpots(const GameStatus* gameStatus, const Spot* start) const;
 };
 
 #endif

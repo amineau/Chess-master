@@ -49,8 +49,8 @@ Rook& Rook::operator=(Rook const& rhs)
 bool Rook::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 {
 	int i;
-	int distX = abs(end->getX() - start->getX());
-	int distY = abs(end->getY() - start->getY());
+	int distX = abs(static_cast<int>(end->getX() - start->getX()));
+	int distY = abs(static_cast<int>(end->getY() - start->getY()));
 	int signX = sgn(end->getX() - start->getX());
 	int signY = sgn(end->getY() - start->getY());
 
@@ -76,7 +76,7 @@ bool Rook::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 	return true;
 }
 
-std::vector<Spot*> Rook::validSpots(GameStatus* gameStatus, Spot* start) const
+std::vector<Spot*> Rook::validSpots(const GameStatus* gameStatus, const Spot* start) const
 {
 	std::vector<Spot*> validSpots;
 	size_t			   x;

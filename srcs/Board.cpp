@@ -87,6 +87,7 @@ void Board::raiseOnInvalidKingNumber() const
 	if (kingBlack != 1 || kingWhite != 1)
 		throw Board::InvalidNumberOfKingException();
 }
+
 bool Board::loadFen(const std::string& fen)
 {
 	Spot*		spot;

@@ -56,14 +56,12 @@ bool EnPassantMove::isLegal() const
 {
 	Pawn* pawn = dynamic_cast<Pawn*>(this->_pieceMoved);
 
-	return !pawn || !this->_pieceKilled
-		|| pawn->getType() != PAWN
-		|| this->_pieceKilled->getType() != PAWN
-		|| pawn->isWhite() != this->_player->isWhite()
-		|| this->_pieceKilled->isWhite() == this->_player->isWhite()
-		|| this->_player != this->_gameStatus->getCurrentTurn()
-		|| this->_end != this->_gameStatus->getEnPassantTargetSpot()
-		|| pawn->canMovesEnPassant(this->_gameStatus, this->_start, this->_end);
+	return pawn
+		&& pawn->getType() == PAWN
+		&& pawn->isWhite() == this->_player->isWhite()
+		&& this->_player == this->_gameStatus->getCurrentTurn()
+		&& this->_end == this->_gameStatus->getEnPassantTargetSpot()
+		&& pawn->canMovesEnPassant(this->_gameStatus, this->_start, this->_end);
 }
 
 void EnPassantMove::execute()

@@ -48,8 +48,8 @@ Knight& Knight::operator=(Knight const& rhs)
 
 bool Knight::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 {
-	int distX = abs(end->getX() - start->getX());
-	int distY = abs(end->getY() - start->getY());
+	int distX = abs(static_cast<int>(end->getX() - start->getX()));
+	int distY = abs(static_cast<int>(end->getY() - start->getY()));
 
 	if (!Piece::canMoves(gameStatus, start, end))
 		return false;
@@ -58,7 +58,7 @@ bool Knight::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 	return true;
 }
 
-std::vector<Spot*> Knight::validSpots(GameStatus* gameStatus, Spot* start) const
+std::vector<Spot*> Knight::validSpots(const GameStatus* gameStatus, const Spot* start) const
 {
 	std::vector<Spot*> validSpots;
 	size_t			   distX;
@@ -69,8 +69,8 @@ std::vector<Spot*> Knight::validSpots(GameStatus* gameStatus, Spot* start) const
 	if (gameStatus->getCurrentTurn()->isWhite() == this->_isWhite)
 		for (int x = start->getX() - 2; x <= static_cast<int>(start->getX()) + 2; x++) {
 			for (int y = start->getY() - 2; y <= static_cast<int>(start->getY()) + 2; y++) {
-				distX = abs(x - start->getX());
-				distY = abs(y - start->getY());
+				distX = abs(static_cast<int>(x - start->getX()));
+				distY = abs(static_cast<int>(y - start->getY()));
 				if (static_cast<size_t>(x) <= 7 && static_cast<size_t>(y) <= 7) {
 					destination = gameStatus->getBox(x, y);
 					pieceKilled = destination->getPiece();

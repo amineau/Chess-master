@@ -5,19 +5,32 @@ SRCS = main.cpp Chess.cpp GameStatus.cpp Board.cpp Move.cpp Piece.cpp \
 		Pawn.cpp Rook.cpp Bishop.cpp Knight.cpp Queen.cpp King.cpp \
 		Spot.cpp Player.cpp utils.cpp chessmaster.cpp UserInterfaceCLI.cpp \
 		UserInterfaceNcurses.cpp Loader.cpp Exporter.cpp \
-		Action.cpp SimpleMove.cpp EnPassantMove.cpp
+		Action.cpp SimpleMove.cpp EnPassantMove.cpp CastlingMove.cpp
 
-INC = Board.hpp Chess.hpp GameStatus.hpp Move.hpp Piece.hpp Pawn.hpp \
+INCS = Board.hpp Chess.hpp GameStatus.hpp Move.hpp Piece.hpp Pawn.hpp \
 		Rook.hpp Bishop.hpp Knight.hpp Queen.hpp King.hpp \
 		Spot.hpp Player.hpp utils.hpp chessmaster.hpp UserInterface.hpp \
 		UserInterfaceCLI.hpp UserInterfaceNcurses.hpp Loader.hpp Exporter.hpp \
-		Action.hpp SimpleMove.hpp EnPassantMove.hpp
+		Action.hpp SimpleMove.hpp EnPassantMove.hpp CastlingMove.hpp
 
 SPATH = srcs
 OPATH = objs
 HPATH = includes
 
-CFLAGS = -Wall -Werror -Wextra -I./$(HPATH) -lncursesw
+CFLAGS = -Wall -Werror -Wextra
+IPATHS = -I./$(HPATH)
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Darwin)
+	IPATHS += -I/usr/local/opt/ncurses/include
+	LIBS += -L/usr/local/opt/ncurses/lib -lncurses
+	CFLAGS += -std=c++11
+endif
+ifeq ($(UNAME_S), Linux)
+	LIBS += -lncursesw
+endif
+
+
 
 INC = $(addprefix $(HPATH)/,$(INCS))
 SRC = $(addprefix $(SPATH)/,$(SRCS))
@@ -34,7 +47,7 @@ CYAN    = \033[36m
 all: $(OPATH) $(NAME) $(INC)
 
 $(NAME): $(OBJ)
-		@$(CC) -o $@ $^ $(CFLAGS) \
+		@$(CC) -o $@ $^ $(CFLAGS) $(IPATHS) $(LIBS) \
 		&& printf "$(YELLOW)%-30s$(DARK)-->>\t$(GREEN)$@$(WHITE)\n" "Compilation"\
 		|| (printf "$(YELLOW)%-30s$(DARK)-->>\t$(RED)$@$(WHITE)\n" "Compilation" \
 		&& exit 1)
@@ -45,7 +58,7 @@ $(OPATH):
 		@echo "$(GREENB)<<--$(WHITE)"
 
 $(OPATH)/%.o: $(SPATH)/%.cpp
-		@$(CC) $(CFLAGS) -o $@ -c $< \
+		@$(CC) $(CFLAGS) $(IPATHS) -o $@ -c $< \
 		&& printf "%-30s$(DARK)-->>\t$(GREEN)$@$(WHITE)\n" "$<" \
 		|| (printf "%-30s$(DARK)-->>\t$(RED)$@$(WHITE)\n" "$<" \
 		&& exit 1)

@@ -98,6 +98,15 @@ bool Piece::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 	return true;
 }
 
+std::vector<Spot*> Piece::validSpots(const GameStatus* gameStatus, const Spot* start) const
+{
+	(void)gameStatus;
+	(void)start;
+	std::vector<Spot*> v;
+
+	return v;
+}
+
 /* Operator Overload */
 
 std::ostream& operator<<(std::ostream& o, Piece const& i)

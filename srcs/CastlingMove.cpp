@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SimpleMove.cpp                                     :+:      :+:    :+:   */
+/*   CastlingMove.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,33 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "SimpleMove.hpp"
+#include "CastlingMove.hpp"
+#include "King.hpp"
 
-SimpleMove::SimpleMove()
+CastlingMove::CastlingMove()
 	: Move()
 {
 	return;
 }
 
-SimpleMove::SimpleMove(GameStatus* gameStatus, Player* player, Spot* start, Spot* end)
+CastlingMove::CastlingMove(GameStatus* gameStatus, Player* player, Spot* start, Spot* end)
 	: Move(gameStatus, player, start, end)
 {
 	return;
 }
 
-SimpleMove::SimpleMove(SimpleMove const& src)
+CastlingMove::CastlingMove(CastlingMove const& src)
 	: Move()
 {
 	*this = src;
 	return;
 }
 
-SimpleMove::~SimpleMove()
+CastlingMove::~CastlingMove()
 {
 	return;
 }
 
-SimpleMove& SimpleMove::operator=(SimpleMove const& rhs)
+CastlingMove& CastlingMove::operator=(CastlingMove const& rhs)
 {
 	if (this != &rhs) {
 		this->_start = rhs._start;
@@ -47,20 +48,18 @@ SimpleMove& SimpleMove::operator=(SimpleMove const& rhs)
 	return *this;
 }
 
-bool SimpleMove::isDoublePushPawn() const
+bool CastlingMove::isLegal() const
 {
-	return this->_pieceMoved->getType() == PAWN && abs(static_cast<int>(this->_end->getY() - this->_start->getY())) == 2;
-}
+	King* king = dynamic_cast<King*>(this->_pieceMoved);
 
-bool SimpleMove::isLegal() const
-{
-	return this->_pieceMoved
-		&& this->_pieceMoved->isWhite() == this->_player->isWhite()
+	return king
+		&& king->isWhite() == this->_player->isWhite()
 		&& this->_player == this->_gameStatus->getCurrentTurn()
-		&& this->_pieceMoved->canMoves(this->_gameStatus, this->_start, this->_end);
+		&& (king->canKingSideCastlingMoves(this->_gameStatus, this->_start, this->_end)
+			|| king->canQueenSideCastlingMoves(this->_gameStatus, this->_start, this->_end));
 }
 
-void SimpleMove::execute()
+void CastlingMove::execute()
 {
 	if (this->_pieceKilled)
 		this->_pieceKilled->killed();
@@ -68,20 +67,13 @@ void SimpleMove::execute()
 	this->_start->setPiece(0);
 	this->_gameStatus->pushTurn();
 	this->_gameStatus->pushMove(this);
-	if (this->isDoublePushPawn()) {
-		if (this->_player->isWhite())
-			this->_gameStatus->setEnPassantTargetSpot(
-				this->_gameStatus->getBox(this->_start->getX(), 2));
-		else
-			this->_gameStatus->setEnPassantTargetSpot(
-				this->_gameStatus->getBox(this->_start->getX(), 5));
-	} else
-		this->_gameStatus->setEnPassantTargetSpot(0);
+
+	this->_gameStatus->setEnPassantTargetSpot(0);
 	if (this->_pieceMoved->getType() == PAWN || !this->_pieceKilled)
 		this->_gameStatus->incrementHalfMoveClock();
 }
 
-const std::string SimpleMove::getRepr() const
+const std::string CastlingMove::getRepr() const
 {
 	std::stringstream ss;
 

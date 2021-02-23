@@ -55,10 +55,8 @@ public:
 	Spot*			   getEnPassantTargetSpot() const;
 	short			   getHalfMoveClock() const;
 	short			   getFullMoveCounter() const;
-	bool			   getKingSideCastlingWhiteAvailable() const;
-	bool			   getKingSideCastlingBlackAvailable() const;
-	bool			   getQueenSideCastlingWhiteAvailable() const;
-	bool			   getQueenSideCastlingBlackAvailable() const;
+	bool			   getKingSideCastlingAvailable(bool isWhitePlayer) const;
+	bool			   getQueenSideCastlingAvailable(bool isWhitePlayer) const;
 
 	void setStatus(t_status);
 	void setBoard(Board*);
@@ -66,15 +64,15 @@ public:
 	void setEnPassantTargetSpot(Spot*);
 	void setHalfMoveClock(int);
 	void setFullMoveCounter(int);
-	void setKingSideCastlingWhiteAvailable(bool);
-	void setKingSideCastlingBlackAvailable(bool);
-	void setQueenSideCastlingWhiteAvailable(bool);
-	void setQueenSideCastlingBlackAvailable(bool);
+	void setKingSideCastlingAvailable(bool kingSideCastlingAvailable, bool isWhitePlayer);
+	void setQueenSideCastlingAvailable(bool queenSideCastlingAvailable, bool isWhitePlayer);
 
 	void pushTurn();
 	void pushMove(Move*);
 	void incrementHalfMoveClock();
 	void incrementFullMoveCounter();
+
+	bool isAttacked(Spot* spot, bool isWhite) const;
 
 	void clear();
 

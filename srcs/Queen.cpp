@@ -53,7 +53,7 @@ bool Queen::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 	return (Rook::canMoves(gameStatus, start, end) || Bishop::canMoves(gameStatus, start, end));
 }
 
-std::vector<Spot*> Queen::validSpots(GameStatus* gameStatus, Spot* start) const
+std::vector<Spot*> Queen::validSpots(const GameStatus* gameStatus, const Spot* start) const
 {
 	std::vector<Spot*> validSpots;
 	std::vector<Spot*> rookValidSpots = Rook::validSpots(gameStatus, start);

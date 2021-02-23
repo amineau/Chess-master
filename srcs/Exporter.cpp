@@ -68,13 +68,13 @@ const std::string Exporter::_fenCastlingsAvailable() const
 {
 	std::string str = "";
 
-	if (this->_gameStatus->getKingSideCastlingWhiteAvailable())
+	if (this->_gameStatus->getKingSideCastlingAvailable(true))
 		str += 'K';
-	if (this->_gameStatus->getKingSideCastlingBlackAvailable())
+	if (this->_gameStatus->getKingSideCastlingAvailable(false))
 		str += 'Q';
-	if (this->_gameStatus->getQueenSideCastlingWhiteAvailable())
+	if (this->_gameStatus->getQueenSideCastlingAvailable(true))
 		str += 'k';
-	if (this->_gameStatus->getQueenSideCastlingBlackAvailable())
+	if (this->_gameStatus->getQueenSideCastlingAvailable(false))
 		str += 'q';
 	if (str.empty())
 		str = "-";
