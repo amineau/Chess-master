@@ -27,6 +27,7 @@ public:
 	virtual const std::string getRepr() const = 0;
 	virtual bool			  isLegal() const = 0;
 	virtual void			  execute() = 0;
+	virtual Move*			  clone() const = 0;
 
 	Spot*  getStartSpot() const;
 	Spot*  getEndSpot() const;

@@ -78,7 +78,7 @@ std::vector<Spot*> Bishop::validSpots(const GameStatus* gameStatus, const Spot* 
 	Piece*			   pieceKilled;
 	Spot*			   destination;
 
-	if (gameStatus->getCurrentTurn()->isWhite() == this->_isWhite)
+	if (gameStatus->getCurrentPlayer()->isWhite() == this->_isWhite)
 		for (int signX = -1; signX <= 1; signX += 2) {
 			for (int signY = -1; signY <= 1; signY += 2) {
 				for (int i = 1;; i++) {
@@ -86,7 +86,7 @@ std::vector<Spot*> Bishop::validSpots(const GameStatus* gameStatus, const Spot* 
 					y = start->getY() + i * signY;
 					if (x > 7 || y > 7)
 						break;
-					destination = gameStatus->getBox(x, y);
+					destination = gameStatus->getSpot(x, y);
 					pieceKilled = destination->getPiece();
 					if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
 						break;

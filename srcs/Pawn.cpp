@@ -95,17 +95,17 @@ std::vector<Spot*> Pawn::validSpots(const GameStatus* gameStatus, const Spot* st
 	Spot*			   destination;
 	const Board*	   board = gameStatus->getBoard();
 
-	if (gameStatus->getCurrentTurn()->isWhite() == this->_isWhite)
+	if (gameStatus->getCurrentPlayer()->isWhite() == this->_isWhite)
 		if (start->getY() + direction <= 7) {
-			destination = board->getBox(start->getX(), start->getY() + direction);
+			destination = board->getSpot(start->getX(), start->getY() + direction);
 			if (!destination->getPiece()) {
 				validSpots.push_back(destination);
-				if (start->getY() == initialY && !board->getBox(start->getX(), start->getY() + 2 * direction)->getPiece())
-					validSpots.push_back(board->getBox(start->getX(), start->getY() + 2 * direction));
+				if (start->getY() == initialY && !board->getSpot(start->getX(), start->getY() + 2 * direction)->getPiece())
+					validSpots.push_back(board->getSpot(start->getX(), start->getY() + 2 * direction));
 			}
 			for (int i = -1; i <= 1; i += 2) {
 				if (start->getX() + i <= 7) {
-					destination = board->getBox(start->getX() + i, start->getY() + direction);
+					destination = board->getSpot(start->getX() + i, start->getY() + direction);
 					pieceKilled = destination->getPiece();
 					if ((pieceKilled && pieceKilled->isWhite() != this->_isWhite)
 						|| gameStatus->getEnPassantTargetSpot() == destination)

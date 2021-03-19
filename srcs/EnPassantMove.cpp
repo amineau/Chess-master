@@ -59,7 +59,7 @@ bool EnPassantMove::isLegal() const
 	return pawn
 		&& pawn->getType() == PAWN
 		&& pawn->isWhite() == this->_player->isWhite()
-		&& this->_player == this->_gameStatus->getCurrentTurn()
+		&& this->_player == this->_gameStatus->getCurrentPlayer()
 		&& this->_end == this->_gameStatus->getEnPassantTargetSpot()
 		&& pawn->canMovesEnPassant(this->_gameStatus, this->_start, this->_end);
 }
@@ -67,15 +67,20 @@ bool EnPassantMove::isLegal() const
 void EnPassantMove::execute()
 {
 	if (this->_player->isWhite())
-		this->_gameStatus->getBox(this->_end->getX(), 4)->setPiece(0);
+		this->_gameStatus->getSpot(this->_end->getX(), 4)->setPiece(0);
 	else
-		this->_gameStatus->getBox(this->_end->getX(), 3)->setPiece(0);
+		this->_gameStatus->getSpot(this->_end->getX(), 3)->setPiece(0);
 	this->_pieceKilled->killed();
 	this->_end->setPiece(this->_pieceMoved);
 	this->_start->setPiece(0);
 	this->_gameStatus->pushTurn();
 	this->_gameStatus->pushMove(this);
 	this->_gameStatus->setEnPassantTargetSpot(0);
+}
+
+EnPassantMove* EnPassantMove::clone() const
+{
+	return new EnPassantMove(*this);
 }
 
 const std::string EnPassantMove::getRepr() const

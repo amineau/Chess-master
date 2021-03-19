@@ -67,6 +67,8 @@ public:
 	bool virtual canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const;
 	std::vector<Spot*> virtual validSpots(const GameStatus* gameStatus, const Spot* start) const;
 
+	Piece* clone() const;
+
 protected:
 	bool   _isWhite;
 	t_type _type;

@@ -27,6 +27,7 @@ public:
 	bool			  isLegal() const;
 	void			  execute();
 	const std::string getRepr() const;
+	EnPassantMove*	  clone() const;
 
 	EnPassantMove& operator=(EnPassantMove const&);
 };

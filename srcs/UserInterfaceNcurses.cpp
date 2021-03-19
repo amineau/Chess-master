@@ -112,14 +112,14 @@ void UserInterfaceNcurses::start()
 	for (short x = 0; x < 8; x++) {
 		for (short y = 0; y < 8; y++) {
 			if ((x + y) % 2 == 0) {
-				if (this->_chess->getGameStatus()->getBoard()->getBox(x, y)->getPiece())
-					if (this->_chess->getGameStatus()->getBoard()->getBox(x, y)->getPiece()->isWhite()) {
+				if (this->_chess->getGameStatus()->getBoard()->getSpot(x, y)->getPiece())
+					if (this->_chess->getGameStatus()->getBoard()->getSpot(x, y)->getPiece()->isWhite()) {
 						wattron(board, COLOR_PAIR(BLACKSPOTWHITEPIECE));
-						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess->getGameStatus()->getBoard()->getBox(x, y)->getPiece());
+						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess->getGameStatus()->getBoard()->getSpot(x, y)->getPiece());
 						wattroff(board, COLOR_PAIR(BLACKSPOTWHITEPIECE));
 					} else {
 						wattron(board, COLOR_PAIR(BLACKSPOTBLACKPIECE));
-						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess->getGameStatus()->getBoard()->getBox(x, y)->getPiece());
+						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess->getGameStatus()->getBoard()->getSpot(x, y)->getPiece());
 						wattroff(board, COLOR_PAIR(BLACKSPOTBLACKPIECE));
 					}
 				else {
@@ -128,14 +128,14 @@ void UserInterfaceNcurses::start()
 					wattroff(board, COLOR_PAIR(BLACKSPOTBLACKPIECE));
 				}
 			} else {
-				if (this->_chess->getGameStatus()->getBoard()->getBox(x, y)->getPiece())
-					if (this->_chess->getGameStatus()->getBoard()->getBox(x, y)->getPiece()->isWhite()) {
+				if (this->_chess->getGameStatus()->getBoard()->getSpot(x, y)->getPiece())
+					if (this->_chess->getGameStatus()->getBoard()->getSpot(x, y)->getPiece()->isWhite()) {
 						wattron(board, COLOR_PAIR(WHITESPOTWHITEPIECE));
-						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess->getGameStatus()->getBoard()->getBox(x, y)->getPiece());
+						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess->getGameStatus()->getBoard()->getSpot(x, y)->getPiece());
 						wattroff(board, COLOR_PAIR(WHITESPOTWHITEPIECE));
 					} else {
 						wattron(board, COLOR_PAIR(WHITESPOTBLACKPIECE));
-						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess->getGameStatus()->getBoard()->getBox(x, y)->getPiece());
+						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess->getGameStatus()->getBoard()->getSpot(x, y)->getPiece());
 						wattroff(board, COLOR_PAIR(WHITESPOTBLACKPIECE));
 					}
 				else {

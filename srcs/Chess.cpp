@@ -20,8 +20,8 @@
 #include "Rook.hpp"
 
 Chess::Chess()
-	: _playerWhite(new Player(true))
-	, _playerBlack(new Player(false))
+	: _playerWhite(Player(true))
+	, _playerBlack(Player(false))
 {
 	std::cout << "Chess CONSTRUCTOR" << std::endl;
 	this->_gameStatus = new GameStatus(this->_playerWhite, this->_playerBlack);
@@ -38,8 +38,6 @@ Chess::Chess(Chess const& src)
 Chess::~Chess()
 {
 	std::cout << "Chess DECONSTRUCTOR" << std::endl;
-	delete this->_playerWhite;
-	delete this->_playerBlack;
 	delete this->_gameStatus;
 	return;
 }
@@ -49,34 +47,19 @@ Chess& Chess::operator=(Chess const& rhs)
 	if (this != &rhs) {
 		this->_playerWhite = rhs._playerWhite;
 		this->_playerBlack = rhs._playerBlack;
-		this->_gameStatus = rhs._gameStatus;
+		*(this->_gameStatus) = *(rhs._gameStatus);
 	}
 	return *this;
 }
 
 /* Accessors */
 
-Player* Chess::getPlayerWhite() const
-{
-	return this->_playerWhite;
-}
-
-Player* Chess::getPlayerBlack() const
-{
-	return this->_playerBlack;
-}
-
-GameStatus* Chess::getGameStatus() const
-{
-	return this->_gameStatus;
-}
-
 /* Members functions */
 
 Move* Chess::getMoveAction(Player* player, const std::string& start, const std::string& end) const
 {
-	Spot* startSpot = this->_gameStatus->getBox(start);
-	Spot* endSpot = this->_gameStatus->getBox(end);
+	Spot* startSpot = this->_gameStatus->getSpot(start);
+	Spot* endSpot = this->_gameStatus->getSpot(end);
 
 	if (startSpot->getPiece()
 		&& startSpot->getPiece()->getType() == PAWN

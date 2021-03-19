@@ -25,9 +25,11 @@ ifeq ($(UNAME_S), Darwin)
 	IPATHS += -I/usr/local/opt/ncurses/include
 	LIBS += -L/usr/local/opt/ncurses/lib -lncurses
 	CFLAGS += -std=c++11
+	DEBUGGER = lldb
 endif
 ifeq ($(UNAME_S), Linux)
 	LIBS += -lncursesw
+	DEBUGGER = gdb
 endif
 
 
@@ -65,7 +67,7 @@ $(OPATH)/%.o: $(SPATH)/%.cpp
 
 debug: CFLAGS += -g
 debug: $(OPATH) $(NAME) $(INC)
-		gdb $(NAME)
+		$(DEBUGGER) $(NAME)
 
 leaks: CFLAGS += -ggdb3
 leaks: $(OPATH) $(NAME) $(INC)

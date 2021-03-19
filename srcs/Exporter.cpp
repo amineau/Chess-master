@@ -62,7 +62,7 @@ const std::string Exporter::_fenBoard() const
 
 const std::string Exporter::_fenCurrentPlayer() const
 {
-	return this->_gameStatus->getCurrentTurn()->isWhite() ? "w" : "b";
+	return this->_gameStatus->getCurrentPlayer()->isWhite() ? "w" : "b";
 }
 const std::string Exporter::_fenCastlingsAvailable() const
 {

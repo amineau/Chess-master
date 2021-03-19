@@ -79,7 +79,7 @@ bool King::canKingSideCastlingMoves(GameStatus* gameStatus, Spot* start, Spot* e
 		end->getX() == 6
 		&& gameStatus->getKingSideCastlingAvailable(this->_isWhite)
 		&& gameStatus->isAttacked(end, this->_isWhite)
-		&& gameStatus->isAttacked(gameStatus->getBox(5, end->getY()), this->_isWhite));
+		&& gameStatus->isAttacked(gameStatus->getSpot(5, end->getY()), this->_isWhite));
 }
 
 bool King::canQueenSideCastlingMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
@@ -91,7 +91,7 @@ bool King::canQueenSideCastlingMoves(GameStatus* gameStatus, Spot* start, Spot* 
 		end->getX() == 2
 		&& gameStatus->getQueenSideCastlingAvailable(this->_isWhite)
 		&& gameStatus->isAttacked(end, this->_isWhite)
-		&& gameStatus->isAttacked(gameStatus->getBox(3, end->getY()), this->_isWhite));
+		&& gameStatus->isAttacked(gameStatus->getSpot(3, end->getY()), this->_isWhite));
 }
 
 std::vector<Spot*> King::validSpots(const GameStatus* gameStatus, const Spot* start) const
@@ -100,11 +100,11 @@ std::vector<Spot*> King::validSpots(const GameStatus* gameStatus, const Spot* st
 	Piece*			   pieceKilled;
 	Spot*			   destination;
 
-	if (gameStatus->getCurrentTurn()->isWhite() == this->_isWhite)
+	if (gameStatus->getCurrentPlayer()->isWhite() == this->_isWhite)
 		for (int x = start->getX() - 1; x <= static_cast<int>(start->getX()) + 1; x++) {
 			for (int y = start->getY() - 1; y <= static_cast<int>(start->getY()) + 1; y++) {
 				if (static_cast<size_t>(x) <= 7 && static_cast<size_t>(y) <= 7) {
-					destination = gameStatus->getBox(x, y);
+					destination = gameStatus->getSpot(x, y);
 					pieceKilled = destination->getPiece();
 					if (!pieceKilled || pieceKilled->isWhite() != this->_isWhite)
 						validSpots.push_back(destination);

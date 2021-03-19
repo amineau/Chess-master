@@ -54,7 +54,7 @@ bool CastlingMove::isLegal() const
 
 	return king
 		&& king->isWhite() == this->_player->isWhite()
-		&& this->_player == this->_gameStatus->getCurrentTurn()
+		&& this->_player == this->_gameStatus->getCurrentPlayer()
 		&& (king->canKingSideCastlingMoves(this->_gameStatus, this->_start, this->_end)
 			|| king->canQueenSideCastlingMoves(this->_gameStatus, this->_start, this->_end));
 }
@@ -71,6 +71,11 @@ void CastlingMove::execute()
 	this->_gameStatus->setEnPassantTargetSpot(0);
 	if (this->_pieceMoved->getType() == PAWN || !this->_pieceKilled)
 		this->_gameStatus->incrementHalfMoveClock();
+}
+
+CastlingMove* CastlingMove::clone() const
+{
+	return new CastlingMove(*this);
 }
 
 const std::string CastlingMove::getRepr() const

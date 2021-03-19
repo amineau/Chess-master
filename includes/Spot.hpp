@@ -26,10 +26,10 @@ public:
 	Spot(Spot const& src);
 	~Spot();
 
-	size_t			  getX() const;
-	size_t			  getY() const;
-	Piece*			  getPiece() const;
-	void			  setPiece(Piece* piece);
+	size_t			  getX() const { return _x; }
+	size_t			  getY() const { return _y; }
+	Piece*			  getPiece() const { return _piece; };
+	void			  setPiece(Piece* piece) { _piece = piece; }
 	const std::string getRepr() const;
 
 	Spot& operator=(Spot const&);

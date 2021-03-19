@@ -11,7 +11,12 @@
 /* ************************************************************************** */
 
 #include "Spot.hpp"
-#include "Piece.hpp"
+#include "Bishop.hpp"
+#include "King.hpp"
+#include "Knight.hpp"
+#include "Pawn.hpp"
+#include "Queen.hpp"
+#include "Rook.hpp"
 
 Spot::Spot()
 {
@@ -42,28 +47,8 @@ Spot::Spot(Spot const& src)
 
 Spot::~Spot()
 {
-	delete this->_piece;
+	// delete this->_piece;
 	return;
-}
-
-size_t Spot::getX() const
-{
-	return this->_x;
-}
-
-size_t Spot::getY() const
-{
-	return this->_y;
-}
-
-Piece* Spot::getPiece() const
-{
-	return this->_piece;
-}
-
-void Spot::setPiece(Piece* piece)
-{
-	this->_piece = piece;
 }
 
 /* Operators Overload */
@@ -73,14 +58,28 @@ Spot& Spot::operator=(Spot const& rhs)
 	if (this != &rhs) {
 		this->_x = rhs._x;
 		this->_y = rhs._y;
-		this->_piece = rhs._piece;
+		if (rhs._piece) {
+			if (rhs._piece->getType() == KING)
+				this->_piece = new King(*dynamic_cast<King*>(rhs._piece));
+			else if (rhs._piece->getType() == QUEEN)
+				this->_piece = new Queen(*dynamic_cast<Queen*>(rhs._piece));
+			else if (rhs._piece->getType() == ROOK)
+				this->_piece = new Rook(*dynamic_cast<Rook*>(rhs._piece));
+			else if (rhs._piece->getType() == BISHOP)
+				this->_piece = new Bishop(*dynamic_cast<Bishop*>(rhs._piece));
+			else if (rhs._piece->getType() == KNIGHT)
+				this->_piece = new Knight(*dynamic_cast<Knight*>(rhs._piece));
+			else if (rhs._piece->getType() == PAWN)
+				this->_piece = new Pawn(*dynamic_cast<Pawn*>(rhs._piece));
+		} else
+			this->_piece = nullptr;
 	}
 	return *this;
 }
 
 bool Spot::operator==(Spot const& rhs) const
 {
-	return (this == &rhs || (this->_x == rhs._x && this->_y == rhs._y));
+	return (this->_x == rhs._x && this->_y == rhs._y);
 }
 
 const std::string Spot::getRepr() const

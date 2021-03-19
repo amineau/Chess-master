@@ -32,13 +32,6 @@ Board::Board(Board const& src)
 
 Board::~Board()
 {
-	if (this->_isLoad)
-		for (size_t y = 0; y < 8; y++) {
-			for (size_t x = 0; x < 8; x++) {
-				delete this->_boxes[x][y];
-			}
-		}
-
 	return;
 }
 
@@ -46,25 +39,18 @@ Board::~Board()
 
 /* Accessors */
 
-Spot* Board::getBox(size_t x, size_t y) const
+Spot* Board::getSpot(size_t x, size_t y) const
 {
 	if (x > 7 || y > 7)
 		throw Board::IndexOutOfBoardException();
-	return this->_boxes[x][y];
+	return const_cast<Spot*>(&_spots[x][y]);
 }
 
-Spot* Board::getBox(const std::string& spot) const
+Spot* Board::getSpot(const std::string& spot) const
 {
 	if (spot.length() != 2)
 		throw Board::IndexOutOfBoardException();
-	return this->getBox(spot[0] - 'a', spot[1] - '1');
-}
-
-void Board::setBox(size_t x, size_t y, Spot* spot)
-{
-	if (x > 7 || y > 7)
-		throw Board::IndexOutOfBoardException();
-	this->_boxes[x][y] = spot;
+	return getSpot(spot[0] - 'a', spot[1] - '1');
 }
 
 void Board::raiseOnInvalidKingNumber() const
@@ -75,7 +61,7 @@ void Board::raiseOnInvalidKingNumber() const
 
 	for (size_t y = 0; y < 8; y++) {
 		for (size_t x = 0; x < 8; x++) {
-			piece = this->getBox(x, y)->getPiece();
+			piece = getSpot(x, y)->getPiece();
 			if (piece && piece->getType() == KING) {
 				if (piece->isWhite())
 					kingWhite++;
@@ -90,14 +76,13 @@ void Board::raiseOnInvalidKingNumber() const
 
 bool Board::loadFen(const std::string& fen)
 {
-	Spot*		spot;
 	short		x = 0;
 	short		y = 7;
 	int			i = 0;
 	char		fenLower;
 	std::string availableLowerChar("kqbnrp");
 
-	if (this->_isLoad) {
+	if (_isLoad) {
 		std::cout << "Please call GameStatus::clear before load" << std::endl;
 		exit(EXIT_FAILURE);
 	}
@@ -107,23 +92,22 @@ bool Board::loadFen(const std::string& fen)
 			return false;
 		if ('1' <= fen[i] && fen[i] <= '8' && (!fen[i] || !('1' <= fen[i + 1] && fen[i + 1] <= '8'))) {
 			for (int j = '1'; j <= fen[i]; j++) {
-				this->setBox(x, y, new Spot(x, y));
+				_spots[x][y] = Spot(x, y);
 				x++;
 			}
 		} else if (availableLowerChar.find(fenLower) != std::string::npos) {
 			if (fenLower == 'k')
-				spot = new Spot(x, y, new King(isupper(fen[i])));
+				_spots[x][y] = Spot(x, y, new King(isupper(fen[i])));
 			else if (fenLower == 'q')
-				spot = new Spot(x, y, new Queen(isupper(fen[i])));
+				_spots[x][y] = Spot(x, y, new Queen(isupper(fen[i])));
 			else if (fenLower == 'b')
-				spot = new Spot(x, y, new Bishop(isupper(fen[i])));
+				_spots[x][y] = Spot(x, y, new Bishop(isupper(fen[i])));
 			else if (fenLower == 'n')
-				spot = new Spot(x, y, new Knight(isupper(fen[i])));
+				_spots[x][y] = Spot(x, y, new Knight(isupper(fen[i])));
 			else if (fenLower == 'r')
-				spot = new Spot(x, y, new Rook(isupper(fen[i])));
+				_spots[x][y] = Spot(x, y, new Rook(isupper(fen[i])));
 			else if (fenLower == 'p')
-				spot = new Spot(x, y, new Pawn(isupper(fen[i])));
-			this->setBox(x, y, spot);
+				_spots[x][y] = Spot(x, y, new Pawn(isupper(fen[i])));
 			x++;
 		} else if (fen[i] == '/') {
 			if (x != 8)
@@ -136,7 +120,7 @@ bool Board::loadFen(const std::string& fen)
 	}
 	if (x != 8 && y != 1)
 		return false;
-	this->_isLoad = true;
+	_isLoad = true;
 	return true;
 }
 
@@ -149,7 +133,7 @@ const std::string Board::exportFen() const
 	for (int y = 7; y >= 0; --y) {
 		numberEmptySpot = 0;
 		for (int x = 0; x <= 7; ++x) {
-			piece = this->getBox(x, y)->getPiece();
+			piece = this->getSpot(x, y)->getPiece();
 			if (piece != NULL) {
 				if (numberEmptySpot) {
 					ss << numberEmptySpot;
@@ -172,30 +156,33 @@ const std::string Board::exportFen() const
 
 Board& Board::operator=(Board const& rhs)
 {
-	Piece* piece;
+	// Piece* piece;
 	if (this != &rhs) {
-		for (size_t y = 0; y < 8; y++) {
-			for (size_t x = 0; x < 8; x++) {
-				piece = rhs._boxes[x][y]->getPiece();
-				if (piece) {
-					// TODO: Pointer of function
-					if (piece->getType() == KING)
-						this->_boxes[x][y] = new Spot(x, y, new King(dynamic_cast<King const&>(*rhs._boxes[x][y]->getPiece())));
-					if (piece->getType() == QUEEN)
-						this->_boxes[x][y] = new Spot(x, y, new Queen(dynamic_cast<Queen const&>(*rhs._boxes[x][y]->getPiece())));
-					if (piece->getType() == BISHOP)
-						this->_boxes[x][y] = new Spot(x, y, new Bishop(dynamic_cast<Bishop const&>(*rhs._boxes[x][y]->getPiece())));
-					if (piece->getType() == KNIGHT)
-						this->_boxes[x][y] = new Spot(x, y, new Knight(dynamic_cast<Knight const&>(*rhs._boxes[x][y]->getPiece())));
-					if (piece->getType() == ROOK)
-						this->_boxes[x][y] = new Spot(x, y, new Rook(dynamic_cast<Rook const&>(*rhs._boxes[x][y]->getPiece())));
-					if (piece->getType() == PAWN)
-						this->_boxes[x][y] = new Spot(x, y, new Pawn(dynamic_cast<Pawn const&>(*rhs._boxes[x][y]->getPiece())));
+		this->_isLoad = rhs._isLoad;
+		if (_isLoad)
+			for (size_t y = 0; y < 8; y++)
+				for (size_t x = 0; x < 8; x++)
+					this->_spots[x][y] = rhs._spots[x][y];
+		// piece = rhs._spots[x][y]->getPiece();
+		// if (piece) {
+		// 	// TODO: Pointer of function
+		// 	if (piece->getType() == KING)
+		// 		this->_spots[x][y] = new Spot(x, y, new King(dynamic_cast<King const&>(*rhs._spots[x][y]->getPiece())));
+		// 	if (piece->getType() == QUEEN)
+		// 		this->_spots[x][y] = new Spot(x, y, new Queen(dynamic_cast<Queen const&>(*rhs._spots[x][y]->getPiece())));
+		// 	if (piece->getType() == BISHOP)
+		// 		this->_spots[x][y] = new Spot(x, y, new Bishop(dynamic_cast<Bishop const&>(*rhs._spots[x][y]->getPiece())));
+		// 	if (piece->getType() == KNIGHT)
+		// 		this->_spots[x][y] = new Spot(x, y, new Knight(dynamic_cast<Knight const&>(*rhs._spots[x][y]->getPiece())));
+		// 	if (piece->getType() == ROOK)
+		// 		this->_spots[x][y] = new Spot(x, y, new Rook(dynamic_cast<Rook const&>(*rhs._spots[x][y]->getPiece())));
+		// 	if (piece->getType() == PAWN)
+		// 		this->_spots[x][y] = new Spot(x, y, new Pawn(dynamic_cast<Pawn const&>(*rhs._spots[x][y]->getPiece())));
 
-				} else
-					this->_boxes[x][y] = new Spot(x, y);
-			}
-		}
+		// } else
+		// 	this->_spots[x][y] = new Spot(x, y);
+		// 	}
+		// }
 	}
 	return *this;
 }

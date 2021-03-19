@@ -56,7 +56,7 @@ bool SimpleMove::isLegal() const
 {
 	return this->_pieceMoved
 		&& this->_pieceMoved->isWhite() == this->_player->isWhite()
-		&& this->_player == this->_gameStatus->getCurrentTurn()
+		&& this->_player == this->_gameStatus->getCurrentPlayer()
 		&& this->_pieceMoved->canMoves(this->_gameStatus, this->_start, this->_end);
 }
 
@@ -71,14 +71,19 @@ void SimpleMove::execute()
 	if (this->isDoublePushPawn()) {
 		if (this->_player->isWhite())
 			this->_gameStatus->setEnPassantTargetSpot(
-				this->_gameStatus->getBox(this->_start->getX(), 2));
+				this->_gameStatus->getSpot(this->_start->getX(), 2));
 		else
 			this->_gameStatus->setEnPassantTargetSpot(
-				this->_gameStatus->getBox(this->_start->getX(), 5));
+				this->_gameStatus->getSpot(this->_start->getX(), 5));
 	} else
 		this->_gameStatus->setEnPassantTargetSpot(0);
 	if (this->_pieceMoved->getType() == PAWN || !this->_pieceKilled)
 		this->_gameStatus->incrementHalfMoveClock();
+}
+
+SimpleMove* SimpleMove::clone() const
+{
+	return new SimpleMove(*this);
 }
 
 const std::string SimpleMove::getRepr() const

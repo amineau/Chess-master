@@ -28,9 +28,9 @@ public:
 	Chess(Chess const&);
 	~Chess();
 
-	Player*		getPlayerWhite() const;
-	Player*		getPlayerBlack() const;
-	GameStatus* getGameStatus() const;
+	Player*		getPlayerWhite() const { return const_cast<Player*>(&_playerWhite); }
+	Player*		getPlayerBlack() const { return const_cast<Player*>(&_playerBlack); }
+	GameStatus* getGameStatus() const { return _gameStatus; }
 
 	bool			  loadFen(const std::string& fen);
 	const std::string exportFen() const;
@@ -41,8 +41,8 @@ public:
 	Chess& operator=(Chess const&);
 
 private:
-	Player*		_playerWhite;
-	Player*		_playerBlack;
+	Player		_playerWhite;
+	Player		_playerBlack;
 	GameStatus* _gameStatus;
 };
 

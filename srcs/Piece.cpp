@@ -55,7 +55,7 @@ Piece& Piece::operator=(Piece const& rhs)
 		this->_isWhite = rhs._isWhite;
 		this->_type = rhs._type;
 	}
-	std::cout << "Constructor Piece by operator= called for child " << pieceRepr[this->_type] << std::endl;
+	// std::cout << "Constructor Piece by operator= called for child " << pieceRepr[this->_type] << std::endl;
 	return *this;
 }
 
@@ -105,6 +105,11 @@ std::vector<Spot*> Piece::validSpots(const GameStatus* gameStatus, const Spot* s
 	std::vector<Spot*> v;
 
 	return v;
+}
+
+Piece* Piece::clone() const
+{
+	return new Piece(*this);
 }
 
 /* Operator Overload */

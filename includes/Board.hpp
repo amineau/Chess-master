@@ -14,6 +14,7 @@
 #define BOARD_HPP
 
 #include "Spot.hpp"
+#include <array>
 #include <map>
 #include <sstream>
 
@@ -24,9 +25,8 @@ public:
 	Board(Board const&);
 	~Board();
 
-	Spot* getBox(size_t x, size_t y) const;
-	Spot* getBox(const std::string& spot) const;
-	void  setBox(size_t x, size_t y, Spot* spot);
+	Spot* getSpot(size_t x, size_t y) const;
+	Spot* getSpot(const std::string& spot) const;
 	void  raiseOnInvalidKingNumber() const;
 
 	bool			  loadFen(const std::string& fen);
@@ -45,8 +45,8 @@ public:
 	};
 
 private:
-	Spot* _boxes[8][8];
-	bool  _isLoad;
+	Spot _spots[8][8];
+	bool _isLoad;
 };
 
 #endif

@@ -66,9 +66,9 @@ bool Loader::_fenBoard(const std::string& str)
 bool Loader::_fenCurrentPlayer(const std::string& str)
 {
 	if (!str.compare("w"))
-		this->_gameStatus->setCurrentTurn(this->_gameStatus->getPlayerWhite());
+		this->_gameStatus->setCurrentPlayer(this->_gameStatus->getPlayerWhite());
 	else if (!str.compare("b"))
-		this->_gameStatus->setCurrentTurn(this->_gameStatus->getPlayerBlack());
+		this->_gameStatus->setCurrentPlayer(this->_gameStatus->getPlayerBlack());
 	else
 		return false;
 	return true;
@@ -98,7 +98,7 @@ bool Loader::_fenCastlingsAvailable(const std::string& str)
 bool Loader::_fenEnPassantTargetSpot(const std::string& str)
 {
 	try {
-		this->_gameStatus->setEnPassantTargetSpot(this->_gameStatus->getBox(str));
+		this->_gameStatus->setEnPassantTargetSpot(this->_gameStatus->getSpot(str));
 		return this->_gameStatus->getEnPassantTargetSpot() && (str[1] == '3' || str[1] == '6');
 	} catch (const Board::IndexOutOfBoardException&) {
 		return !str.compare("-");

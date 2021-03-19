@@ -20,7 +20,6 @@ Player::Player()
 Player::Player(bool isWhite)
 	: _isWhite(isWhite)
 {
-	std::cout << "Player CONSTRUCTOR " << this->_isWhite << std::endl;
 	return;
 }
 
@@ -32,7 +31,6 @@ Player::Player(Player const& src)
 
 Player::~Player()
 {
-	std::cout << "Player DECONSTRUCTOR " << this->_isWhite << std::endl;
 	return;
 }
 

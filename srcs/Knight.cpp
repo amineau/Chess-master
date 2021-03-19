@@ -66,13 +66,13 @@ std::vector<Spot*> Knight::validSpots(const GameStatus* gameStatus, const Spot* 
 	Piece*			   pieceKilled;
 	Spot*			   destination;
 
-	if (gameStatus->getCurrentTurn()->isWhite() == this->_isWhite)
+	if (gameStatus->getCurrentPlayer()->isWhite() == this->_isWhite)
 		for (int x = start->getX() - 2; x <= static_cast<int>(start->getX()) + 2; x++) {
 			for (int y = start->getY() - 2; y <= static_cast<int>(start->getY()) + 2; y++) {
 				distX = abs(static_cast<int>(x - start->getX()));
 				distY = abs(static_cast<int>(y - start->getY()));
 				if (static_cast<size_t>(x) <= 7 && static_cast<size_t>(y) <= 7) {
-					destination = gameStatus->getBox(x, y);
+					destination = gameStatus->getSpot(x, y);
 					pieceKilled = destination->getPiece();
 					if (distX * distY == 2 && (!pieceKilled || pieceKilled->isWhite() != this->_isWhite))
 						validSpots.push_back(destination);
