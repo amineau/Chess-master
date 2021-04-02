@@ -29,6 +29,8 @@ public:
 	Spot* getSpot(const std::string& spot) const;
 	void  raiseOnInvalidKingNumber() const;
 
+	Spot* getSpotKing(bool isWhite) const;
+
 	bool			  loadFen(const std::string& fen);
 	const std::string exportFen() const;
 

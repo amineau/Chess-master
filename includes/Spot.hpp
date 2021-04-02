@@ -30,6 +30,7 @@ public:
 	size_t			  getY() const { return _y; }
 	Piece*			  getPiece() const { return _piece; };
 	void			  setPiece(Piece* piece) { _piece = piece; }
+	bool			  isEmpty() const { return (_piece == 0); }
 	const std::string getRepr() const;
 
 	Spot& operator=(Spot const&);

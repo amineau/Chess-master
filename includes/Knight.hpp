@@ -25,8 +25,8 @@ public:
 
 	Knight& operator=(Knight const&);
 
-	bool			   canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const;
-	std::vector<Spot*> validSpots(const GameStatus* gameStatus, const Spot* start) const;
+	bool			   canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const;
+	std::vector<Spot*> validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const;
 };
 
 #endif

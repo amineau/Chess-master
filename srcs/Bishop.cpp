@@ -46,7 +46,7 @@ Bishop& Bishop::operator=(Bishop const& rhs)
 	return *this;
 }
 
-bool Bishop::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
+bool Bishop::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	int i;
 	int signX = sgn(end->getX() - start->getX());
@@ -67,10 +67,10 @@ bool Bishop::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 		}
 	}
 
-	return true;
+	return !gameStatus->moveCausesCheck(start, end);
 }
 
-std::vector<Spot*> Bishop::validSpots(const GameStatus* gameStatus, const Spot* start) const
+std::vector<Spot*> Bishop::validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const
 {
 	std::vector<Spot*> validSpots;
 	size_t			   x;
@@ -78,21 +78,22 @@ std::vector<Spot*> Bishop::validSpots(const GameStatus* gameStatus, const Spot* 
 	Piece*			   pieceKilled;
 	Spot*			   destination;
 
-	if (gameStatus->getCurrentPlayer()->isWhite() == this->_isWhite)
-		for (int signX = -1; signX <= 1; signX += 2) {
-			for (int signY = -1; signY <= 1; signY += 2) {
-				for (int i = 1;; i++) {
-					x = start->getX() + i * signX;
-					y = start->getY() + i * signY;
-					if (x > 7 || y > 7)
-						break;
-					destination = gameStatus->getSpot(x, y);
-					pieceKilled = destination->getPiece();
-					if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
-						break;
-					validSpots.push_back(destination);
-				}
+	for (int signX = -1; signX <= 1; signX += 2) {
+		for (int signY = -1; signY <= 1; signY += 2) {
+			for (int i = 1;; i++) {
+				x = start->getX() + i * signX;
+				y = start->getY() + i * signY;
+				if (x > 7 || y > 7)
+					break;
+				destination = gameStatus->getSpot(x, y);
+				pieceKilled = destination->getPiece();
+				if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
+					break;
+				validSpots.push_back(destination);
+				if (pieceKilled)
+					break;
 			}
 		}
+	}
 	return validSpots;
 }

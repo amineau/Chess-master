@@ -30,6 +30,7 @@ public:
 	SimpleMove*		  clone() const;
 
 	bool isDoublePushPawn() const;
+	void setCastlings();
 
 	SimpleMove& operator=(SimpleMove const&);
 };

@@ -52,33 +52,6 @@ short UserInterfaceCLI::displayMenu() const
 	return entry - '0';
 }
 
-void displayBoardGG(GameStatus* gg)
-{
-	Piece* piece;
-
-	std::cout << "\033[38;5;232;48;5;215m                    \033[0m" << std::endl;
-	for (int y = 7; y >= 0; --y) {
-		std::cout << "\033[38;5;232;48;5;215m" << y + 1 << " ";
-		for (int x = 0; x <= 7; ++x) {
-			if ((y + x) % 2)
-				std::cout << "\033[48;5;255m";
-			else
-				std::cout << "\033[48;5;75m";
-			piece = gg->getPiece(x, y);
-			if (piece != NULL) {
-				if (piece->isWhite())
-					std::cout << "\033[1;38;5;22m";
-				else
-					std::cout << "\033[1;38;5;232m";
-				std::cout << *piece << " ";
-			} else
-				std::cout << "  ";
-		}
-		std::cout << "\033[38;5;232;48;5;215m  \033[0m" << std::endl;
-	}
-	std::cout << "\033[38;5;232;48;5;215m  a b c d e f g h   \033[0m" << std::endl;
-}
-
 void UserInterfaceCLI::start()
 {
 	std::string entry;
@@ -96,14 +69,7 @@ void UserInterfaceCLI::start()
 		exit(EXIT_FAILURE);
 	}
 	gameStatus = this->_chess->getGameStatus();
-	move = this->_chess->getMoveAction(
-		gameStatus->getCurrentPlayer(), "e2", "e4");
-	if (move->isLegal()) {
-		this->_chess->makeAction(move);
-		std::cout << "Move ok" << std::endl;
-	}
-	GameStatus gg = *gameStatus;
-	displayBoardGG(&gg);
+
 	while (1) {
 		std::cout << "Command : ";
 		std::cin >> entry;
@@ -141,11 +107,11 @@ void UserInterfaceCLI::start()
 			std::cin >> arg1;
 			spot = gameStatus->getSpot(arg1);
 			piece = gameStatus->getPiece(arg1);
-			std::cout << *piece << std::endl;
-			if (piece)
-				for (Spot* validSpot : piece->validSpots(gameStatus, spot))
-					std::cout << *validSpot << std::endl;
-			else
+			if (piece) {
+				if (piece->isWhite() == gameStatus->getCurrentPlayer()->isWhite())
+					for (Spot* validSpot : piece->validSpots(gameStatus, spot))
+						std::cout << *validSpot << std::endl;
+			} else
 				std::cout << "No piece in " << *spot << std::endl;
 		} else if (!entry.compare("list")) {
 			for (Move* movePlayed : gameStatus->getMovesPlayed()) {

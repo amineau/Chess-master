@@ -46,7 +46,7 @@ Rook& Rook::operator=(Rook const& rhs)
 	return *this;
 }
 
-bool Rook::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
+bool Rook::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	int i;
 	int distX = abs(static_cast<int>(end->getX() - start->getX()));
@@ -73,10 +73,10 @@ bool Rook::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 		}
 	}
 
-	return true;
+	return !gameStatus->moveCausesCheck(start, end);
 }
 
-std::vector<Spot*> Rook::validSpots(const GameStatus* gameStatus, const Spot* start) const
+std::vector<Spot*> Rook::validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const
 {
 	std::vector<Spot*> validSpots;
 	size_t			   x;
@@ -84,32 +84,34 @@ std::vector<Spot*> Rook::validSpots(const GameStatus* gameStatus, const Spot* st
 	Piece*			   pieceKilled;
 	Spot*			   destination;
 
-	if (gameStatus->getCurrentPlayer()->isWhite() == this->_isWhite) {
-		for (int signX = -1; signX <= 1; signX += 2) {
-			for (int i = 1;; i++) {
-				x = start->getX() + i * signX;
-				y = start->getY();
-				if (x > 7)
-					break;
-				destination = gameStatus->getSpot(x, y);
-				pieceKilled = destination->getPiece();
-				if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
-					break;
-				validSpots.push_back(destination);
-			}
+	for (int signX = -1; signX <= 1; signX += 2) {
+		for (int i = 1;; i++) {
+			x = start->getX() + i * signX;
+			y = start->getY();
+			if (x > 7)
+				break;
+			destination = gameStatus->getSpot(x, y);
+			pieceKilled = destination->getPiece();
+			if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
+				break;
+			validSpots.push_back(destination);
+			if (pieceKilled)
+				break;
 		}
-		for (int signY = -1; signY <= 1; signY += 2) {
-			for (int i = 1;; i++) {
-				x = start->getX();
-				y = start->getY() + i * signY;
-				if (y > 7)
-					break;
-				destination = gameStatus->getSpot(x, y);
-				pieceKilled = destination->getPiece();
-				if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
-					break;
-				validSpots.push_back(destination);
-			}
+	}
+	for (int signY = -1; signY <= 1; signY += 2) {
+		for (int i = 1;; i++) {
+			x = start->getX();
+			y = start->getY() + i * signY;
+			if (y > 7)
+				break;
+			destination = gameStatus->getSpot(x, y);
+			pieceKilled = destination->getPiece();
+			if (pieceKilled && pieceKilled->isWhite() == this->_isWhite)
+				break;
+			validSpots.push_back(destination);
+			if (pieceKilled)
+				break;
 		}
 	}
 	return validSpots;

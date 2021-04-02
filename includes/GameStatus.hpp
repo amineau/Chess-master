@@ -18,6 +18,7 @@
 #include "Player.hpp"
 #include "Spot.hpp"
 #include "utils.hpp"
+#include <algorithm>
 #include <cstring>
 #include <fstream>
 #include <iostream>
@@ -70,9 +71,13 @@ public:
 	void pushTurn();
 	void pushMove(Move*);
 	void incrementHalfMoveClock();
+	void resetHalfMoveClock();
 	void incrementFullMoveCounter();
 
+	bool isCheck(bool isWhite) const;
 	bool isAttacked(Spot* spot, bool isWhite) const;
+	bool moveCausesCheck(const Spot* start, const Spot* end) const;
+	bool moveCausesCheck(const std::vector<std::pair<Spot*, Spot*>> moves) const;
 
 	void clear();
 

@@ -5,17 +5,14 @@
 
 - Creer une interface utilisateur en NCurses --> En cours
 
-- Prévoir le rook
-- Prévoir la prise en passant
+- Prévoir le rook -> Fait
+- Prévoir la prise en passant -> Fait
 - Prévoir l'amélioration de pion
-- Calculer si le roi est en echec
+- Calculer si le roi est en echec -> Fait
 - Gérer la fin de partie
 
-- Enlever les validMoves qui mettent le roi en echec
+- Enlever les validMoves qui mettent le roi en echec -> Fait sauf prise en passant
 
 - Ajouter un timer
-
-- Permettre les commentaires commençant pas # dans le fichier de parsing
-- Ajouter les moves au parsing
 
 - MultiLangues

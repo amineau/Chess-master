@@ -59,7 +59,7 @@ void King::setCastlingDone(bool castlingDone)
 	this->_castlingDone = castlingDone;
 }
 
-bool King::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
+bool King::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	int distX = abs(static_cast<int>(end->getX() - start->getX()));
 	int distY = abs(static_cast<int>(end->getY() - start->getY()));
@@ -67,49 +67,58 @@ bool King::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 	if (!Piece::canMoves(gameStatus, start, end))
 		return false;
 
-	return distX + distY == 1 || distX * distY == 1;
+	return (distX + distY == 1 || distX * distY == 1) && !gameStatus->moveCausesCheck(start, end);
 }
 
-bool King::canKingSideCastlingMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
+bool King::canKingSideCastlingMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	if (!Piece::canMoves(gameStatus, start, end))
 		return false;
 
-	return (
-		end->getX() == 6
-		&& gameStatus->getKingSideCastlingAvailable(this->_isWhite)
-		&& gameStatus->isAttacked(end, this->_isWhite)
-		&& gameStatus->isAttacked(gameStatus->getSpot(5, end->getY()), this->_isWhite));
+	return end->getX() == 6
+		&& end->getY() == (_isWhite ? 0 : 7)
+		&& gameStatus->getKingSideCastlingAvailable(_isWhite)
+		&& gameStatus->getSpot(start->getX() + 1, start->getY())->isEmpty()
+		&& end->isEmpty()
+		&& !gameStatus->isCheck(_isWhite)
+		&& !gameStatus->moveCausesCheck(start, gameStatus->getSpot(start->getX() + 1, start->getY()))
+		&& !gameStatus->moveCausesCheck(start, end);
 }
 
-bool King::canQueenSideCastlingMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
+bool King::canQueenSideCastlingMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	if (!Piece::canMoves(gameStatus, start, end))
 		return false;
 
-	return (
-		end->getX() == 2
-		&& gameStatus->getQueenSideCastlingAvailable(this->_isWhite)
-		&& gameStatus->isAttacked(end, this->_isWhite)
-		&& gameStatus->isAttacked(gameStatus->getSpot(3, end->getY()), this->_isWhite));
+	return end->getX() == 2
+		&& end->getY() == (_isWhite ? 0 : 7)
+		&& gameStatus->getKingSideCastlingAvailable(_isWhite)
+		&& gameStatus->getSpot(start->getX() - 1, start->getY())->isEmpty()
+		&& end->isEmpty()
+		&& !gameStatus->isCheck(_isWhite)
+		&& !gameStatus->moveCausesCheck(start, gameStatus->getSpot(start->getX() - 1, start->getY()))
+		&& !gameStatus->moveCausesCheck(start, end);
 }
 
-std::vector<Spot*> King::validSpots(const GameStatus* gameStatus, const Spot* start) const
+std::vector<Spot*> King::validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const
 {
 	std::vector<Spot*> validSpots;
 	Piece*			   pieceKilled;
 	Spot*			   destination;
 
-	if (gameStatus->getCurrentPlayer()->isWhite() == this->_isWhite)
-		for (int x = start->getX() - 1; x <= static_cast<int>(start->getX()) + 1; x++) {
-			for (int y = start->getY() - 1; y <= static_cast<int>(start->getY()) + 1; y++) {
-				if (static_cast<size_t>(x) <= 7 && static_cast<size_t>(y) <= 7) {
-					destination = gameStatus->getSpot(x, y);
-					pieceKilled = destination->getPiece();
-					if (!pieceKilled || pieceKilled->isWhite() != this->_isWhite)
-						validSpots.push_back(destination);
-				}
+	for (int x = start->getX() - 1; x <= static_cast<int>(start->getX()) + 1; x++) {
+		for (int y = start->getY() - 1; y <= static_cast<int>(start->getY()) + 1; y++) {
+			if (static_cast<size_t>(x) <= 7 && static_cast<size_t>(y) <= 7) {
+				destination = gameStatus->getSpot(x, y);
+				pieceKilled = destination->getPiece();
+				if (!pieceKilled || pieceKilled->isWhite() != this->_isWhite)
+					validSpots.push_back(destination);
 			}
 		}
+	}
+	if (this->canKingSideCastlingMoves(gameStatus, start, gameStatus->getSpot(6, (_isWhite ? 0 : 7))))
+		validSpots.push_back(gameStatus->getSpot(6, (_isWhite ? 0 : 7)));
+	if (this->canQueenSideCastlingMoves(gameStatus, start, gameStatus->getSpot(2, (_isWhite ? 0 : 7))))
+		validSpots.push_back(gameStatus->getSpot(2, (_isWhite ? 0 : 7)));
 	return validSpots;
 }

@@ -45,7 +45,7 @@ Pawn& Pawn::operator=(Pawn const& rhs)
 
 /* Members functions */
 
-bool Pawn::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
+bool Pawn::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	bool isWhite = this->isWhite();
 	int	 direction = isWhite ? 1 : -1;
@@ -70,23 +70,26 @@ bool Pawn::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 		if (abs(deltaX) != 1 || deltaY != direction)
 			return false;
 	}
-	return true;
+	return !gameStatus->moveCausesCheck(start, end);
 }
-bool Pawn::canMovesEnPassant(GameStatus* gameStatus, Spot* start, Spot* end) const
+bool Pawn::canMovesEnPassant(GameStatus* gameStatus, Spot* start, Spot* end, Spot* spotPieceKilled) const
 {
-	bool isWhite = this->isWhite();
-	int	 direction = isWhite ? 1 : -1;
-	int	 deltaX = end->getX() - start->getX();
-	int	 deltaY = end->getY() - start->getY();
+	bool								 isWhite = this->isWhite();
+	int									 direction = isWhite ? 1 : -1;
+	int									 deltaX = end->getX() - start->getX();
+	int									 deltaY = end->getY() - start->getY();
+	std::vector<std::pair<Spot*, Spot*>> moves = {
+		std::make_pair(start, spotPieceKilled),
+		std::make_pair(spotPieceKilled, end)
+	};
 
 	if (!Piece::canMoves(gameStatus, start, end))
 		return false;
-	if (abs(deltaX) != 1 || deltaY != direction)
-		return false;
-	return true;
+	return abs(deltaX) == 1 && deltaY == direction
+		&& !gameStatus->moveCausesCheck(moves);
 }
 
-std::vector<Spot*> Pawn::validSpots(const GameStatus* gameStatus, const Spot* start) const
+std::vector<Spot*> Pawn::validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const
 {
 	std::vector<Spot*> validSpots;
 	const int		   direction = this->_isWhite ? 1 : -1;
@@ -95,23 +98,24 @@ std::vector<Spot*> Pawn::validSpots(const GameStatus* gameStatus, const Spot* st
 	Spot*			   destination;
 	const Board*	   board = gameStatus->getBoard();
 
-	if (gameStatus->getCurrentPlayer()->isWhite() == this->_isWhite)
-		if (start->getY() + direction <= 7) {
-			destination = board->getSpot(start->getX(), start->getY() + direction);
-			if (!destination->getPiece()) {
-				validSpots.push_back(destination);
-				if (start->getY() == initialY && !board->getSpot(start->getX(), start->getY() + 2 * direction)->getPiece())
-					validSpots.push_back(board->getSpot(start->getX(), start->getY() + 2 * direction));
-			}
-			for (int i = -1; i <= 1; i += 2) {
-				if (start->getX() + i <= 7) {
-					destination = board->getSpot(start->getX() + i, start->getY() + direction);
-					pieceKilled = destination->getPiece();
-					if ((pieceKilled && pieceKilled->isWhite() != this->_isWhite)
-						|| gameStatus->getEnPassantTargetSpot() == destination)
-						validSpots.push_back(destination);
-				}
+	if (start->getY() + direction <= 7) {
+		destination = board->getSpot(start->getX(), start->getY() + direction);
+		if (!destination->getPiece()) {
+			validSpots.push_back(destination);
+			if (start->getY() == initialY && !board->getSpot(start->getX(), start->getY() + 2 * direction)->getPiece())
+				validSpots.push_back(board->getSpot(start->getX(), start->getY() + 2 * direction));
+		}
+		for (int i = -1; i <= 1; i += 2) {
+			if (start->getX() + i <= 7) {
+				destination = board->getSpot(start->getX() + i, start->getY() + direction);
+				pieceKilled = destination->getPiece();
+				if ((pieceKilled && pieceKilled->isWhite() != this->_isWhite)
+					|| gameStatus->getEnPassantTargetSpot() == destination)
+					// TODO: La prise en passant qui met le roi en echec en enlevant la pièce adverse
+					// n'enlève pas cette destination. Exemple : "4k3/8/8/r2Pp2K/8/8/8/8 w - e6 0 1"
+					validSpots.push_back(destination);
 			}
 		}
+	}
 	return validSpots;
 }

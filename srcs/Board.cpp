@@ -61,7 +61,7 @@ void Board::raiseOnInvalidKingNumber() const
 
 	for (size_t y = 0; y < 8; y++) {
 		for (size_t x = 0; x < 8; x++) {
-			piece = getSpot(x, y)->getPiece();
+			piece = _spots[x][y].getPiece();
 			if (piece && piece->getType() == KING) {
 				if (piece->isWhite())
 					kingWhite++;
@@ -72,6 +72,19 @@ void Board::raiseOnInvalidKingNumber() const
 	}
 	if (kingBlack != 1 || kingWhite != 1)
 		throw Board::InvalidNumberOfKingException();
+}
+
+Spot* Board::getSpotKing(bool isWhite) const
+{
+	Piece* piece;
+	for (size_t x = 0; x < 8; x++) {
+		for (size_t y = 0; y < 8; y++) {
+			piece = _spots[x][y].getPiece();
+			if (piece && piece->getType() == KING && piece->isWhite() == isWhite)
+				return getSpot(x, y);
+		}
+	}
+	throw Board::InvalidNumberOfKingException();
 }
 
 bool Board::loadFen(const std::string& fen)

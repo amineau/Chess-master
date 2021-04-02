@@ -88,7 +88,7 @@ void Piece::killed()
 	this->_isKilled = true;
 }
 
-bool Piece::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
+bool Piece::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	(void)gameStatus;
 	if (start == end)
@@ -98,13 +98,24 @@ bool Piece::canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const
 	return true;
 }
 
-std::vector<Spot*> Piece::validSpots(const GameStatus* gameStatus, const Spot* start) const
+std::vector<Spot*> Piece::validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const
 {
 	(void)gameStatus;
 	(void)start;
 	std::vector<Spot*> v;
 
 	return v;
+}
+
+std::vector<Spot*> Piece::validSpots(const GameStatus* gameStatus, const Spot* start) const
+{
+	std::vector<Spot*> validSpots = validSpotsWithoutCheck(gameStatus, start);
+
+	auto new_end = std::remove_if(validSpots.begin(), validSpots.end(), [&](Spot* end) {
+		return gameStatus->moveCausesCheck(start, end);
+	});
+	validSpots.erase(new_end, validSpots.end());
+	return validSpots;
 }
 
 Piece* Piece::clone() const

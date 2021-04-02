@@ -61,16 +61,30 @@ bool CastlingMove::isLegal() const
 
 void CastlingMove::execute()
 {
-	if (this->_pieceKilled)
-		this->_pieceKilled->killed();
+	bool  isKingSide = (this->_end->getX() == 6);
+	Spot* startSpotRook;
+	Spot* endSpotRook;
+
+	if (isKingSide) {
+		startSpotRook = this->_gameStatus->getSpot(7, this->_end->getY());
+		endSpotRook = this->_gameStatus->getSpot(5, this->_end->getY());
+	} else {
+		startSpotRook = this->_gameStatus->getSpot(0, this->_end->getY());
+		endSpotRook = this->_gameStatus->getSpot(3, this->_end->getY());
+	}
+
 	this->_end->setPiece(this->_pieceMoved);
 	this->_start->setPiece(0);
+
+	endSpotRook->setPiece(startSpotRook->getPiece());
+	startSpotRook->setPiece(0);
+
+	this->_gameStatus->setKingSideCastlingAvailable(false, this->_player->isWhite());
+	this->_gameStatus->setQueenSideCastlingAvailable(false, this->_player->isWhite());
 	this->_gameStatus->pushTurn();
 	this->_gameStatus->pushMove(this);
-
 	this->_gameStatus->setEnPassantTargetSpot(0);
-	if (this->_pieceMoved->getType() == PAWN || !this->_pieceKilled)
-		this->_gameStatus->incrementHalfMoveClock();
+	this->_gameStatus->incrementHalfMoveClock();
 }
 
 CastlingMove* CastlingMove::clone() const

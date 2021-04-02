@@ -23,9 +23,10 @@ EnPassantMove::EnPassantMove(GameStatus* gameStatus, Player* player, Spot* start
 	: Move(gameStatus, player, start, end)
 {
 	if (player->isWhite())
-		this->_pieceKilled = gameStatus->getPiece(this->_end->getX(), 4);
+		this->_spotPieceKilled = gameStatus->getSpot(this->_end->getX(), 4);
 	else
-		this->_pieceKilled = gameStatus->getPiece(this->_end->getX(), 3);
+		this->_spotPieceKilled = gameStatus->getSpot(this->_end->getX(), 3);
+	this->_pieceKilled = this->_spotPieceKilled->getPiece();
 	return;
 }
 
@@ -48,6 +49,7 @@ EnPassantMove& EnPassantMove::operator=(EnPassantMove const& rhs)
 		this->_end = rhs._end;
 		this->_pieceMoved = rhs._pieceMoved;
 		this->_pieceKilled = rhs._pieceKilled;
+		this->_spotPieceKilled = rhs._spotPieceKilled;
 	}
 	return *this;
 }
@@ -61,7 +63,7 @@ bool EnPassantMove::isLegal() const
 		&& pawn->isWhite() == this->_player->isWhite()
 		&& this->_player == this->_gameStatus->getCurrentPlayer()
 		&& this->_end == this->_gameStatus->getEnPassantTargetSpot()
-		&& pawn->canMovesEnPassant(this->_gameStatus, this->_start, this->_end);
+		&& pawn->canMovesEnPassant(this->_gameStatus, this->_start, this->_end, this->_spotPieceKilled);
 }
 
 void EnPassantMove::execute()
@@ -72,10 +74,12 @@ void EnPassantMove::execute()
 		this->_gameStatus->getSpot(this->_end->getX(), 3)->setPiece(0);
 	this->_pieceKilled->killed();
 	this->_end->setPiece(this->_pieceMoved);
+	this->_spotPieceKilled->setPiece(0);
 	this->_start->setPiece(0);
 	this->_gameStatus->pushTurn();
 	this->_gameStatus->pushMove(this);
 	this->_gameStatus->setEnPassantTargetSpot(0);
+	this->_gameStatus->resetHalfMoveClock();
 }
 
 EnPassantMove* EnPassantMove::clone() const

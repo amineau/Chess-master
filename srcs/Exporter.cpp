@@ -70,9 +70,9 @@ const std::string Exporter::_fenCastlingsAvailable() const
 
 	if (this->_gameStatus->getKingSideCastlingAvailable(true))
 		str += 'K';
-	if (this->_gameStatus->getKingSideCastlingAvailable(false))
-		str += 'Q';
 	if (this->_gameStatus->getQueenSideCastlingAvailable(true))
+		str += 'Q';
+	if (this->_gameStatus->getKingSideCastlingAvailable(false))
 		str += 'k';
 	if (this->_gameStatus->getQueenSideCastlingAvailable(false))
 		str += 'q';

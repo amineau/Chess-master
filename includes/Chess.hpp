@@ -14,6 +14,7 @@
 #define GAME_HPP
 
 // #include "Action.hpp"
+#include "CastlingMove.hpp"
 #include "EnPassantMove.hpp"
 #include "Exporter.hpp"
 #include "GameStatus.hpp"

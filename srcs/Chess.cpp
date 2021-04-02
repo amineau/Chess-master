@@ -23,21 +23,21 @@ Chess::Chess()
 	: _playerWhite(Player(true))
 	, _playerBlack(Player(false))
 {
-	std::cout << "Chess CONSTRUCTOR" << std::endl;
+	// std::cout << "Chess CONSTRUCTOR" << std::endl;
 	this->_gameStatus = new GameStatus(this->_playerWhite, this->_playerBlack);
 	return;
 }
 
 Chess::Chess(Chess const& src)
 {
-	std::cout << "Chess CONSTRUCTOR BY REF" << std::endl;
+	// std::cout << "Chess CONSTRUCTOR BY REF" << std::endl;
 	*this = src;
 	return;
 }
 
 Chess::~Chess()
 {
-	std::cout << "Chess DECONSTRUCTOR" << std::endl;
+	// std::cout << "Chess DECONSTRUCTOR" << std::endl;
 	delete this->_gameStatus;
 	return;
 }
@@ -65,6 +65,10 @@ Move* Chess::getMoveAction(Player* player, const std::string& start, const std::
 		&& startSpot->getPiece()->getType() == PAWN
 		&& endSpot == this->_gameStatus->getEnPassantTargetSpot())
 		return new EnPassantMove(this->_gameStatus, player, startSpot, endSpot);
+	if (startSpot->getPiece()
+		&& startSpot->getPiece()->getType() == KING
+		&& abs(static_cast<int>(startSpot->getX() - endSpot->getX())) == 2)
+		return new CastlingMove(this->_gameStatus, player, startSpot, endSpot);
 	return new SimpleMove(this->_gameStatus, player, startSpot, endSpot);
 }
 

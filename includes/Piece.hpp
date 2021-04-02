@@ -64,8 +64,9 @@ public:
 	t_type getType() const;
 	bool   isKilled() const;
 	void   killed();
-	bool virtual canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const;
-	std::vector<Spot*> virtual validSpots(const GameStatus* gameStatus, const Spot* start) const;
+	bool virtual canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const;
+	std::vector<Spot*> virtual validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const;
+	std::vector<Spot*> validSpots(const GameStatus* gameStatus, const Spot* start) const;
 
 	Piece* clone() const;
 

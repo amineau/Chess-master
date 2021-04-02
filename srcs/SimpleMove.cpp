@@ -77,8 +77,25 @@ void SimpleMove::execute()
 				this->_gameStatus->getSpot(this->_start->getX(), 5));
 	} else
 		this->_gameStatus->setEnPassantTargetSpot(0);
-	if (this->_pieceMoved->getType() == PAWN || !this->_pieceKilled)
+	if (this->_pieceMoved->getType() != PAWN || !this->_pieceKilled)
 		this->_gameStatus->incrementHalfMoveClock();
+	else
+		this->_gameStatus->resetHalfMoveClock();
+	this->setCastlings();
+}
+
+void SimpleMove::setCastlings()
+{
+	if (this->_pieceMoved->getType() == KING
+		|| (this->_start->getX() == 7
+			&& this->_start->getY() == (this->_player->isWhite() ? 0 : 7))) {
+		this->_gameStatus->setKingSideCastlingAvailable(false, this->_player->isWhite());
+	}
+	if (this->_pieceMoved->getType() == KING
+		|| (this->_start->getX() == 0
+			&& this->_start->getY() == (this->_player->isWhite() ? 0 : 7))) {
+		this->_gameStatus->setQueenSideCastlingAvailable(false, this->_player->isWhite());
+	}
 }
 
 SimpleMove* SimpleMove::clone() const

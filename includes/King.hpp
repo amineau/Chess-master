@@ -25,13 +25,13 @@ public:
 
 	King& operator=(King const&);
 
-	bool canMoves(GameStatus* gameStatus, Spot* start, Spot* end) const;
-	bool canKingSideCastlingMoves(GameStatus* gameStatus, Spot* start, Spot* end) const;
-	bool canQueenSideCastlingMoves(GameStatus* gameStatus, Spot* start, Spot* end) const;
+	bool canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const;
+	bool canKingSideCastlingMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const;
+	bool canQueenSideCastlingMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const;
 	bool isCastlingDone() const;
 	void setCastlingDone(bool castlingDone);
 
-	std::vector<Spot*> validSpots(const GameStatus* gameStatus, const Spot* start) const;
+	std::vector<Spot*> validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const;
 
 private:
 	bool _castlingDone;

@@ -30,6 +30,9 @@ public:
 	EnPassantMove*	  clone() const;
 
 	EnPassantMove& operator=(EnPassantMove const&);
+
+private:
+	Spot* _spotPieceKilled;
 };
 
 std::ostream& operator<<(std::ostream& o, Move const& i);
