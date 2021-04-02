@@ -85,6 +85,7 @@ void CastlingMove::execute()
 	this->_gameStatus->pushMove(this);
 	this->_gameStatus->setEnPassantTargetSpot(0);
 	this->_gameStatus->incrementHalfMoveClock();
+	this->_gameStatus->updateStatus();
 }
 
 CastlingMove* CastlingMove::clone() const

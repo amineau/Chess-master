@@ -127,6 +127,23 @@ void GameStatus::setQueenSideCastlingAvailable(bool queenSideCastlingAvailable, 
 
 /* Member functions */
 
+void GameStatus::updateStatus()
+{
+	bool isWhite = this->_currentPlayer->isWhite();
+	bool isCheck = this->isCheck(isWhite);
+
+	if (this->hasNoMovePossible(isWhite)) {
+		if (isCheck)
+			this->_status = isWhite ? WHITECHECKMATED : BLACKCHECKMATED;
+		else
+			this->_status = STALEMATE;
+
+	} else if (isCheck)
+		this->_status = isWhite ? WHITECHECKED : BLACKCHECKED;
+	else
+		this->_status = INPROGRESS;
+}
+
 void GameStatus::pushTurn()
 {
 	if (*_currentPlayer == _playerBlack) {
@@ -145,7 +162,7 @@ void GameStatus::incrementHalfMoveClock()
 {
 	this->_halfMoveClock++;
 	if (this->_halfMoveClock == 50)
-		this->_status = DRAW; //TODO: verifier les conditions
+		this->_status = STALEMATE; //TODO: verifier les conditions
 }
 
 void GameStatus::resetHalfMoveClock()
@@ -161,6 +178,21 @@ void GameStatus::incrementFullMoveCounter()
 bool GameStatus::isCheck(bool isWhite) const
 {
 	return isAttacked(_board.getSpotKing(isWhite), isWhite);
+}
+
+bool GameStatus::hasNoMovePossible(bool isWhite) const
+{
+	Piece* piece;
+
+	for (size_t x = 0; x < 8; x++) {
+		for (size_t y = 0; y < 8; y++) {
+			piece = this->getPiece(x, y);
+			if (piece && piece->isWhite() == isWhite
+				&& piece->validSpots(this, this->getSpot(x, y)).size())
+				return false;
+		}
+	}
+	return true;
 }
 
 bool GameStatus::isAttacked(Spot* spot, bool isWhite) const

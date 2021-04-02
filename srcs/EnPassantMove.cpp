@@ -80,6 +80,7 @@ void EnPassantMove::execute()
 	this->_gameStatus->pushMove(this);
 	this->_gameStatus->setEnPassantTargetSpot(0);
 	this->_gameStatus->resetHalfMoveClock();
+	this->_gameStatus->updateStatus();
 }
 
 EnPassantMove* EnPassantMove::clone() const

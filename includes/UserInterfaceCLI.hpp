@@ -26,7 +26,7 @@ public:
 	UserInterfaceCLI& operator=(UserInterfaceCLI const&);
 
 private:
-	void displayBoard() const;
+	void displayBoard(Chess const& chess) const;
 };
 
 #endif

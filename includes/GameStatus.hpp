@@ -32,7 +32,7 @@ enum e_status {
 	BLACKCHECKED,
 	WHITECHECKMATED,
 	BLACKCHECKMATED,
-	DRAW
+	STALEMATE
 };
 typedef enum e_status t_status;
 
@@ -68,6 +68,7 @@ public:
 	void setKingSideCastlingAvailable(bool kingSideCastlingAvailable, bool isWhitePlayer);
 	void setQueenSideCastlingAvailable(bool queenSideCastlingAvailable, bool isWhitePlayer);
 
+	void updateStatus();
 	void pushTurn();
 	void pushMove(Move*);
 	void incrementHalfMoveClock();
@@ -75,6 +76,7 @@ public:
 	void incrementFullMoveCounter();
 
 	bool isCheck(bool isWhite) const;
+	bool hasNoMovePossible(bool isWhite) const;
 	bool isAttacked(Spot* spot, bool isWhite) const;
 	bool moveCausesCheck(const Spot* start, const Spot* end) const;
 	bool moveCausesCheck(const std::vector<std::pair<Spot*, Spot*>> moves) const;

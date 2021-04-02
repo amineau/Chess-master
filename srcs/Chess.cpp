@@ -56,6 +56,28 @@ Chess& Chess::operator=(Chess const& rhs)
 
 /* Members functions */
 
+std::vector<Spot*> Chess::validSpots(const std::string& pos) const
+{
+	Spot*			   spot = _gameStatus->getSpot(pos);
+	Piece*			   piece = _gameStatus->getPiece(pos);
+	std::vector<Spot*> validSpots;
+
+	if (piece && piece->isWhite() == this->getCurrentPlayer()->isWhite())
+		validSpots = piece->validSpots(_gameStatus, spot);
+	return validSpots;
+}
+
+std::vector<Spot*> Chess::validSpots(size_t x, size_t y) const
+{
+	Spot*			   spot = _gameStatus->getSpot(x, y);
+	Piece*			   piece = _gameStatus->getPiece(x, y);
+	std::vector<Spot*> validSpots;
+
+	if (piece && piece->isWhite() == this->getCurrentPlayer()->isWhite())
+		validSpots = piece->validSpots(_gameStatus, spot);
+	return validSpots;
+}
+
 Move* Chess::getMoveAction(Player* player, const std::string& start, const std::string& end) const
 {
 	Spot* startSpot = this->_gameStatus->getSpot(start);

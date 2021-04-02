@@ -82,6 +82,7 @@ void SimpleMove::execute()
 	else
 		this->_gameStatus->resetHalfMoveClock();
 	this->setCastlings();
+	this->_gameStatus->updateStatus();
 }
 
 void SimpleMove::setCastlings()
