@@ -17,14 +17,13 @@ SPATH = srcs
 OPATH = objs
 HPATH = includes
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -std=c++11
 IPATHS = -I./$(HPATH)
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Darwin)
 	IPATHS += -I/usr/local/opt/ncurses/include
 	LIBS += -L/usr/local/opt/ncurses/lib -lncurses
-	CFLAGS += -std=c++11
 	DEBUGGER = lldb
 endif
 ifeq ($(UNAME_S), Linux)
@@ -57,7 +56,7 @@ $(NAME): $(OBJ)
 $(OPATH):
 		@printf "$(YELLOW)%-30s$(WHITE)" "Creating $@ directory"
 		@mkdir -p $(OPATH)
-		@echo "$(GREENB)<<--$(WHITE)"
+		@printf "$(GREENB)<<--$(WHITE)\n"
 
 $(OPATH)/%.o: $(SPATH)/%.cpp
 		@$(CC) $(CFLAGS) $(IPATHS) -o $@ -c $< \
@@ -77,12 +76,12 @@ leaks: $(OPATH) $(NAME) $(INC)
 clean:
 		@printf "$(YELLOW)%-30s$(WHITE)" "Deleting $(OPATH)"
 		@rm -rf $(OPATH)
-		@echo "$(GREENB)<<--$(WHITE)"
+		@printf "$(GREENB)<<--$(WHITE)\n"
 
 fclean: clean
 		@printf "$(YELLOW)%-30s$(WHITE)" "Deleting $(NAME)"
 		@rm -f $(NAME)
-		@echo "$(GREENB)<<--$(WHITE)"
+		@printf "$(GREENB)<<--$(WHITE)\n"
 
 re: fclean all
 
