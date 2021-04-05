@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:08:17 by amineau          ###   ########.fr       */
+/*   Updated: 2021/04/05 16:54:38 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,14 @@ void UserInterfaceCLI::start()
 		std::cin >> entry;
 		if (!entry.compare("help")) {
 			std::cout << std::endl
-					  << "\thelp\tDisplay this command" << std::endl
-					  << "\tdisplay\tDisplay chess board" << std::endl
-					  << "\tmove start end\tMove from start position to end position" << std::endl
+					  << "\thelp\t\t\tDisplay this command" << std::endl
+					  << "\tdisplay\t\t\tDisplay chess board" << std::endl
+					  << "\tmove start end\t\tMove from start position to end position" << std::endl
 					  << "\tvalid-moves start\tValid moves to a piece at start position" << std::endl
-					  << "\tlist\tList of moves" << std::endl
-					  << "\tturn\tCurrent player turn" << std::endl
-					  << "\tfen\tDisplay the fen notation" << std::endl
-					  << "\texit\tQuit program" << std::endl
-					  << "\tquit\tQuit program" << std::endl
+					  << "\tlist\t\t\tList of moves" << std::endl
+					  << "\tturn\t\t\tCurrent player turn" << std::endl
+					  << "\tfen\t\t\tDisplay the fen notation" << std::endl
+					  << "\texit,quit\t\tQuit program" << std::endl
 					  << std::endl;
 		} else if (!entry.compare("turn")) {
 			std::cout << *chess.getCurrentPlayer() << std::endl;
