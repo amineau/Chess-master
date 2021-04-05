@@ -1,6 +1,7 @@
 # C compilation
 objs
 chessmaster
+*.out
 # editor config
 .vscode
 # others
