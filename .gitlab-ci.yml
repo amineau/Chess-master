@@ -4,3 +4,4 @@ test:
   stage: test
   script:
     - make test
+    - ./test.out
