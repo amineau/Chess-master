@@ -55,7 +55,7 @@ $(OPATH):
 	@mkdir -p $(OPATH)
 	@printf "$(GREENB)<<--$(WHITE)\n"
 
-$(OPATH)/%.o: $(SPATH)/%.cpp
+$(OPATH)/%.o: $(SPATH)/%.cpp $(HPATH)/%.hpp
 	@$(CC) $(CFLAGS) $(IPATHS) -o $@ -c $< \
 	&& printf "%-30s$(DARK)-->>\t$(GREEN)$@$(WHITE)\n" "$<" \
 	|| (printf "%-30s$(DARK)-->>\t$(RED)$@$(WHITE)\n" "$<" \

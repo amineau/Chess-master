@@ -94,9 +94,12 @@ Move* Chess::getMoveAction(Player* player, const std::string& start, const std::
 	return new SimpleMove(this->_gameStatus, player, startSpot, endSpot);
 }
 
-void Chess::makeAction(Action* action)
+bool Chess::makeAction(Action* action)
 {
+	if (!action->isLegal())
+		return false;
 	action->execute();
+	return true;
 }
 
 bool Chess::loadFen(const std::string& fen)

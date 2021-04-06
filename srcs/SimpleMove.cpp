@@ -56,7 +56,7 @@ bool SimpleMove::isLegal() const
 {
 	return this->_pieceMoved
 		&& this->_pieceMoved->isWhite() == this->_player->isWhite()
-		&& this->_player == this->_gameStatus->getCurrentPlayer()
+		&& *(this->_player) == *(this->_gameStatus->getCurrentPlayer())
 		&& this->_pieceMoved->canMoves(this->_gameStatus, this->_start, this->_end);
 }
 

@@ -51,7 +51,7 @@ public:
 	std::vector<Move*> getMovesPlayed() const { return _gameStatus->getMovesPlayed(); }
 
 	Move* getMoveAction(Player* player, const std::string& start, const std::string& end) const;
-	void  makeAction(Action*);
+	bool  makeAction(Action*);
 
 	Chess& operator=(Chess const&);
 
