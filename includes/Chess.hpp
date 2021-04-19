@@ -36,19 +36,18 @@ public:
 	Chess(Chess const&);
 	~Chess();
 
-	Player*	 getPlayerWhite() const { return const_cast<Player*>(&_playerWhite); }
-	Player*	 getPlayerBlack() const { return const_cast<Player*>(&_playerBlack); }
-	Player*	 getCurrentPlayer() const { return _gameStatus->getCurrentPlayer(); }
-	t_result getResult() const { return _result; }
-	Piece*	 getPiece(const std::string& pos) const { return _gameStatus->getPiece(pos); }
-	Piece*	 getPiece(size_t x, size_t y) const { return _gameStatus->getPiece(x, y); }
+	Player* getPlayerWhite() const { return const_cast<Player*>(&_playerWhite); }
+	Player* getPlayerBlack() const { return const_cast<Player*>(&_playerBlack); }
+	Player* getCurrentPlayer() const { return _gameStatus->getCurrentPlayer(); }
+	Piece*	getPiece(const std::string& pos) const { return _gameStatus->getPiece(pos); }
+	Piece*	getPiece(size_t x, size_t y) const { return _gameStatus->getPiece(x, y); }
 
-	bool			  loadFen(const std::string& fen); // TODO: transforme en start() - fen dans le constructor
-	const std::string exportFen() const;
+	bool			  load(const std::string& fen);
+	const std::string fen() const;
 
 	std::vector<Spot*> validSpots(const std::string& pos) const;
 	std::vector<Spot*> validSpots(size_t x, size_t y) const;
-	std::vector<Move*> getMovesPlayed() const { return _gameStatus->getMovesPlayed(); }
+	std::vector<Move*> history() const { return _gameStatus->getMovesPlayed(); }
 
 	Move* getMoveAction(Player* player, const std::string& start, const std::string& end) const;
 	bool  makeAction(Action*);
@@ -58,7 +57,6 @@ public:
 private:
 	Player		_playerWhite;
 	Player		_playerBlack;
-	t_result	_result;
 	GameStatus* _gameStatus;
 };
 

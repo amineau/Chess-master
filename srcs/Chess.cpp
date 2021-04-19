@@ -102,14 +102,14 @@ bool Chess::makeAction(Action* action)
 	return true;
 }
 
-bool Chess::loadFen(const std::string& fen)
+bool Chess::load(const std::string& fen)
 {
 	Loader loader(this->_gameStatus);
 
 	return loader.fen(fen);
 }
 
-const std::string Chess::exportFen() const
+const std::string Chess::fen() const
 {
 	Exporter exporter(this->_gameStatus);
 

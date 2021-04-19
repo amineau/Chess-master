@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 19:28:51 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:08:57 by amineau          ###   ########.fr       */
+/*   Updated: 2021/04/19 19:44:09 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ public:
 
 	bool isCheck(bool isWhite) const;
 	bool hasNoMovePossible(bool isWhite) const;
-	bool isAttacked(Spot* spot, bool isWhite) const;
+	bool isAttacked(Spot* spot) const;
 	bool moveCausesCheck(const Spot* start, const Spot* end) const;
 	bool moveCausesCheck(const std::vector<std::pair<Spot*, Spot*>> moves) const;
 

@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/04/05 16:54:38 by amineau          ###   ########.fr       */
+/*   Updated: 2021/04/19 19:43:54 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void UserInterfaceCLI::start()
 	Move* move;
 	Chess chess = Chess();
 
-	if (!chess.loadFen(settings::defaultFenStart)) {
+	if (!chess.load(settings::defaultFenStart)) {
 		std::cout << "Wrong parsing" << std::endl;
 		exit(EXIT_FAILURE);
 	}
@@ -74,7 +74,7 @@ void UserInterfaceCLI::start()
 					  << "\tdisplay\t\t\tDisplay chess board" << std::endl
 					  << "\tmove start end\t\tMove from start position to end position" << std::endl
 					  << "\tvalid-moves start\tValid moves to a piece at start position" << std::endl
-					  << "\tlist\t\t\tList of moves" << std::endl
+					  << "\thistory\t\t\tList of moves" << std::endl
 					  << "\tturn\t\t\tCurrent player turn" << std::endl
 					  << "\tfen\t\t\tDisplay the fen notation" << std::endl
 					  << "\texit,quit\t\tQuit program" << std::endl
@@ -84,7 +84,7 @@ void UserInterfaceCLI::start()
 		} else if (!entry.compare("display")) {
 			this->displayBoard(chess);
 		} else if (!entry.compare("fen")) {
-			std::cout << chess.exportFen() << std::endl;
+			std::cout << chess.fen() << std::endl;
 		} else if (!entry.compare("move")) {
 			std::cin >> arg1 >> arg2;
 			move = chess.getMoveAction(
@@ -101,8 +101,8 @@ void UserInterfaceCLI::start()
 			std::cin >> arg1;
 			for (Spot* validSpot : chess.validSpots(arg1))
 				std::cout << *validSpot << std::endl;
-		} else if (!entry.compare("list")) {
-			for (Move* movePlayed : chess.getMovesPlayed()) {
+		} else if (!entry.compare("history")) {
+			for (Move* movePlayed : chess.history()) {
 				std::cout << *movePlayed;
 				if (movePlayed->getPieceMoved()->isWhite())
 					std::cout << ' ';

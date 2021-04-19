@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 19:49:19 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:07:38 by amineau          ###   ########.fr       */
+/*   Updated: 2021/04/19 19:44:03 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void GameStatus::incrementFullMoveCounter()
 
 bool GameStatus::isCheck(bool isWhite) const
 {
-	return isAttacked(_board.getSpotKing(isWhite), isWhite);
+	return isAttacked(_board.getSpotKing(isWhite));
 }
 
 bool GameStatus::hasNoMovePossible(bool isWhite) const
@@ -195,21 +195,13 @@ bool GameStatus::hasNoMovePossible(bool isWhite) const
 	return true;
 }
 
-bool GameStatus::isAttacked(Spot* spot, bool isWhite) const
+bool GameStatus::isAttacked(Spot* spot) const
 {
-	Piece*			   piece;
-	std::vector<Spot*> validSpots;
-
-	for (size_t x = 0; x < 8; x++) {
-		for (size_t y = 0; y < 8; y++) {
-			piece = this->getPiece(x, y);
-			if (piece && piece->isWhite() != isWhite) {
-				validSpots = piece->validSpotsWithoutCheck(this, this->getSpot(x, y));
-				if (std::find(validSpots.begin(), validSpots.end(), spot) != validSpots.end())
-					return true;
-			}
-		}
-	}
+	for (size_t x = 0; x < 8; x++)
+		for (size_t y = 0; y < 8; y++)
+			if (this->getPiece(x, y)
+				&& this->getPiece(x, y)->canMoves(this, this->getSpot(x, y), spot))
+				return true;
 	return false;
 }
 

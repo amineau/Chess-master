@@ -91,8 +91,7 @@ void Piece::killed()
 bool Piece::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	(void)gameStatus;
-	if (start == end)
-		return false;
+	(void)start;
 	if (end->getPiece() && end->getPiece()->isWhite() == this->isWhite())
 		return false;
 	return true;

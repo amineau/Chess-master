@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   test_main.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 17:30:33 by amineau           #+#    #+#             */
-/*   Updated: 2021/04/05 18:30:18 by amineau          ###   ########.fr       */
+/*   Updated: 2021/04/19 19:43:50 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ TEST_CASE("Move piece check")
 			SECTION("White side")
 			{
 				Piece* pawn;
-				chess.loadFen("8/8/8/8/8/8/P7/2k1K3 w - - 0 1");
+				chess.load("8/8/8/8/8/8/P7/2k1K3 w - - 0 1");
 
 				pawn = chess.getPiece("a2");
 				REQUIRE(pawn->getType() == PAWN);
@@ -39,7 +39,7 @@ TEST_CASE("Move piece check")
 			SECTION("Black side")
 			{
 				Piece* pawn;
-				chess.loadFen("8/p7/8/8/8/8/8/2k1K3 b - - 0 1");
+				chess.load("8/p7/8/8/8/8/8/2k1K3 b - - 0 1");
 
 				pawn = chess.getPiece("a7");
 				REQUIRE(pawn->getType() == PAWN);
@@ -56,7 +56,7 @@ TEST_CASE("Move piece check")
 			SECTION("White side")
 			{
 				Piece* pawn;
-				chess.loadFen("8/8/8/8/8/P7/8/2k1K3 w - - 0 1");
+				chess.load("8/8/8/8/8/P7/8/2k1K3 w - - 0 1");
 
 				pawn = chess.getPiece("a3");
 				REQUIRE(pawn->getType() == PAWN);
@@ -70,7 +70,7 @@ TEST_CASE("Move piece check")
 			SECTION("Black side")
 			{
 				Piece* pawn;
-				chess.loadFen("8/8/p7/8/8/8/8/2k1K3 b - - 0 1");
+				chess.load("8/8/p7/8/8/8/8/2k1K3 b - - 0 1");
 
 				pawn = chess.getPiece("a6");
 				REQUIRE(pawn->getType() == PAWN);
@@ -87,7 +87,7 @@ TEST_CASE("Move piece check")
 			SECTION("White side")
 			{
 				Piece* pawn;
-				chess.loadFen("8/8/8/8/8/8/P7/2k1K3 w - - 0 1");
+				chess.load("8/8/8/8/8/8/P7/2k1K3 w - - 0 1");
 
 				pawn = chess.getPiece("a2");
 				REQUIRE(pawn->getType() == PAWN);
@@ -101,7 +101,7 @@ TEST_CASE("Move piece check")
 			SECTION("Black side")
 			{
 				Piece* pawn;
-				chess.loadFen("8/p7/8/8/8/8/8/2k1K3 b - - 0 1");
+				chess.load("8/p7/8/8/8/8/8/2k1K3 b - - 0 1");
 
 				pawn = chess.getPiece("a7");
 				REQUIRE(pawn->getType() == PAWN);
@@ -118,7 +118,7 @@ TEST_CASE("Move piece check")
 			SECTION("White side")
 			{
 				Piece* pawn;
-				chess.loadFen("8/8/8/8/8/P7/8/2k1K3 w - - 0 1");
+				chess.load("8/8/8/8/8/P7/8/2k1K3 w - - 0 1");
 
 				pawn = chess.getPiece("a3");
 				REQUIRE(pawn->getType() == PAWN);
@@ -132,7 +132,7 @@ TEST_CASE("Move piece check")
 			SECTION("Black side")
 			{
 				Piece* pawn;
-				chess.loadFen("8/8/p7/8/8/8/8/2k1K3 b - - 0 1");
+				chess.load("8/8/p7/8/8/8/8/2k1K3 b - - 0 1");
 
 				pawn = chess.getPiece("a6");
 				REQUIRE(pawn->getType() == PAWN);
