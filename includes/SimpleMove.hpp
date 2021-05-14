@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:46:53 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/27 19:23:22 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/15 00:01:02 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,11 @@ class SimpleMove : public Move {
 
 public:
 	SimpleMove();
-	SimpleMove(GameStatus*, Player*, Spot* start, Spot* end);
+	SimpleMove(GameStatus*, Spot* start, Spot* end);
 	SimpleMove(SimpleMove const&);
 	~SimpleMove();
 
-	bool			  isLegal() const;
-	void			  execute();
+	bool			  execute();
 	const std::string getRepr() const;
 	SimpleMove*		  clone() const;
 
@@ -33,6 +32,9 @@ public:
 	void setCastlings();
 
 	SimpleMove& operator=(SimpleMove const&);
+
+private:
+	bool isLegal() const;
 };
 
 std::ostream& operator<<(std::ostream& o, Move const& i);

@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:07:23 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/15 00:10:04 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,33 +169,12 @@ const std::string Board::exportFen() const
 
 Board& Board::operator=(Board const& rhs)
 {
-	// Piece* piece;
 	if (this != &rhs) {
 		this->_isLoad = rhs._isLoad;
 		if (_isLoad)
 			for (size_t y = 0; y < 8; y++)
 				for (size_t x = 0; x < 8; x++)
 					this->_spots[x][y] = rhs._spots[x][y];
-		// piece = rhs._spots[x][y]->getPiece();
-		// if (piece) {
-		// 	// TODO: Pointer of function
-		// 	if (piece->getType() == KING)
-		// 		this->_spots[x][y] = new Spot(x, y, new King(dynamic_cast<King const&>(*rhs._spots[x][y]->getPiece())));
-		// 	if (piece->getType() == QUEEN)
-		// 		this->_spots[x][y] = new Spot(x, y, new Queen(dynamic_cast<Queen const&>(*rhs._spots[x][y]->getPiece())));
-		// 	if (piece->getType() == BISHOP)
-		// 		this->_spots[x][y] = new Spot(x, y, new Bishop(dynamic_cast<Bishop const&>(*rhs._spots[x][y]->getPiece())));
-		// 	if (piece->getType() == KNIGHT)
-		// 		this->_spots[x][y] = new Spot(x, y, new Knight(dynamic_cast<Knight const&>(*rhs._spots[x][y]->getPiece())));
-		// 	if (piece->getType() == ROOK)
-		// 		this->_spots[x][y] = new Spot(x, y, new Rook(dynamic_cast<Rook const&>(*rhs._spots[x][y]->getPiece())));
-		// 	if (piece->getType() == PAWN)
-		// 		this->_spots[x][y] = new Spot(x, y, new Pawn(dynamic_cast<Pawn const&>(*rhs._spots[x][y]->getPiece())));
-
-		// } else
-		// 	this->_spots[x][y] = new Spot(x, y);
-		// 	}
-		// }
 	}
 	return *this;
 }

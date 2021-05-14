@@ -6,14 +6,16 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:08:36 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/15 00:07:02 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ROOK_HPP
 #define ROOK_HPP
 
+#include "GameStatus.hpp"
 #include "Piece.hpp"
+#include "Spot.hpp"
 
 class Rook : public virtual Piece {
 

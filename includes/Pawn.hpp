@@ -6,14 +6,16 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:34:32 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:08:45 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/15 00:07:14 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PAWN_HPP
 #define PAWN_HPP
 
+#include "GameStatus.hpp"
 #include "Piece.hpp"
+#include "Spot.hpp"
 
 class Pawn : public Piece {
 

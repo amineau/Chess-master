@@ -13,7 +13,6 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-// #include "Action.hpp"
 #include "CastlingMove.hpp"
 #include "EnPassantMove.hpp"
 #include "Exporter.hpp"
@@ -21,13 +20,6 @@
 #include "Loader.hpp"
 #include "Move.hpp"
 #include "SimpleMove.hpp"
-
-enum e_result {
-	WHITEWIN,
-	BLACKWIN,
-	DRAW
-};
-typedef enum e_result t_result;
 
 class Chess {
 
@@ -49,7 +41,7 @@ public:
 	std::vector<Spot*> validSpots(size_t x, size_t y) const;
 	std::vector<Move*> history() const { return _gameStatus->getMovesPlayed(); }
 
-	Move* getMoveAction(Player* player, const std::string& start, const std::string& end) const;
+	Move* getMoveAction(const std::string& start, const std::string& end) const;
 	bool  makeAction(Action*);
 
 	Chess& operator=(Chess const&);

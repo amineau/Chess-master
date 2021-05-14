@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:47:12 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:07:08 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/14 23:47:49 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ EnPassantMove::EnPassantMove()
 	return;
 }
 
-EnPassantMove::EnPassantMove(GameStatus* gameStatus, Player* player, Spot* start, Spot* end)
-	: Move(gameStatus, player, start, end)
+EnPassantMove::EnPassantMove(GameStatus* gameStatus, Spot* start, Spot* end)
+	: Move(gameStatus, start, end)
 {
-	if (player->isWhite())
+	if (this->_isWhitePlayer)
 		this->_spotPieceKilled = gameStatus->getSpot(this->_end->getX(), 4);
 	else
 		this->_spotPieceKilled = gameStatus->getSpot(this->_end->getX(), 3);
@@ -60,15 +60,16 @@ bool EnPassantMove::isLegal() const
 
 	return pawn
 		&& pawn->getType() == PAWN
-		&& pawn->isWhite() == this->_player->isWhite()
-		&& this->_player == this->_gameStatus->getCurrentPlayer()
+		&& pawn->isWhite() == this->_isWhitePlayer
 		&& this->_end == this->_gameStatus->getEnPassantTargetSpot()
 		&& pawn->canMovesEnPassant(this->_gameStatus, this->_start, this->_end, this->_spotPieceKilled);
 }
 
-void EnPassantMove::execute()
+bool EnPassantMove::execute()
 {
-	if (this->_player->isWhite())
+	if (!isLegal())
+		return false;
+	if (this->_isWhitePlayer)
 		this->_gameStatus->getSpot(this->_end->getX(), 4)->setPiece(0);
 	else
 		this->_gameStatus->getSpot(this->_end->getX(), 3)->setPiece(0);
@@ -81,6 +82,7 @@ void EnPassantMove::execute()
 	this->_gameStatus->setEnPassantTargetSpot(0);
 	this->_gameStatus->resetHalfMoveClock();
 	this->_gameStatus->updateStatus();
+	return true;
 }
 
 EnPassantMove* EnPassantMove::clone() const

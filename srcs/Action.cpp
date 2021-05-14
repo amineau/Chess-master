@@ -6,11 +6,12 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:36:07 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:07:30 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/14 23:56:00 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Action.hpp"
+#include "GameStatus.hpp"
 
 Action::Action()
 {
@@ -23,10 +24,10 @@ Action::Action(Action const& src)
 	return;
 }
 
-Action::Action(GameStatus* gameStatus, Player* player)
+Action::Action(GameStatus* gameStatus)
 	: _gameStatus(gameStatus)
-	, _player(player)
 {
+	_isWhitePlayer = _gameStatus->getCurrentPlayer()->isWhite();
 	return;
 }
 
@@ -35,15 +36,10 @@ Action::~Action()
 	return;
 }
 
-Player* Action::getPlayer() const
-{
-	return this->_player;
-}
-
 Action& Action::operator=(Action const& rhs)
 {
 	if (this != &rhs) {
-		this->_player = rhs._player;
+		this->_isWhitePlayer = rhs._isWhitePlayer;
 		this->_gameStatus = rhs._gameStatus;
 	}
 	return *this;

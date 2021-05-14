@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 17:30:33 by amineau           #+#    #+#             */
-/*   Updated: 2021/04/19 19:43:50 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/14 23:46:28 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ TEST_CASE("Move piece check")
 				REQUIRE(pawn->getType() == PAWN);
 				REQUIRE(pawn->isWhite() == true);
 
-				move = chess.getMoveAction(chess.getPlayerWhite(), "a2", "a3");
+				move = chess.getMoveAction("a2", "a3");
 
 				REQUIRE(chess.makeAction(move) == true);
 				REQUIRE(chess.getPiece("a3") == pawn);
@@ -45,7 +45,7 @@ TEST_CASE("Move piece check")
 				REQUIRE(pawn->getType() == PAWN);
 				REQUIRE(pawn->isWhite() == false);
 
-				move = chess.getMoveAction(chess.getPlayerBlack(), "a7", "a6");
+				move = chess.getMoveAction("a7", "a6");
 
 				REQUIRE(chess.makeAction(move) == true);
 				REQUIRE(chess.getPiece("a6") == pawn);
@@ -62,7 +62,7 @@ TEST_CASE("Move piece check")
 				REQUIRE(pawn->getType() == PAWN);
 				REQUIRE(pawn->isWhite() == true);
 
-				move = chess.getMoveAction(chess.getPlayerWhite(), "a3", "a4");
+				move = chess.getMoveAction("a3", "a4");
 
 				REQUIRE(chess.makeAction(move) == true);
 				REQUIRE(chess.getPiece("a4") == pawn);
@@ -76,7 +76,7 @@ TEST_CASE("Move piece check")
 				REQUIRE(pawn->getType() == PAWN);
 				REQUIRE(pawn->isWhite() == false);
 
-				move = chess.getMoveAction(chess.getPlayerBlack(), "a6", "a5");
+				move = chess.getMoveAction("a6", "a5");
 
 				REQUIRE(chess.makeAction(move) == true);
 				REQUIRE(chess.getPiece("a5") == pawn);
@@ -93,7 +93,7 @@ TEST_CASE("Move piece check")
 				REQUIRE(pawn->getType() == PAWN);
 				REQUIRE(pawn->isWhite() == true);
 
-				move = chess.getMoveAction(chess.getPlayerWhite(), "a2", "a4");
+				move = chess.getMoveAction("a2", "a4");
 
 				REQUIRE(chess.makeAction(move) == true);
 				REQUIRE(chess.getPiece("a4") == pawn);
@@ -107,7 +107,7 @@ TEST_CASE("Move piece check")
 				REQUIRE(pawn->getType() == PAWN);
 				REQUIRE(pawn->isWhite() == false);
 
-				move = chess.getMoveAction(chess.getPlayerBlack(), "a7", "a5");
+				move = chess.getMoveAction("a7", "a5");
 
 				REQUIRE(chess.makeAction(move) == true);
 				REQUIRE(chess.getPiece("a5") == pawn);
@@ -124,7 +124,7 @@ TEST_CASE("Move piece check")
 				REQUIRE(pawn->getType() == PAWN);
 				REQUIRE(pawn->isWhite() == true);
 
-				move = chess.getMoveAction(chess.getPlayerWhite(), "a3", "a5");
+				move = chess.getMoveAction("a3", "a5");
 
 				REQUIRE(chess.makeAction(move) == false);
 				REQUIRE(chess.getPiece("a3") == pawn);
@@ -138,7 +138,7 @@ TEST_CASE("Move piece check")
 				REQUIRE(pawn->getType() == PAWN);
 				REQUIRE(pawn->isWhite() == false);
 
-				move = chess.getMoveAction(chess.getPlayerBlack(), "a6", "a4");
+				move = chess.getMoveAction("a6", "a4");
 
 				REQUIRE(chess.makeAction(move) == false);
 				REQUIRE(chess.getPiece("a6") == pawn);

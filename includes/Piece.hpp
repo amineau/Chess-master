@@ -6,21 +6,20 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:43:39 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:08:43 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/15 00:04:33 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIECE_HPP
 #define PIECE_HPP
 
-#include "GameStatus.hpp"
-#include "Spot.hpp"
 #include "utils.hpp"
 #include <iostream>
 #include <map>
 #include <vector>
 
-// class GameStatus;
+class Spot;
+class GameStatus;
 
 enum e_type {
 	KING,
@@ -60,7 +59,6 @@ public:
 	Piece& operator=(Piece const&);
 
 	bool   isWhite() const;
-	void   setIsWhite(bool);
 	t_type getType() const;
 	bool   isKilled() const;
 	void   killed();

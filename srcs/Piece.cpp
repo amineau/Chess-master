@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "Piece.hpp"
+#include "GameStatus.hpp"
+#include "Spot.hpp"
 
 Piece::Piece()
 {
@@ -64,11 +66,6 @@ Piece& Piece::operator=(Piece const& rhs)
 bool Piece::isWhite() const
 {
 	return this->_isWhite;
-}
-
-void Piece::setIsWhite(bool isWhite)
-{
-	this->_isWhite = isWhite;
 }
 
 t_type Piece::getType() const

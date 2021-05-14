@@ -78,7 +78,7 @@ std::vector<Spot*> Chess::validSpots(size_t x, size_t y) const
 	return validSpots;
 }
 
-Move* Chess::getMoveAction(Player* player, const std::string& start, const std::string& end) const
+Move* Chess::getMoveAction(const std::string& start, const std::string& end) const
 {
 	Spot* startSpot = this->_gameStatus->getSpot(start);
 	Spot* endSpot = this->_gameStatus->getSpot(end);
@@ -86,20 +86,17 @@ Move* Chess::getMoveAction(Player* player, const std::string& start, const std::
 	if (startSpot->getPiece()
 		&& startSpot->getPiece()->getType() == PAWN
 		&& endSpot == this->_gameStatus->getEnPassantTargetSpot())
-		return new EnPassantMove(this->_gameStatus, player, startSpot, endSpot);
+		return new EnPassantMove(this->_gameStatus, startSpot, endSpot);
 	if (startSpot->getPiece()
 		&& startSpot->getPiece()->getType() == KING
 		&& abs(static_cast<int>(startSpot->getX() - endSpot->getX())) == 2)
-		return new CastlingMove(this->_gameStatus, player, startSpot, endSpot);
-	return new SimpleMove(this->_gameStatus, player, startSpot, endSpot);
+		return new CastlingMove(this->_gameStatus, startSpot, endSpot);
+	return new SimpleMove(this->_gameStatus, startSpot, endSpot);
 }
 
 bool Chess::makeAction(Action* action)
 {
-	if (!action->isLegal())
-		return false;
-	action->execute();
-	return true;
+	return action->execute();
 }
 
 bool Chess::load(const std::string& fen)

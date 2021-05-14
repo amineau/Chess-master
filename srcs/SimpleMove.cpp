@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:50:51 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 21:17:57 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/14 23:38:57 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ SimpleMove::SimpleMove()
 	return;
 }
 
-SimpleMove::SimpleMove(GameStatus* gameStatus, Player* player, Spot* start, Spot* end)
-	: Move(gameStatus, player, start, end)
+SimpleMove::SimpleMove(GameStatus* gameStatus, Spot* start, Spot* end)
+	: Move(gameStatus, start, end)
 {
 	return;
 }
@@ -55,13 +55,14 @@ bool SimpleMove::isDoublePushPawn() const
 bool SimpleMove::isLegal() const
 {
 	return this->_pieceMoved
-		&& this->_pieceMoved->isWhite() == this->_player->isWhite()
-		&& *(this->_player) == *(this->_gameStatus->getCurrentPlayer())
+		&& this->_pieceMoved->isWhite() == this->_isWhitePlayer
 		&& this->_pieceMoved->canMoves(this->_gameStatus, this->_start, this->_end);
 }
 
-void SimpleMove::execute()
+bool SimpleMove::execute()
 {
+	if (!isLegal())
+		return false;
 	if (this->_pieceKilled)
 		this->_pieceKilled->killed();
 	this->_end->setPiece(this->_pieceMoved);
@@ -69,7 +70,7 @@ void SimpleMove::execute()
 	this->_gameStatus->pushTurn();
 	this->_gameStatus->pushMove(this);
 	if (this->isDoublePushPawn()) {
-		if (this->_player->isWhite())
+		if (this->_isWhitePlayer)
 			this->_gameStatus->setEnPassantTargetSpot(
 				this->_gameStatus->getSpot(this->_start->getX(), 2));
 		else
@@ -83,19 +84,24 @@ void SimpleMove::execute()
 		this->_gameStatus->resetHalfMoveClock();
 	this->setCastlings();
 	this->_gameStatus->updateStatus();
+	return true;
 }
 
 void SimpleMove::setCastlings()
 {
-	if (this->_pieceMoved->getType() == KING
-		|| (this->_start->getX() == 7
-			&& this->_start->getY() == (this->_player->isWhite() ? 0 : 7))) {
-		this->_gameStatus->setKingSideCastlingAvailable(false, this->_player->isWhite());
+	if (this->_gameStatus->getKingSideCastlingAvailable(this->_isWhitePlayer)
+		&& (this->_pieceMoved->getType() == KING
+			|| (this->_pieceMoved->getType() == ROOK
+				&& this->_start->getX() == 7
+				&& this->_start->getY() == (this->_isWhitePlayer ? 0 : 7)))) {
+		this->_gameStatus->setKingSideCastlingAvailable(false, this->_isWhitePlayer);
 	}
-	if (this->_pieceMoved->getType() == KING
-		|| (this->_start->getX() == 0
-			&& this->_start->getY() == (this->_player->isWhite() ? 0 : 7))) {
-		this->_gameStatus->setQueenSideCastlingAvailable(false, this->_player->isWhite());
+	if (this->_gameStatus->getQueenSideCastlingAvailable(this->_isWhitePlayer)
+		&& (this->_pieceMoved->getType() == KING
+			|| (this->_pieceMoved->getType() == ROOK
+				&& this->_start->getX() == 0
+				&& this->_start->getY() == (this->_isWhitePlayer ? 0 : 7)))) {
+		this->_gameStatus->setQueenSideCastlingAvailable(false, this->_isWhitePlayer);
 	}
 }
 

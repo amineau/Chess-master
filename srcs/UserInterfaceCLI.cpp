@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/04/19 19:43:54 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/14 23:46:02 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,12 @@ void UserInterfaceCLI::start()
 			std::cout << chess.fen() << std::endl;
 		} else if (!entry.compare("move")) {
 			std::cin >> arg1 >> arg2;
-			move = chess.getMoveAction(
-				chess.getCurrentPlayer(), arg1, arg2);
-			if (move->isLegal()) {
-				chess.makeAction(move);
+			move = chess.getMoveAction(arg1, arg2);
+			if (chess.makeAction(move))
 				std::cout << "Move ok" << std::endl;
-
-			} else {
-				delete move;
+			else
 				std::cout << "Incorrect move" << std::endl;
-			}
+
 		} else if (!entry.compare("valid-moves")) {
 			std::cin >> arg1;
 			for (Spot* validSpot : chess.validSpots(arg1))

@@ -42,7 +42,7 @@ GREEN  	:= \033[0;32m
 YELLOW 	:= \033[33m
 CYAN   	:= \033[36m
 
-all: $(OPATH) $(EXEC) $(INC)
+all: $(OPATH) $(EXEC)
 
 $(EXEC): $(OBJ)
 	@$(CC) -o $@ $^ $(CFLAGS) $(IPATHS) $(LIBS) \
@@ -51,11 +51,11 @@ $(EXEC): $(OBJ)
 	&& exit 1)
 
 $(OPATH):
-	@printf "$(YELLOW)%-30s$(WHITE)" "Creating $@ directory"
+	@printf "%-30s" "Creating $@ directory"
 	@mkdir -p $(OPATH)
 	@printf "$(GREENB)<<--$(WHITE)\n"
 
-$(OPATH)/%.o: $(SPATH)/%.cpp $(HPATH)/%.hpp
+$(OPATH)/%.o: $(SPATH)/%.cpp
 	@$(CC) $(CFLAGS) $(IPATHS) -o $@ -c $< \
 	&& printf "%-30s$(DARK)-->>\t$(GREEN)$@$(WHITE)\n" "$<" \
 	|| (printf "%-30s$(DARK)-->>\t$(RED)$@$(WHITE)\n" "$<" \
@@ -85,15 +85,20 @@ $(OPATH)/%.o: $(SPATH_TEST)/%.cpp
 	&& exit 1)
 
 clean:
-	@printf "$(YELLOW)%-30s$(WHITE)" "Deleting $(OPATH)"
-	@rm -rf $(OPATH)
-	@printf "$(GREENB)<<--$(WHITE)\n"
+	@printf "%-30s" "Deleting $(OPATH)"
+	@rm -r $(OPATH) 2> /dev/null \
+	&& printf "$(GREENB)<<--$(WHITE)\n" \
+	|| printf "$(YELLOW)<<--$(WHITE)\t$(YELLOW)Doesn't exist$(WHITE)\n"
 
 fclean: clean
-	@printf "$(YELLOW)%-30s$(WHITE)" "Deleting $(EXEC)"
-	@rm -f $(EXEC)
-	@rm -f $(EXEC_TEST)
-	@printf "$(GREENB)<<--$(WHITE)\n"
+	@printf "%-30s" "Deleting $(EXEC)"
+	@rm $(EXEC) 2> /dev/null \
+	&& printf "$(GREENB)<<--$(WHITE)\n" \
+	|| printf "$(YELLOW)<<--$(WHITE)\t$(YELLOW)Doesn't exist$(WHITE)\n"
+	@printf "%-30s" "Deleting $(EXEC_TEST)"
+	@rm $(EXEC_TEST) 2> /dev/null \
+	&& printf "$(GREENB)<<--$(WHITE)\n" \
+	|| printf "$(YELLOW)<<--$(WHITE)\t$(YELLOW)Doesn't exist$(WHITE)\n"
 
 re: fclean all
 

@@ -6,11 +6,18 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 19:49:19 by amineau           #+#    #+#             */
-/*   Updated: 2021/04/19 19:44:03 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/15 00:03:01 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "GameStatus.hpp"
+#include "Move.hpp"
+#include "Spot.hpp"
+#include "utils.hpp"
+#include <algorithm>
+#include <cstring>
+#include <fstream>
+#include <iostream>
 
 GameStatus::GameStatus()
 	: _board(Board())
@@ -134,13 +141,10 @@ void GameStatus::updateStatus()
 
 	if (this->hasNoMovePossible(isWhite)) {
 		if (isCheck)
-			this->_status = isWhite ? WHITECHECKMATED : BLACKCHECKMATED;
+			this->_status = CHECKMATE;
 		else
 			this->_status = STALEMATE;
-
-	} else if (isCheck)
-		this->_status = isWhite ? WHITECHECKED : BLACKCHECKED;
-	else
+	} else
 		this->_status = INPROGRESS;
 }
 

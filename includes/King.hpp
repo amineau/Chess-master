@@ -6,14 +6,16 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:08:54 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/15 00:07:23 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef KING_HPP
 #define KING_HPP
 
+#include "GameStatus.hpp"
 #include "Piece.hpp"
+#include "Spot.hpp"
 
 class King : public Piece {
 

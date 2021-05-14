@@ -6,17 +6,15 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:08:32 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/15 00:04:04 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SPOT_HPP
 #define SPOT_HPP
 
-// #include "Piece.hpp"
+#include "Piece.hpp"
 #include <iostream>
-
-class Piece;
 
 class Spot {
 public:

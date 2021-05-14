@@ -6,14 +6,16 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/08 19:13:09 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/15 00:07:31 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BISHOP_HPP
 #define BISHOP_HPP
 
+#include "GameStatus.hpp"
 #include "Piece.hpp"
+#include "Spot.hpp"
 
 class Bishop : public virtual Piece {
 

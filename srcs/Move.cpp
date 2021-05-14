@@ -6,11 +6,13 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:37:38 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/27 19:24:36 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/14 23:57:59 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Move.hpp"
+#include "Piece.hpp"
+#include "Spot.hpp"
 
 Move::Move()
 	: Action()
@@ -18,8 +20,8 @@ Move::Move()
 	return;
 }
 
-Move::Move(GameStatus* gameStatus, Player* player, Spot* start, Spot* end)
-	: Action(gameStatus, player)
+Move::Move(GameStatus* gameStatus, Spot* start, Spot* end)
+	: Action(gameStatus)
 	, _start(start)
 	, _end(end)
 {
@@ -41,26 +43,6 @@ Move::~Move()
 }
 
 /* Accessors */
-
-Spot* Move::getStartSpot() const
-{
-	return this->_start;
-}
-
-Spot* Move::getEndSpot() const
-{
-	return this->_end;
-}
-
-Piece* Move::getPieceMoved() const
-{
-	return this->_pieceMoved;
-}
-
-Piece* Move::getPieceKilled() const
-{
-	return this->_pieceKilled;
-}
 
 /* Members functions */
 

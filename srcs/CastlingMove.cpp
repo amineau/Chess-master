@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:50:51 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 21:17:57 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/14 23:36:35 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ CastlingMove::CastlingMove()
 	return;
 }
 
-CastlingMove::CastlingMove(GameStatus* gameStatus, Player* player, Spot* start, Spot* end)
-	: Move(gameStatus, player, start, end)
+CastlingMove::CastlingMove(GameStatus* gameStatus, Spot* start, Spot* end)
+	: Move(gameStatus, start, end)
 {
 	return;
 }
@@ -53,14 +53,16 @@ bool CastlingMove::isLegal() const
 	King* king = dynamic_cast<King*>(this->_pieceMoved);
 
 	return king
-		&& king->isWhite() == this->_player->isWhite()
-		&& this->_player == this->_gameStatus->getCurrentPlayer()
+		&& king->isWhite() == this->_isWhitePlayer
 		&& (king->canKingSideCastlingMoves(this->_gameStatus, this->_start, this->_end)
 			|| king->canQueenSideCastlingMoves(this->_gameStatus, this->_start, this->_end));
 }
 
-void CastlingMove::execute()
+bool CastlingMove::execute()
 {
+	if (!isLegal())
+		return false;
+
 	bool  isKingSide = (this->_end->getX() == 6);
 	Spot* startSpotRook;
 	Spot* endSpotRook;
@@ -79,13 +81,14 @@ void CastlingMove::execute()
 	endSpotRook->setPiece(startSpotRook->getPiece());
 	startSpotRook->setPiece(0);
 
-	this->_gameStatus->setKingSideCastlingAvailable(false, this->_player->isWhite());
-	this->_gameStatus->setQueenSideCastlingAvailable(false, this->_player->isWhite());
+	this->_gameStatus->setKingSideCastlingAvailable(false, this->_isWhitePlayer);
+	this->_gameStatus->setQueenSideCastlingAvailable(false, this->_isWhitePlayer);
 	this->_gameStatus->pushTurn();
 	this->_gameStatus->pushMove(this);
 	this->_gameStatus->setEnPassantTargetSpot(0);
 	this->_gameStatus->incrementHalfMoveClock();
 	this->_gameStatus->updateStatus();
+	return true;
 }
 
 CastlingMove* CastlingMove::clone() const

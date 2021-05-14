@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 19:28:51 by amineau           #+#    #+#             */
-/*   Updated: 2021/04/19 19:44:09 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/15 00:09:36 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,21 @@
 #define GAMESTATUS_HPP
 
 #include "Board.hpp"
-#include "Move.hpp"
 #include "Player.hpp"
-#include "Spot.hpp"
-#include "utils.hpp"
-#include <algorithm>
-#include <cstring>
-#include <fstream>
-#include <iostream>
 #include <vector>
 
 class Move;
+class Player;
+class Board;
+class Spot;
+class Piece;
 
 enum e_status {
 	INPROGRESS,
-	WHITECHECKED,
-	BLACKCHECKED,
-	WHITECHECKMATED,
-	BLACKCHECKMATED,
-	STALEMATE
+	CHECKMATE,
+	STALEMATE,
+	DRAW,
+	TREEFOLDREPETITION
 };
 typedef enum e_status t_status;
 
