@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:47:12 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/14 23:47:49 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 21:38:23 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,11 @@ bool EnPassantMove::execute()
 		this->_gameStatus->getSpot(this->_end->getX(), 4)->setPiece(0);
 	else
 		this->_gameStatus->getSpot(this->_end->getX(), 3)->setPiece(0);
-	this->_pieceKilled->killed();
-	this->_end->setPiece(this->_pieceMoved);
-	this->_spotPieceKilled->setPiece(0);
-	this->_start->setPiece(0);
+	this->executeMove();
 	this->_gameStatus->pushTurn();
 	this->_gameStatus->pushMove(this);
 	this->_gameStatus->setEnPassantTargetSpot(0);
 	this->_gameStatus->resetHalfMoveClock();
-	this->_gameStatus->updateStatus();
 	return true;
 }
 

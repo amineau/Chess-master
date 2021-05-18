@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:50:51 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/14 23:38:57 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 21:37:00 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,7 @@ bool SimpleMove::execute()
 {
 	if (!isLegal())
 		return false;
-	if (this->_pieceKilled)
-		this->_pieceKilled->killed();
-	this->_end->setPiece(this->_pieceMoved);
-	this->_start->setPiece(0);
+	this->executeMove();
 	this->_gameStatus->pushTurn();
 	this->_gameStatus->pushMove(this);
 	if (this->isDoublePushPawn()) {
@@ -83,7 +80,6 @@ bool SimpleMove::execute()
 	else
 		this->_gameStatus->resetHalfMoveClock();
 	this->setCastlings();
-	this->_gameStatus->updateStatus();
 	return true;
 }
 

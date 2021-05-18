@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:07:59 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/28 06:54:55 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 21:54:01 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,17 @@ public:
 	Board(Board const&);
 	~Board();
 
-	Spot* getSpot(size_t x, size_t y) const;
-	Spot* getSpot(const std::string& spot) const;
-	void  raiseOnInvalidKingNumber() const;
+	Spot*			   getSpot(size_t x, size_t y) const;
+	Spot*			   getSpot(const std::string& spot) const;
+	std::vector<Spot*> getWhiteSpots() const { return _whiteSpots; }
+	std::vector<Spot*> getBlackSpots() const { return _blackSpots; }
 
 	Spot* getSpotKing(bool isWhite) const;
 
 	bool			  loadFen(const std::string& fen);
 	const std::string exportFen() const;
+
+	void raiseOnInvalidKingNumber() const;
 
 	Board& operator=(Board const&);
 
@@ -47,8 +50,10 @@ public:
 	};
 
 private:
-	Spot _spots[8][8];
-	bool _isLoad;
+	Spot			   _spots[8][8];
+	std::vector<Spot*> _whiteSpots;
+	std::vector<Spot*> _blackSpots;
+	bool			   _isLoad;
 };
 
 #endif

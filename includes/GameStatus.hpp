@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 19:28:51 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/15 00:09:36 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 21:00:43 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,6 @@ class Board;
 class Spot;
 class Piece;
 
-enum e_status {
-	INPROGRESS,
-	CHECKMATE,
-	STALEMATE,
-	DRAW,
-	TREEFOLDREPETITION
-};
-typedef enum e_status t_status;
-
 class GameStatus {
 public:
 	GameStatus();
@@ -39,7 +30,6 @@ public:
 	GameStatus(GameStatus const&);
 	~GameStatus();
 
-	t_status		   getStatus() const { return _status; }
 	Board*			   getBoard() const { return const_cast<Board*>(&_board); }
 	Player*			   getPlayerWhite() const { return const_cast<Player*>(&_playerWhite); }
 	Player*			   getPlayerBlack() const { return const_cast<Player*>(&_playerBlack); }
@@ -55,7 +45,6 @@ public:
 	Spot*			   getSpot(size_t x, size_t y) const;
 	Piece*			   getPiece(size_t x, size_t y) const;
 
-	void setStatus(t_status status) { _status = status; }
 	void setBoard(Board* board) { _board = *board; }
 	void setCurrentPlayer(Player* player) { _currentPlayer = player; }
 	void setEnPassantTargetSpot(Spot* spot) { _enPassantTargetSpot = spot; }
@@ -64,7 +53,6 @@ public:
 	void setKingSideCastlingAvailable(bool kingSideCastlingAvailable, bool isWhitePlayer);
 	void setQueenSideCastlingAvailable(bool queenSideCastlingAvailable, bool isWhitePlayer);
 
-	void updateStatus();
 	void pushTurn();
 	void pushMove(Move*);
 	void incrementHalfMoveClock();
@@ -82,7 +70,6 @@ public:
 	GameStatus& operator=(GameStatus const&);
 
 private:
-	t_status		   _status;
 	Board			   _board;
 	Player			   _playerWhite;
 	Player			   _playerBlack;

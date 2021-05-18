@@ -21,6 +21,16 @@
 #include "Move.hpp"
 #include "SimpleMove.hpp"
 
+enum e_status {
+	INPROGRESS,
+	CHECKMATE,			 // Echec et mat
+	STALEMATE,			 // Impasse (50 coups)
+	DRAW,				 // Pat
+	TREEFOLDREPETITION,	 // Triple répétition
+	INSUFFICIENTMATERIAL // Roi contre Roi seul ou Roi et fou ou cavalier
+};
+typedef enum e_status t_status;
+
 class Chess {
 
 public:
@@ -28,11 +38,17 @@ public:
 	Chess(Chess const&);
 	~Chess();
 
-	Player* getPlayerWhite() const { return const_cast<Player*>(&_playerWhite); }
-	Player* getPlayerBlack() const { return const_cast<Player*>(&_playerBlack); }
-	Player* getCurrentPlayer() const { return _gameStatus->getCurrentPlayer(); }
-	Piece*	getPiece(const std::string& pos) const { return _gameStatus->getPiece(pos); }
-	Piece*	getPiece(size_t x, size_t y) const { return _gameStatus->getPiece(x, y); }
+	t_status		   getStatus() const { return _status; }
+	Player*			   getPlayerWhite() const { return const_cast<Player*>(&_playerWhite); }
+	Player*			   getPlayerBlack() const { return const_cast<Player*>(&_playerBlack); }
+	Player*			   getCurrentPlayer() const { return _gameStatus->getCurrentPlayer(); }
+	Piece*			   getPiece(const std::string& pos) const { return _gameStatus->getPiece(pos); }
+	Piece*			   getPiece(size_t x, size_t y) const { return _gameStatus->getPiece(x, y); }
+	std::vector<Spot*> getWhiteSpots() const { return _gameStatus->getBoard()->getWhiteSpots(); }
+	std::vector<Spot*> getBlackSpots() const { return _gameStatus->getBoard()->getBlackSpots(); }
+
+	void setStatus(t_status status) { _status = status; }
+	void updateStatus();
 
 	bool			  load(const std::string& fen);
 	const std::string fen() const;
@@ -47,6 +63,7 @@ public:
 	Chess& operator=(Chess const&);
 
 private:
+	t_status	_status;
 	Player		_playerWhite;
 	Player		_playerBlack;
 	GameStatus* _gameStatus;

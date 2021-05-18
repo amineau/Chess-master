@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:33:11 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/15 00:08:40 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 21:21:10 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ public:
 	Spot*  getEndSpot() const { return _end; };
 	Piece* getPieceMoved() const { return _pieceMoved; };
 	Piece* getPieceKilled() const { return _pieceKilled; };
+
+	void executeMove();
+	void executeCapture();
 
 	Move& operator=(Move const&);
 

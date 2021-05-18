@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 17:30:33 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/14 23:46:28 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 23:57:12 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,22 @@ TEST_CASE("Move piece check")
 				REQUIRE(chess.makeAction(move) == false);
 				REQUIRE(chess.getPiece("a6") == pawn);
 			}
+		}
+		SECTION("Pawn capture")
+		{
+			Piece* pawn;
+			chess.load("8/8/8/8/8/1p6/P7/2k1K3 w - - 0 1");
+
+			pawn = chess.getPiece("a2");
+			REQUIRE(pawn->getType() == PAWN);
+			REQUIRE(pawn->isWhite() == true);
+
+			move = chess.getMoveAction("a2", "b3");
+
+			REQUIRE(chess.makeAction(move) == true);
+			REQUIRE(chess.getPiece("b3") == pawn);
+			REQUIRE(chess.getPiece("b3")->isWhite() == true);
+			REQUIRE(chess.getBlackSpots().size() == 1);
 		}
 	}
 }

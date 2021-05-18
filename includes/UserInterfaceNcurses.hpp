@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:02:37 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/16 01:12:23 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 20:15:35 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ public:
 	UserInterfaceNcurses(UserInterfaceNcurses const&);
 	~UserInterfaceNcurses();
 	short displayMenu() const;
-	void  start();
+	void  start(const std::string fen);
 
 	UserInterfaceNcurses& operator=(UserInterfaceNcurses const&);
 };

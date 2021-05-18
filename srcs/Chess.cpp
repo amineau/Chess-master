@@ -20,7 +20,8 @@
 #include "Rook.hpp"
 
 Chess::Chess()
-	: _playerWhite(Player(true))
+	: _status(INPROGRESS)
+	, _playerWhite(Player(true))
 	, _playerBlack(Player(false))
 {
 	// std::cout << "Chess CONSTRUCTOR" << std::endl;
@@ -45,6 +46,7 @@ Chess::~Chess()
 Chess& Chess::operator=(Chess const& rhs)
 {
 	if (this != &rhs) {
+		this->_status = rhs._status;
 		this->_playerWhite = rhs._playerWhite;
 		this->_playerBlack = rhs._playerBlack;
 		*(this->_gameStatus) = *(rhs._gameStatus);
@@ -94,21 +96,38 @@ Move* Chess::getMoveAction(const std::string& start, const std::string& end) con
 	return new SimpleMove(this->_gameStatus, startSpot, endSpot);
 }
 
+void Chess::updateStatus()
+{
+	bool isWhite = this->_gameStatus->getCurrentPlayer()->isWhite();
+	bool isCheck = this->_gameStatus->isCheck(isWhite);
+
+	if (this->_gameStatus->hasNoMovePossible(isWhite)) {
+		if (isCheck)
+			this->_status = CHECKMATE;
+		else
+			this->_status = DRAW;
+	} else if (this->_gameStatus->getHalfMoveClock() >= 50) {
+		this->_status = STALEMATE;
+	}
+}
+
 bool Chess::makeAction(Action* action)
 {
-	return action->execute();
+	bool result = action->execute();
+	if (result)
+		this->updateStatus();
+	return result;
 }
 
 bool Chess::load(const std::string& fen)
 {
-	Loader loader(this->_gameStatus);
-
-	return loader.fen(fen);
+	bool result = Loader(this->_gameStatus).fen(fen);
+	if (result)
+		this->updateStatus();
+	return result;
 }
 
 const std::string Chess::fen() const
 {
-	Exporter exporter(this->_gameStatus);
-
-	return exporter.fen();
+	return Exporter(this->_gameStatus).fen();
 }

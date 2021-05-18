@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 19:49:19 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/15 00:03:01 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 18:06:20 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ GameStatus& GameStatus::operator=(GameStatus const& rhs)
 	// std::cout << "GameStatus OPERATOR =" << std::endl;
 
 	if (this != &rhs) {
-		this->_status = rhs._status;
 		this->_board = rhs._board;
 		this->_playerWhite = rhs._playerWhite;
 		this->_playerBlack = rhs._playerBlack;
@@ -134,20 +133,6 @@ void GameStatus::setQueenSideCastlingAvailable(bool queenSideCastlingAvailable, 
 
 /* Member functions */
 
-void GameStatus::updateStatus()
-{
-	bool isWhite = this->_currentPlayer->isWhite();
-	bool isCheck = this->isCheck(isWhite);
-
-	if (this->hasNoMovePossible(isWhite)) {
-		if (isCheck)
-			this->_status = CHECKMATE;
-		else
-			this->_status = STALEMATE;
-	} else
-		this->_status = INPROGRESS;
-}
-
 void GameStatus::pushTurn()
 {
 	if (*_currentPlayer == _playerBlack) {
@@ -165,8 +150,6 @@ void GameStatus::pushMove(Move* move)
 void GameStatus::incrementHalfMoveClock()
 {
 	this->_halfMoveClock++;
-	if (this->_halfMoveClock == 50)
-		this->_status = STALEMATE; //TODO: verifier les conditions
 }
 
 void GameStatus::resetHalfMoveClock()
@@ -176,7 +159,7 @@ void GameStatus::resetHalfMoveClock()
 
 void GameStatus::incrementFullMoveCounter()
 {
-	this->_fullMoveCounter++; //TODO: idem
+	this->_fullMoveCounter++;
 }
 
 bool GameStatus::isCheck(bool isWhite) const

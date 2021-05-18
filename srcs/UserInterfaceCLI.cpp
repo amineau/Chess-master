@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/14 23:46:02 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 20:16:31 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ short UserInterfaceCLI::displayMenu() const
 	return entry - '0';
 }
 
-void UserInterfaceCLI::start()
+void UserInterfaceCLI::start(const std::string fen)
 {
 	std::string entry;
 	std::string arg1;
@@ -60,12 +60,12 @@ void UserInterfaceCLI::start()
 	Move* move;
 	Chess chess = Chess();
 
-	if (!chess.load(settings::defaultFenStart)) {
+	if (!chess.load(fen)) {
 		std::cout << "Wrong parsing" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
-	while (1) { // TODO: while(chess.getResult() == INPROGRESS)
+	while (chess.getStatus() == INPROGRESS) {
 		std::cout << "Command : ";
 		std::cin >> entry;
 		if (!entry.compare("help")) {
@@ -112,6 +112,27 @@ void UserInterfaceCLI::start()
 		} else {
 			std::cout << "Not a valid entry. Type help for command list" << std::endl;
 		}
+	}
+	this->end(chess.getStatus());
+}
+
+void UserInterfaceCLI::end(t_status status) const
+{
+	switch (status) {
+	case CHECKMATE:
+		std::cout << "CHECKMATE" << std::endl;
+		break;
+	case STALEMATE:
+		std::cout << "STALEMATE" << std::endl;
+		break;
+	case DRAW:
+		std::cout << "DRAW" << std::endl;
+		break;
+	case TREEFOLDREPETITION:
+		std::cout << "TREEFOLDREPETITION" << std::endl;
+		break;
+	default:
+		break;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:01:26 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/14 22:45:03 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 20:15:35 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ class UserInterface {
 public:
 	virtual ~UserInterface() {};
 	short virtual displayMenu() const = 0;
-	void virtual start() = 0;
+	void virtual start(const std::string fen) = 0;
 	// void virtual loadChess(Save save) = 0;
 	// Save virtual saveChess() = 0;
 

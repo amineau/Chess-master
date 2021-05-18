@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/15 00:10:04 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 21:54:55 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ bool Board::loadFen(const std::string& fen)
 	short		y = 7;
 	int			i = 0;
 	char		fenLower;
+	Piece*		piece;
 	std::string availableLowerChar("kqbnrp");
 
 	if (_isLoad) {
@@ -110,17 +111,22 @@ bool Board::loadFen(const std::string& fen)
 			}
 		} else if (availableLowerChar.find(fenLower) != std::string::npos) {
 			if (fenLower == 'k')
-				_spots[x][y] = Spot(x, y, new King(isupper(fen[i])));
+				piece = new King(isupper(fen[i]));
 			else if (fenLower == 'q')
-				_spots[x][y] = Spot(x, y, new Queen(isupper(fen[i])));
+				piece = new Queen(isupper(fen[i]));
 			else if (fenLower == 'b')
-				_spots[x][y] = Spot(x, y, new Bishop(isupper(fen[i])));
+				piece = new Bishop(isupper(fen[i]));
 			else if (fenLower == 'n')
-				_spots[x][y] = Spot(x, y, new Knight(isupper(fen[i])));
+				piece = new Knight(isupper(fen[i]));
 			else if (fenLower == 'r')
-				_spots[x][y] = Spot(x, y, new Rook(isupper(fen[i])));
+				piece = new Rook(isupper(fen[i]));
 			else if (fenLower == 'p')
-				_spots[x][y] = Spot(x, y, new Pawn(isupper(fen[i])));
+				piece = new Pawn(isupper(fen[i]));
+			_spots[x][y] = Spot(x, y, piece);
+			if (piece->isWhite())
+				this->_whiteSpots.push_back(&_spots[x][y]);
+			else
+				this->_blackSpots.push_back(&_spots[x][y]);
 			x++;
 		} else if (fen[i] == '/') {
 			if (x != 8)

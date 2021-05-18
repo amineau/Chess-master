@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:50:51 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/14 23:36:35 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 18:11:19 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ bool CastlingMove::execute()
 	this->_gameStatus->pushMove(this);
 	this->_gameStatus->setEnPassantTargetSpot(0);
 	this->_gameStatus->incrementHalfMoveClock();
-	this->_gameStatus->updateStatus();
 	return true;
 }
 

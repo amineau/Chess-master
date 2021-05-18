@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:31:09 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/14 22:45:03 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 20:14:44 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,21 @@ int main(int argc, char* argv[])
 	int			   c;
 	short		   menuResponse;
 	std::string	   interface = settings::defaultInterface;
+	std::string	   fen = settings::defaultFenStart;
 	UserInterface* ui;
 
 	setlocale(LC_ALL, "");
 
 	while (1) {
 		static struct option long_options[] = {
-			{ "interface", required_argument, 0, 'i' },
+			{ "interface", required_argument, NULL, 'i' },
+			{ "fen", required_argument, NULL, 'f' },
 			{ 0, 0, 0, 0 }
 		};
 		/* getopt_long stores the option index here. */
 		int option_index = 0;
 
-		c = getopt_long(argc, argv, "i:", long_options, &option_index);
+		c = getopt_long(argc, argv, "i:f:", long_options, &option_index);
 
 		/* Detect the end of the options. */
 		if (c == -1)
@@ -54,8 +56,13 @@ int main(int argc, char* argv[])
 			interface = optarg;
 			break;
 
+		case 'f':
+			printf("option -f with value `%s'\n", optarg);
+			fen = optarg;
+			break;
+
 		case '?':
-			if (optopt == 'i')
+			if (optopt == 'i' || optopt == 'f')
 				fprintf(stderr, "Option -%c requires an argument.\n", optopt);
 			else if (isprint(optopt))
 				fprintf(stderr, "Unknown option `-%c'.\n", optopt);
@@ -85,7 +92,7 @@ int main(int argc, char* argv[])
 	std::cout << menuResponse << std::endl;
 	switch (menuResponse) {
 	case NEWGAME:
-		ui->start();
+		ui->start(fen);
 		break;
 
 	case LOADGAME:

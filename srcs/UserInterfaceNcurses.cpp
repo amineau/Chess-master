@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/04/19 19:43:52 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/18 20:16:24 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ short UserInterfaceNcurses::displayMenu() const
 
 	return entry - '0';
 }
-void UserInterfaceNcurses::start()
+void UserInterfaceNcurses::start(const std::string fen)
 {
 	WINDOW *board, *blackKilled, *whiteKilled, *blackInfo, *whiteInfo, *movePlayed;
 	this->_chess = new Chess();
-	if (!this->_chess->load(settings::defaultFenStart)) {
+	if (!this->_chess->load(fen)) {
 		std::cout << "Wrong parsing";
 		exit(EXIT_FAILURE);
 	}
