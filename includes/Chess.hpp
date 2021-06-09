@@ -47,7 +47,6 @@ public:
 	std::vector<Spot*> getWhiteSpots() const { return _gameStatus->getBoard()->getWhiteSpots(); }
 	std::vector<Spot*> getBlackSpots() const { return _gameStatus->getBoard()->getBlackSpots(); }
 
-	void setStatus(t_status status) { _status = status; }
 	void updateStatus();
 
 	bool			  load(const std::string& fen);
