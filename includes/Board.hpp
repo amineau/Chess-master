@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:07:59 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/18 21:54:01 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/23 16:05:27 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ public:
 
 	Spot*			   getSpot(size_t x, size_t y) const;
 	Spot*			   getSpot(const std::string& spot) const;
+	Spot*			   getSpotKing(bool isWhite) const;
 	std::vector<Spot*> getWhiteSpots() const { return _whiteSpots; }
 	std::vector<Spot*> getBlackSpots() const { return _blackSpots; }
 
-	Spot* getSpotKing(bool isWhite) const;
+	void removePiece(Piece*);
 
 	bool			  loadFen(const std::string& fen);
 	const std::string exportFen() const;

@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 19:11:47 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/18 21:54:55 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/23 18:06:17 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "Pawn.hpp"
 #include "Queen.hpp"
 #include "Rook.hpp"
+#include <algorithm>
 
 Board::Board()
 	: _isLoad(false)
@@ -85,6 +86,19 @@ Spot* Board::getSpotKing(bool isWhite) const
 		}
 	}
 	throw Board::InvalidNumberOfKingException();
+}
+
+void Board::removePiece(Piece* piece)
+{
+	std::vector<Spot*>& spots = piece->isWhite() ? this->_whiteSpots : this->_blackSpots;
+
+	spots.erase(
+		std::remove_if(
+			spots.begin(), spots.end(),
+			[&piece](Spot* spot) { return spot->getPiece() == piece; }),
+		spots.end());
+	piece = nullptr;
+	delete piece;
 }
 
 bool Board::loadFen(const std::string& fen)

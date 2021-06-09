@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:47:12 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/18 21:38:23 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/23 19:05:46 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,8 @@ bool EnPassantMove::execute()
 {
 	if (!isLegal())
 		return false;
-	if (this->_isWhitePlayer)
-		this->_gameStatus->getSpot(this->_end->getX(), 4)->setPiece(0);
-	else
-		this->_gameStatus->getSpot(this->_end->getX(), 3)->setPiece(0);
 	this->executeMove();
+	this->_spotPieceKilled->setPiece(0);
 	this->_gameStatus->pushTurn();
 	this->_gameStatus->pushMove(this);
 	this->_gameStatus->setEnPassantTargetSpot(0);

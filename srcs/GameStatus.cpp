@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 19:49:19 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/18 18:06:20 by amineau          ###   ########.fr       */
+/*   Updated: 2021/05/23 16:11:51 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "Move.hpp"
 #include "Spot.hpp"
 #include "utils.hpp"
-#include <algorithm>
 #include <cstring>
 #include <fstream>
 #include <iostream>

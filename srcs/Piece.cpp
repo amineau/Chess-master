@@ -13,6 +13,7 @@
 #include "Piece.hpp"
 #include "GameStatus.hpp"
 #include "Spot.hpp"
+#include <algorithm>
 
 Piece::Piece()
 {
