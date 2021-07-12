@@ -115,6 +115,11 @@ std::vector<Spot*> Piece::validSpots(const GameStatus* gameStatus, const Spot* s
 	return validSpots;
 }
 
+char Piece::getRepr() const
+{
+	return this->isWhite() ? toupper(pieceRepr[this->getType()]) : pieceRepr[this->getType()];
+}
+
 Piece* Piece::clone() const
 {
 	return new Piece(*this);
@@ -124,7 +129,6 @@ Piece* Piece::clone() const
 
 std::ostream& operator<<(std::ostream& o, Piece const& i)
 {
-	const char repr = i.isWhite() ? toupper(pieceRepr[i.getType()]) : pieceRepr[i.getType()];
-	o << repr;
+	o << i.getRepr();
 	return o;
 }

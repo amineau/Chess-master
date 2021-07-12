@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:43:39 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/15 00:04:33 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/13 00:06:46 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ public:
 	bool virtual canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const;
 	std::vector<Spot*> virtual validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const;
 	std::vector<Spot*> validSpots(const GameStatus* gameStatus, const Spot* start) const;
+	char			   getRepr() const;
 
 	Piece* clone() const;
 

@@ -46,6 +46,7 @@ public:
 	Piece*			   getPiece(size_t x, size_t y) const { return _gameStatus->getPiece(x, y); }
 	std::vector<Spot*> getWhiteSpots() const { return _gameStatus->getBoard()->getWhiteSpots(); }
 	std::vector<Spot*> getBlackSpots() const { return _gameStatus->getBoard()->getBlackSpots(); }
+	short			   getMoveCounter() const { return _gameStatus->getFullMoveCounter(); }
 
 	void updateStatus();
 

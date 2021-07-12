@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/18 20:16:24 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/13 00:56:03 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,103 +66,100 @@ UserInterfaceNcurses& UserInterfaceNcurses::operator=(UserInterfaceNcurses const
 
 short UserInterfaceNcurses::displayMenu() const
 {
-	char entry = 0;
+	// char entry = 0;
 
-	while (entry != '1' && entry != '2' && entry != '3') {
-		if (entry != 0)
-			std::cout << "Enter a valid choice" << std::endl;
-		std::cout << "1/ Start new chess" << std::endl
-				  << "2/ Load chess" << std::endl
-				  << "3/ Quit" << std::endl
-				  << "Enter the option number : ";
-		std::cin >> entry;
-	}
+	// while (entry != '1' && entry != '2' && entry != '3') {
+	// 	if (entry != 0)
+	// 		std::cout << "Enter a valid choice" << std::endl;
+	// 	std::cout << "1/ Start new chess" << std::endl
+	// 			  << "2/ Load chess" << std::endl
+	// 			  << "3/ Quit" << std::endl
+	// 			  << "Enter the option number : ";
+	// 	std::cin >> entry;
+	// }
 
-	return entry - '0';
+	// return entry - '0';
+	return 1;
 }
+
+void UserInterfaceNcurses::displaySpot(const short x, const short y, const Piece* piece) const
+{
+	short	   colorPair;
+	const bool spotIsWhite = (x + y) % 2 == 0;
+
+	if (piece && piece->isWhite())
+		colorPair = spotIsWhite ? WHITESPOTWHITEPIECE : BLACKSPOTWHITEPIECE;
+	else
+		colorPair = spotIsWhite ? WHITESPOTBLACKPIECE : BLACKSPOTBLACKPIECE;
+
+	wattron(this->_board, COLOR_PAIR(colorPair));
+	if (piece)
+		mvwprintw(this->_board, 8 - y, x * 2 + 2, "%lc ", piece->getRepr());
+	else
+		mvwprintw(this->_board, 8 - y, x * 2 + 2, "  ");
+	wattroff(this->_board, COLOR_PAIR(colorPair));
+}
+
+void UserInterfaceNcurses::displayNewMove(const Move& move, const short moveCounter) const
+{
+	if (move.getPieceMoved()->isWhite())
+		wprintw(this->_movePlayed, "%d. %s", moveCounter, move.getRepr().c_str());
+	else {
+		wprintw(this->_movePlayed, " %s\n", move.getRepr().c_str());
+	}
+}
+
 void UserInterfaceNcurses::start(const std::string fen)
 {
-	WINDOW *board, *blackKilled, *whiteKilled, *blackInfo, *whiteInfo, *movePlayed;
-	this->_chess = new Chess();
-	if (!this->_chess->load(fen)) {
-		std::cout << "Wrong parsing";
+	Chess chess = Chess();
+
+	if (!chess.load(fen)) {
+		std::cout << "Wrong parsing" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
-	board = subwin(stdscr, 10, 20, 4, 8);
-	blackKilled = subwin(stdscr, 5, 4, 4, 4);
-	whiteKilled = subwin(stdscr, 5, 4, 9, 4);
-	blackInfo = subwin(stdscr, 2, 20, 2, 8);
-	whiteInfo = subwin(stdscr, 2, 20, 14, 8);
-	movePlayed = subwin(stdscr, 14, 12, 2, 32);
+	this->_board = subwin(stdscr, 10, 20, 6, 14);
+	this->_blackKilled = subwin(stdscr, 5, 8, 6, 3);
+	this->_whiteKilled = subwin(stdscr, 5, 8, 11, 3);
+	this->_blackInfo = subwin(stdscr, 4, 20, 2, 14);
+	this->_whiteInfo = subwin(stdscr, 4, 20, 16, 14);
+	this->_movePlayed = subwin(stdscr, 18, 16, 2, 36);
+
+	scrollok(this->_movePlayed, TRUE);
 
 	// box(board, ACS_VLINE, ACS_HLINE);
-	box(blackKilled, ACS_VLINE, ACS_HLINE);
-	box(whiteKilled, ACS_VLINE, ACS_HLINE);
-	box(blackInfo, ACS_VLINE, ACS_HLINE);
-	box(whiteInfo, ACS_VLINE, ACS_HLINE);
-	box(movePlayed, ACS_VLINE, ACS_HLINE);
+	box(this->_blackKilled, ACS_VLINE, ACS_HLINE);
+	box(this->_whiteKilled, ACS_VLINE, ACS_HLINE);
+	box(this->_blackInfo, ACS_VLINE, ACS_HLINE);
+	box(this->_whiteInfo, ACS_VLINE, ACS_HLINE);
+	box(this->_movePlayed, ACS_VLINE, ACS_HLINE);
 
 	for (short lineNumber = 8; lineNumber > 0; lineNumber--) {
-		mvwaddch(board, 9 - lineNumber, 0, '0' + lineNumber);
+		mvwaddch(this->_board, 9 - lineNumber, 0, '0' + lineNumber);
 	}
 	for (short colNumber = 0; colNumber < 8; colNumber++)
-		mvwprintw(board, 9, 2 + colNumber * 2, "%c ", colNumber + 'a');
+		mvwprintw(this->_board, 9, 2 + colNumber * 2, "%c ", colNumber + 'a');
 
-	for (short x = 0; x < 8; x++) {
-		for (short y = 0; y < 8; y++) {
-			if ((x + y) % 2 == 0) {
-				if (this->_chess->getPiece(x, y))
-					if (this->_chess->getPiece(x, y)->isWhite()) {
-						wattron(board, COLOR_PAIR(BLACKSPOTWHITEPIECE));
-						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess->getPiece(x, y));
-						wattroff(board, COLOR_PAIR(BLACKSPOTWHITEPIECE));
-					} else {
-						wattron(board, COLOR_PAIR(BLACKSPOTBLACKPIECE));
-						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess->getPiece(x, y));
-						wattroff(board, COLOR_PAIR(BLACKSPOTBLACKPIECE));
-					}
-				else {
-					wattron(board, COLOR_PAIR(BLACKSPOTBLACKPIECE));
-					mvwprintw(board, 8 - y, x * 2 + 2, "  ");
-					wattroff(board, COLOR_PAIR(BLACKSPOTBLACKPIECE));
-				}
-			} else {
-				if (this->_chess->getPiece(x, y))
-					if (this->_chess->getPiece(x, y)->isWhite()) {
-						wattron(board, COLOR_PAIR(WHITESPOTWHITEPIECE));
-						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess->getPiece(x, y));
-						wattroff(board, COLOR_PAIR(WHITESPOTWHITEPIECE));
-					} else {
-						wattron(board, COLOR_PAIR(WHITESPOTBLACKPIECE));
-						mvwprintw(board, 8 - y, x * 2 + 2, "%lc ", this->_chess->getPiece(x, y));
-						wattroff(board, COLOR_PAIR(WHITESPOTBLACKPIECE));
-					}
-				else {
-					wattron(board, COLOR_PAIR(WHITESPOTBLACKPIECE));
-					mvwprintw(board, 8 - y, x * 2 + 2, "  ");
-					wattroff(board, COLOR_PAIR(WHITESPOTBLACKPIECE));
-				}
-			}
-		}
-	}
+	for (short x = 0; x < 8; x++)
+		for (short y = 0; y < 8; y++)
+			this->displaySpot(x, y, chess.getPiece(x, y));
 
-	mvwprintw(blackKilled, 1, 1, "bk");
-	mvwprintw(whiteKilled, 1, 1, "wk");
-	mvwprintw(blackInfo, 1, 1, "blackInfo");
-	mvwprintw(whiteInfo, 1, 1, "whiteInfo");
-	mvwprintw(movePlayed, 1, 1, "movePlayed");
+	mvwprintw(this->_blackKilled, 1, 1, "bk");
+	mvwprintw(this->_whiteKilled, 1, 1, "wk");
+	mvwprintw(this->_blackInfo, 1, 1, "blackInfo");
+	mvwprintw(this->_whiteInfo, 1, 1, "whiteInfo");
+
 	int touch;
 
 	while (1) {
 
-		// mvprintw(0, 0, "Les nombre de lignes est de %d et le nombre de colones est de %d", LINES, COLS);
-		wrefresh(board);
-		wrefresh(blackKilled);
-		wrefresh(whiteKilled);
-		wrefresh(blackInfo);
-		wrefresh(whiteInfo);
-		wrefresh(movePlayed);
+		mvprintw(0, 0, "Le nombre de lignes est de %d et le nombre de colones est de %d", LINES, COLS);
+		wrefresh(this->_board);
+		wrefresh(this->_blackKilled);
+		wrefresh(this->_whiteKilled);
+		wrefresh(this->_blackInfo);
+		wrefresh(this->_whiteInfo);
+		wrefresh(this->_movePlayed);
 		refresh();
 		touch = getch();
 		if (touch != 410)
