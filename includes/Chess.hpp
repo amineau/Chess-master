@@ -44,6 +44,8 @@ public:
 	Player*			   getCurrentPlayer() const { return _gameStatus->getCurrentPlayer(); }
 	Piece*			   getPiece(const std::string& pos) const { return _gameStatus->getPiece(pos); }
 	Piece*			   getPiece(size_t x, size_t y) const { return _gameStatus->getPiece(x, y); }
+	Spot*			   getSpot(const std::string& pos) const { return _gameStatus->getSpot(pos); }
+	Spot*			   getSpot(size_t x, size_t y) const { return _gameStatus->getSpot(x, y); }
 	std::vector<Spot*> getWhiteSpots() const { return _gameStatus->getBoard()->getWhiteSpots(); }
 	std::vector<Spot*> getBlackSpots() const { return _gameStatus->getBoard()->getBlackSpots(); }
 	short			   getMoveCounter() const { return _gameStatus->getFullMoveCounter(); }
@@ -55,9 +57,11 @@ public:
 
 	std::vector<Spot*> validSpots(const std::string& pos) const;
 	std::vector<Spot*> validSpots(size_t x, size_t y) const;
+	std::vector<Spot*> validSpots(const Spot* spot) const;
 	std::vector<Move*> history() const { return _gameStatus->getMovesPlayed(); }
 
 	Move* getMoveAction(const std::string& start, const std::string& end) const;
+	Move* getMoveAction(Spot* start, Spot* end) const;
 	bool  makeAction(Action*);
 
 	Chess& operator=(Chess const&);

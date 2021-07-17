@@ -60,19 +60,17 @@ Chess& Chess::operator=(Chess const& rhs)
 
 std::vector<Spot*> Chess::validSpots(const std::string& pos) const
 {
-	Spot*			   spot = _gameStatus->getSpot(pos);
-	Piece*			   piece = _gameStatus->getPiece(pos);
-	std::vector<Spot*> validSpots;
-
-	if (piece && piece->isWhite() == this->getCurrentPlayer()->isWhite())
-		validSpots = piece->validSpots(_gameStatus, spot);
-	return validSpots;
+	return this->validSpots(_gameStatus->getSpot(pos));
 }
 
 std::vector<Spot*> Chess::validSpots(size_t x, size_t y) const
 {
-	Spot*			   spot = _gameStatus->getSpot(x, y);
-	Piece*			   piece = _gameStatus->getPiece(x, y);
+	return this->validSpots(_gameStatus->getSpot(x, y));
+}
+
+std::vector<Spot*> Chess::validSpots(const Spot* spot) const
+{
+	Piece*			   piece = spot->getPiece();
 	std::vector<Spot*> validSpots;
 
 	if (piece && piece->isWhite() == this->getCurrentPlayer()->isWhite())
@@ -82,18 +80,20 @@ std::vector<Spot*> Chess::validSpots(size_t x, size_t y) const
 
 Move* Chess::getMoveAction(const std::string& start, const std::string& end) const
 {
-	Spot* startSpot = this->_gameStatus->getSpot(start);
-	Spot* endSpot = this->_gameStatus->getSpot(end);
+	return this->getMoveAction(this->_gameStatus->getSpot(start), this->_gameStatus->getSpot(end));
+}
 
-	if (startSpot->getPiece()
-		&& startSpot->getPiece()->getType() == PAWN
-		&& endSpot == this->_gameStatus->getEnPassantTargetSpot())
-		return new EnPassantMove(this->_gameStatus, startSpot, endSpot);
-	if (startSpot->getPiece()
-		&& startSpot->getPiece()->getType() == KING
-		&& abs(static_cast<int>(startSpot->getX() - endSpot->getX())) == 2)
-		return new CastlingMove(this->_gameStatus, startSpot, endSpot);
-	return new SimpleMove(this->_gameStatus, startSpot, endSpot);
+Move* Chess::getMoveAction(Spot* start, Spot* end) const
+{
+	if (start->getPiece()
+		&& start->getPiece()->getType() == PAWN
+		&& end == this->_gameStatus->getEnPassantTargetSpot())
+		return new EnPassantMove(this->_gameStatus, start, end);
+	if (start->getPiece()
+		&& start->getPiece()->getType() == KING
+		&& abs(static_cast<int>(start->getX() - end->getX())) == 2)
+		return new CastlingMove(this->_gameStatus, start, end);
+	return new SimpleMove(this->_gameStatus, start, end);
 }
 
 void Chess::updateStatus()

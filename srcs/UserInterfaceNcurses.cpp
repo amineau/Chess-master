@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/07/13 00:56:03 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/17 13:38:43 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ UserInterfaceNcurses::UserInterfaceNcurses()
 	// reported as KEY_MOUSE, instead as of random letters.
 	keypad(stdscr, TRUE);
 
-	// Don't mask any mouse events
-	mousemask(ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION, NULL);
-
 	if (has_colors() == FALSE || can_change_color() == FALSE) {
 		endwin();
 		std::cout << "Your terminal does not support color" << std::endl;
@@ -36,13 +33,23 @@ UserInterfaceNcurses::UserInterfaceNcurses()
 	init_color(WHITESPOT, 1000, 686, 373);
 	init_color(BLACKPIECE, 0, 0, 0);
 	init_color(WHITEPIECE, 1000, 1000, 1000);
+	init_color(OVEREDSPOT, 0, 0, 1000);
+	init_color(SELECTEDSPOT, 1000, 0, 0);
+	init_color(DESTINATIONSPOT, 0, 1000, 0);
 
 	init_pair(BLACKSPOTBLACKPIECE, BLACKPIECE, BLACKSPOT);
 	init_pair(BLACKSPOTWHITEPIECE, WHITEPIECE, BLACKSPOT);
 	init_pair(WHITESPOTBLACKPIECE, BLACKPIECE, WHITESPOT);
 	init_pair(WHITESPOTWHITEPIECE, WHITEPIECE, WHITESPOT);
+	init_pair(OVEREDSPOTBLACKPIECE, BLACKPIECE, OVEREDSPOT);
+	init_pair(OVEREDSPOTWHITEPIECE, WHITEPIECE, OVEREDSPOT);
 	init_pair(SELECTEDSPOTBLACKPIECE, BLACKPIECE, SELECTEDSPOT);
 	init_pair(SELECTEDSPOTWHITEPIECE, WHITEPIECE, SELECTEDSPOT);
+	init_pair(DESTINATIONSPOTBLACKPIECE, BLACKPIECE, DESTINATIONSPOT);
+	init_pair(DESTINATIONSPOTWHITEPIECE, WHITEPIECE, DESTINATIONSPOT);
+
+	this->_selectedSpot = nullptr;
+	this->_overedSpot = nullptr;
 	return;
 }
 
@@ -82,22 +89,73 @@ short UserInterfaceNcurses::displayMenu() const
 	return 1;
 }
 
-void UserInterfaceNcurses::displaySpot(const short x, const short y, const Piece* piece) const
+void UserInterfaceNcurses::setSelectedSpot(Spot* spot)
 {
-	short	   colorPair;
-	const bool spotIsWhite = (x + y) % 2 == 0;
-
-	if (piece && piece->isWhite())
-		colorPair = spotIsWhite ? WHITESPOTWHITEPIECE : BLACKSPOTWHITEPIECE;
+	if (this->_selectedSpot)
+		this->displaySpot(this->_selectedSpot);
+	this->_selectedSpot = spot;
+	if (this->_selectedSpot)
+		this->displaySpot(this->_selectedSpot, SELECTEDSPOT);
 	else
-		colorPair = spotIsWhite ? WHITESPOTBLACKPIECE : BLACKSPOTBLACKPIECE;
+		this->displaySpot(this->_overedSpot, OVEREDSPOT);
+}
 
+void UserInterfaceNcurses::setOveredSpot(Spot* spot)
+{
+	if (this->_overedSpot) {
+		if (this->_overedSpot == this->_selectedSpot)
+			this->displaySpot(this->_overedSpot, SELECTEDSPOT);
+		else if (std::find(this->_destinationSpots.begin(), this->_destinationSpots.end(), this->_overedSpot) != this->_destinationSpots.end()) {
+			this->displaySpot(this->_overedSpot, DESTINATIONSPOT);
+		} else
+			this->displaySpot(this->_overedSpot);
+	}
+	this->_overedSpot = spot;
+	if (this->_overedSpot) {
+		if (this->_overedSpot == this->_selectedSpot)
+			this->displaySpot(this->_overedSpot, SELECTEDSPOT);
+		else
+			this->displaySpot(this->_overedSpot, OVEREDSPOT);
+	}
+}
+
+void UserInterfaceNcurses::setDestinationSpots(std::vector<Spot*> spots)
+{
+	for (Spot* spot : this->_destinationSpots)
+		this->displaySpot(spot);
+	this->_destinationSpots = spots;
+	for (Spot* spot : this->_destinationSpots)
+		this->displaySpot(spot, DESTINATIONSPOT);
+}
+
+void UserInterfaceNcurses::printSpot(const short x, const short y, const short colorPair, const char piece = ' ') const
+{
 	wattron(this->_board, COLOR_PAIR(colorPair));
-	if (piece)
-		mvwprintw(this->_board, 8 - y, x * 2 + 2, "%lc ", piece->getRepr());
-	else
-		mvwprintw(this->_board, 8 - y, x * 2 + 2, "  ");
+	mvwprintw(this->_board, 8 - y, x * 2 + 2, "%lc ", piece);
 	wattroff(this->_board, COLOR_PAIR(colorPair));
+}
+
+void UserInterfaceNcurses::displaySpot(const Spot* spot, unsigned int spotColor) const
+{
+	unsigned int	   colorPair;
+	const Piece*	   piece = spot->getPiece();
+	const unsigned int pieceColor = piece && piece->isWhite() ? WHITEPIECE : BLACKPIECE;
+
+	if (spotColor == UNDEFINEDCOLOR)
+		spotColor = (spot->getX() + spot->getY()) % 2 ? WHITESPOT : BLACKSPOT;
+
+	colorPair = COLORPAIRMAP[spotColor][pieceColor];
+	if (piece)
+		this->printSpot(spot->getX(), spot->getY(), colorPair, piece->getRepr());
+	else
+		this->printSpot(spot->getX(), spot->getY(), colorPair);
+}
+
+void UserInterfaceNcurses::displayBoard(const Chess& chess) const
+{
+	for (short x = 0; x < 8; x++)
+		for (short y = 0; y < 8; y++)
+			this->displaySpot(chess.getSpot(x, y));
 }
 
 void UserInterfaceNcurses::displayNewMove(const Move& move, const short moveCounter) const
@@ -112,6 +170,7 @@ void UserInterfaceNcurses::displayNewMove(const Move& move, const short moveCoun
 void UserInterfaceNcurses::start(const std::string fen)
 {
 	Chess chess = Chess();
+	Move* move;
 
 	if (!chess.load(fen)) {
 		std::cout << "Wrong parsing" << std::endl;
@@ -140,9 +199,7 @@ void UserInterfaceNcurses::start(const std::string fen)
 	for (short colNumber = 0; colNumber < 8; colNumber++)
 		mvwprintw(this->_board, 9, 2 + colNumber * 2, "%c ", colNumber + 'a');
 
-	for (short x = 0; x < 8; x++)
-		for (short y = 0; y < 8; y++)
-			this->displaySpot(x, y, chess.getPiece(x, y));
+	this->displayBoard(chess);
 
 	mvwprintw(this->_blackKilled, 1, 1, "bk");
 	mvwprintw(this->_whiteKilled, 1, 1, "wk");
@@ -150,10 +207,11 @@ void UserInterfaceNcurses::start(const std::string fen)
 	mvwprintw(this->_whiteInfo, 1, 1, "whiteInfo");
 
 	int touch;
+	this->setOveredSpot(chess.getCurrentPlayer()->isWhite() ? chess.getWhiteSpots().front() : chess.getBlackSpots().front());
 
 	while (1) {
 
-		mvprintw(0, 0, "Le nombre de lignes est de %d et le nombre de colones est de %d", LINES, COLS);
+		// mvprintw(0, 0, "Le nombre de lignes est de %d et le nombre de colones est de %d", LINES, COLS);
 		wrefresh(this->_board);
 		wrefresh(this->_blackKilled);
 		wrefresh(this->_whiteKilled);
@@ -165,13 +223,44 @@ void UserInterfaceNcurses::start(const std::string fen)
 		if (touch != 410)
 			mvprintw(0, 0, "%0.4d", touch);
 
-		if (touch == KEY_MOUSE) {
-			MEVENT event;
-			if (getmouse(&event) == OK) {
-				mvprintw(1, 0, "Mouse at row=%d, column=%d bstate=0x%08x",
-					event.y, event.x, event.bstate);
-			} else {
-				mvprintw(1, 0, "Got bad mouse event.");
+		size_t newX;
+		size_t newY;
+		if (touch == KEY_RIGHT) {
+			newX = (this->_overedSpot->getX() + 1) % 8;
+			newY = this->_overedSpot->getY();
+			this->setOveredSpot(chess.getSpot(newX, newY));
+		}
+		if (touch == KEY_LEFT) {
+			newX = (this->_overedSpot->getX() - 1) % 8;
+			newY = this->_overedSpot->getY();
+			this->setOveredSpot(chess.getSpot(newX, newY));
+		}
+		if (touch == KEY_UP) {
+			newX = this->_overedSpot->getX();
+			newY = (this->_overedSpot->getY() + 1) % 8;
+			this->setOveredSpot(chess.getSpot(newX, newY));
+		}
+		if (touch == KEY_DOWN) {
+			newX = this->_overedSpot->getX();
+			newY = (this->_overedSpot->getY() - 1) % 8;
+			this->setOveredSpot(chess.getSpot(newX, newY));
+		}
+		if (touch == 10) {
+			if (this->_overedSpot == this->_selectedSpot) {
+				this->setSelectedSpot(nullptr);
+				this->setDestinationSpots(std::vector<Spot*>());
+			} else if (this->_overedSpot->getPiece()
+				&& this->_overedSpot->getPiece()->isWhite() == chess.getCurrentPlayer()->isWhite()) {
+				mvprintw(1, 1, "%c", this->_overedSpot->getPiece()->getRepr());
+				this->setSelectedSpot(this->_overedSpot);
+
+				this->setDestinationSpots(chess.validSpots(this->_selectedSpot));
+			} else if (std::find(this->_destinationSpots.begin(), this->_destinationSpots.end(), this->_overedSpot) != this->_destinationSpots.end()) {
+				move = chess.getMoveAction(this->_selectedSpot, this->_overedSpot);
+				chess.makeAction(move);
+				this->displayBoard(chess);
+				this->displayNewMove(*move, chess.getMoveCounter());
+				this->setDestinationSpots(std::vector<Spot*>());
 			}
 		}
 	}
