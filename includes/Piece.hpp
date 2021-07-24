@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:43:39 by amineau           #+#    #+#             */
-/*   Updated: 2021/07/13 00:06:46 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 18:24:47 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ public:
 	t_type getType() const;
 	bool   isKilled() const;
 	void   killed();
+	bool virtual canMovesWithoutCheck(const GameStatus* gameStatus, const Spot* start, const Spot* end) const;
 	bool virtual canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const;
 	std::vector<Spot*> virtual validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const;
 	std::vector<Spot*> validSpots(const GameStatus* gameStatus, const Spot* start) const;

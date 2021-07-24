@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 21:41:00 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 18:49:53 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,15 @@ void King::setCastlingDone(bool castlingDone)
 	this->_castlingDone = castlingDone;
 }
 
-bool King::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
+bool King::canMovesWithoutCheck(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	int distX = abs(static_cast<int>(end->getX() - start->getX()));
 	int distY = abs(static_cast<int>(end->getY() - start->getY()));
 
-	if (!Piece::canMoves(gameStatus, start, end))
+	if (!Piece::canMovesWithoutCheck(gameStatus, start, end))
 		return false;
 
-	return (distX + distY == 1 || distX * distY == 1) && !gameStatus->moveCausesCheck(start, end);
+	return (distX + distY == 1 || distX * distY == 1);
 }
 
 bool King::canKingSideCastlingMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const

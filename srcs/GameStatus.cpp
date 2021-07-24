@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 19:49:19 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/23 16:11:51 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 18:48:32 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ bool GameStatus::isAttacked(Spot* spot) const
 	for (size_t x = 0; x < 8; x++)
 		for (size_t y = 0; y < 8; y++)
 			if (this->getPiece(x, y)
-				&& this->getPiece(x, y)->canMoves(this, this->getSpot(x, y), spot))
+				&& this->getPiece(x, y)->canMovesWithoutCheck(this, this->getSpot(x, y), spot))
 				return true;
 	return false;
 }

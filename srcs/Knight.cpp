@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 21:41:09 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 18:27:36 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ Knight& Knight::operator=(Knight const& rhs)
 	return *this;
 }
 
-bool Knight::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
+bool Knight::canMovesWithoutCheck(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	int distX = abs(static_cast<int>(end->getX() - start->getX()));
 	int distY = abs(static_cast<int>(end->getY() - start->getY()));
 
-	if (!Piece::canMoves(gameStatus, start, end))
+	if (!Piece::canMovesWithoutCheck(gameStatus, start, end))
 		return false;
-	return distX * distY == 2 && !gameStatus->moveCausesCheck(start, end);
+	return distX * distY == 2;
 }
 
 std::vector<Spot*> Knight::validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const

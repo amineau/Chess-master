@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:07:27 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 18:28:32 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ Bishop& Bishop::operator=(Bishop const& rhs)
 	return *this;
 }
 
-bool Bishop::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
+bool Bishop::canMovesWithoutCheck(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	int i;
 	int signX = sgn(end->getX() - start->getX());
@@ -54,20 +54,17 @@ bool Bishop::canMoves(const GameStatus* gameStatus, const Spot* start, const Spo
 	int distX = abs(static_cast<int>(end->getX() - start->getX()));
 	int distY = abs(static_cast<int>(end->getY() - start->getY()));
 
-	if (!Piece::canMoves(gameStatus, start, end))
+	if (!Piece::canMovesWithoutCheck(gameStatus, start, end))
 		return false;
 
-	if (distX != distY) {
+	if (distX != distY)
 		return false;
-	}
 
-	for (i = 1; start->getX() + i * signX != end->getX(); i++) {
-		if (gameStatus->getPiece(start->getX() + i * signX, start->getY() + i * signY) != NULL) {
+	for (i = 1; start->getX() + i * signX != end->getX(); i++)
+		if (gameStatus->getPiece(start->getX() + i * signX, start->getY() + i * signY) != NULL)
 			return false;
-		}
-	}
 
-	return !gameStatus->moveCausesCheck(start, end);
+	return true;
 }
 
 std::vector<Spot*> Bishop::validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const

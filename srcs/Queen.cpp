@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:08:06 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 18:23:09 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ Queen& Queen::operator=(Queen const& rhs)
 	return *this;
 }
 
-bool Queen::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
+bool Queen::canMovesWithoutCheck(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
-	return (Rook::canMoves(gameStatus, start, end) || Bishop::canMoves(gameStatus, start, end));
+	return (Rook::canMovesWithoutCheck(gameStatus, start, end) || Bishop::canMovesWithoutCheck(gameStatus, start, end));
 }
 
 std::vector<Spot*> Queen::validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const

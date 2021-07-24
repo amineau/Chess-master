@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 17:30:33 by amineau           #+#    #+#             */
-/*   Updated: 2021/07/24 13:30:29 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 18:48:12 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,32 @@ TEST_CASE("Move representation")
 		{
 			chess.load("k7/8/8/8/8/8/8/R3K3 w Q - 0 1");
 			move = chess.getMoveAction("e1", "c1");
-			std::cout << move->getRepr() << std::endl;
 			REQUIRE(move->getRepr().compare("O-O-O") == 0);
 		}
+	}
+}
+
+TEST_CASE("Invalid moves")
+{
+	Chess chess = Chess();
+
+	SECTION("Cause self check")
+	{
+		Spot*					 queen;
+		std::vector<std::string> list_spots;
+
+		chess.load("2krr3/ppp1Q2p/6pB/8/3P4/3b1N2/PP4PP/R3K2R w - - 0 1");
+		queen = chess.getSpot("e7");
+		for (auto spot : chess.validSpots(queen))
+			list_spots.push_back(spot->getRepr());
+		REQUIRE(list_spots == std::vector<std::string>({
+					"e6",
+					"e5",
+					"e4",
+					"e3",
+					"e2",
+					"e8",
+				}));
 	}
 }
 

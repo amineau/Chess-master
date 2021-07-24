@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:35:50 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 21:41:34 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 18:27:17 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ Pawn& Pawn::operator=(Pawn const& rhs)
 
 /* Members functions */
 
-bool Pawn::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
+bool Pawn::canMovesWithoutCheck(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	bool isWhite = this->isWhite();
 	int	 direction = isWhite ? 1 : -1;
 	int	 deltaX = end->getX() - start->getX();
 	int	 deltaY = end->getY() - start->getY();
 
-	if (!Piece::canMoves(gameStatus, start, end))
+	if (!Piece::canMovesWithoutCheck(gameStatus, start, end))
 		return false;
 	if (end->getPiece() == NULL) {
 		if (start->getX() != end->getX())
@@ -62,15 +62,11 @@ bool Pawn::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot*
 				return false;
 			if (deltaY == direction * 2 && gameStatus->getPiece(start->getX(), start->getY() + direction) != NULL)
 				return false;
-		} else {
-			if (deltaY != direction)
-				return false;
-		}
-	} else {
-		if (abs(deltaX) != 1 || deltaY != direction)
+		} else if (deltaY != direction)
 			return false;
-	}
-	return !gameStatus->moveCausesCheck(start, end);
+	} else if (abs(deltaX) != 1 || deltaY != direction)
+		return false;
+	return true;
 }
 bool Pawn::canMovesEnPassant(GameStatus* gameStatus, Spot* start, Spot* end, Spot* spotPieceKilled) const
 {
@@ -83,7 +79,7 @@ bool Pawn::canMovesEnPassant(GameStatus* gameStatus, Spot* start, Spot* end, Spo
 		std::make_pair(spotPieceKilled, end)
 	};
 
-	if (!Piece::canMoves(gameStatus, start, end))
+	if (!Piece::canMovesWithoutCheck(gameStatus, start, end))
 		return false;
 	return abs(deltaX) == 1 && deltaY == direction
 		&& !gameStatus->moveCausesCheck(moves);

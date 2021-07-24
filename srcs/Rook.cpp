@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:09:58 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 21:42:12 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 18:26:13 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ Rook& Rook::operator=(Rook const& rhs)
 	return *this;
 }
 
-bool Rook::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
+bool Rook::canMovesWithoutCheck(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	int i;
 	int distX = abs(static_cast<int>(end->getX() - start->getX()));
@@ -54,7 +54,7 @@ bool Rook::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot*
 	int signX = sgn(end->getX() - start->getX());
 	int signY = sgn(end->getY() - start->getY());
 
-	if (!Piece::canMoves(gameStatus, start, end))
+	if (!Piece::canMovesWithoutCheck(gameStatus, start, end))
 		return false;
 
 	if (distX * distY != 0) {
@@ -72,8 +72,7 @@ bool Rook::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot*
 			return false;
 		}
 	}
-
-	return !gameStatus->moveCausesCheck(start, end);
+	return true;
 }
 
 std::vector<Spot*> Rook::validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const

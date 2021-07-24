@@ -86,13 +86,18 @@ void Piece::killed()
 	this->_isKilled = true;
 }
 
-bool Piece::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
+bool Piece::canMovesWithoutCheck(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
 	(void)gameStatus;
 	(void)start;
 	if (end->getPiece() && end->getPiece()->isWhite() == this->isWhite())
 		return false;
 	return true;
+}
+
+bool Piece::canMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
+{
+	return this->canMovesWithoutCheck(gameStatus, start, end) && !gameStatus->moveCausesCheck(start, end);
 }
 
 std::vector<Spot*> Piece::validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const
