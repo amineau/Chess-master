@@ -122,7 +122,7 @@ std::vector<Spot*> Piece::validSpots(const GameStatus* gameStatus, const Spot* s
 
 char Piece::getRepr() const
 {
-	return this->isWhite() ? toupper(pieceRepr[this->getType()]) : pieceRepr[this->getType()];
+	return pieceRepr[this->getType()];
 }
 
 const char* Piece::getUnicodeRepr() const
@@ -139,6 +139,6 @@ Piece* Piece::clone() const
 
 std::ostream& operator<<(std::ostream& o, Piece const& i)
 {
-	o << i.getRepr();
+	o << i.getUnicodeRepr();
 	return o;
 }

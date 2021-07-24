@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 20:42:54 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/14 23:32:04 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 23:19:58 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ public:
 	EnPassantMove(EnPassantMove const&);
 	~EnPassantMove();
 
-	bool			  execute();
-	const std::string getRepr() const;
-	EnPassantMove*	  clone() const;
+	bool		   execute();
+	EnPassantMove* clone() const;
 
 	EnPassantMove& operator=(EnPassantMove const&);
 
 private:
+	void generateRepr();
 	bool isLegal() const;
 
 	Spot* _spotPieceKilled;

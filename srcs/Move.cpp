@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:37:38 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/23 16:23:43 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/25 00:24:14 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ void Move::executeMove()
 		this->_gameStatus->getBoard()->removePiece(this->_pieceKilled);
 	this->_end->setPiece(this->_pieceMoved);
 	this->_start->setPiece(0);
+	this->generateRepr();
+}
+
+void Move::addStatusChar(const char status)
+{
+	this->_repr += status;
 }
 
 /* Operators Overload */

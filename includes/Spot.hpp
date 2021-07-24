@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/15 00:04:04 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 23:57:01 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ public:
 
 	size_t			  getX() const { return _x; }
 	size_t			  getY() const { return _y; }
+	char			  getLine() const { return _x + '1'; };
+	char			  getColumn() const { return _y + 'a'; };
 	Piece*			  getPiece() const { return _piece; };
 	void			  setPiece(Piece* piece) { _piece = piece; }
-	bool			  isEmpty() const { return (_piece == 0); }
+	bool			  isEmpty() const { return (_piece == nullptr); }
 	const std::string getRepr() const;
 
 	Spot& operator=(Spot const&);

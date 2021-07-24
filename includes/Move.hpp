@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:33:11 by amineau           #+#    #+#             */
-/*   Updated: 2021/07/13 00:06:20 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/25 00:23:58 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,31 @@ public:
 	Move(Move const&);
 	virtual ~Move();
 
-	virtual const std::string getRepr() const = 0;
-	virtual bool			  execute() = 0;
-	virtual Move*			  clone() const = 0;
+	virtual bool  execute() = 0;
+	virtual Move* clone() const = 0;
 
-	Spot*  getStartSpot() const { return _start; };
-	Spot*  getEndSpot() const { return _end; };
-	Piece* getPieceMoved() const { return _pieceMoved; };
-	Piece* getPieceKilled() const { return _pieceKilled; };
+	const std::string getRepr() const { return _repr; };
+	Spot*			  getStartSpot() const { return _start; };
+	Spot*			  getEndSpot() const { return _end; };
+	Piece*			  getPieceMoved() const { return _pieceMoved; };
+	Piece*			  getPieceKilled() const { return _pieceKilled; };
 
 	void executeMove();
+
+	void addStatusChar(const char status);
 
 	Move& operator=(Move const&);
 
 protected:
-	Spot*  _start;
-	Spot*  _end;
-	Piece* _pieceMoved;
-	Piece* _pieceKilled;
+	Spot*		_start;
+	Spot*		_end;
+	Piece*		_pieceMoved;
+	Piece*		_pieceKilled;
+	std::string _repr;
 
 private:
 	virtual bool isLegal() const = 0;
+	virtual void generateRepr() = 0;
 };
 
 std::ostream& operator<<(std::ostream& o, Move const& i);

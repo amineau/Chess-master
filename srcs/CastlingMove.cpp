@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:50:51 by amineau           #+#    #+#             */
-/*   Updated: 2021/07/17 13:58:26 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 23:27:21 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ bool CastlingMove::execute()
 		endSpotRook = this->_gameStatus->getSpot(3, this->_end->getY());
 	}
 
-	this->_end->setPiece(this->_pieceMoved);
-	this->_start->setPiece(0);
+	this->executeMove();
 
 	endSpotRook->setPiece(startSpotRook->getPiece());
 	startSpotRook->setPiece(0);
@@ -95,11 +94,9 @@ CastlingMove* CastlingMove::clone() const
 	return new CastlingMove(*this);
 }
 
-const std::string CastlingMove::getRepr() const
+void CastlingMove::generateRepr()
 {
 	bool isKingSide = (this->_end->getX() == 6);
 
-	if (isKingSide)
-		return "O-O";
-	return "O-O-O";
+	this->_repr = isKingSide ? "O-O" : "O-O-O";
 }

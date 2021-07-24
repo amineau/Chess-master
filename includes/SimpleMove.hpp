@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:46:53 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/15 00:01:02 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 23:19:46 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ public:
 	SimpleMove(SimpleMove const&);
 	~SimpleMove();
 
-	bool			  execute();
-	const std::string getRepr() const;
-	SimpleMove*		  clone() const;
+	bool		execute();
+	SimpleMove* clone() const;
 
 	bool isDoublePushPawn() const;
 	void setCastlings();
@@ -34,6 +33,7 @@ public:
 	SimpleMove& operator=(SimpleMove const&);
 
 private:
+	void generateRepr();
 	bool isLegal() const;
 };
 

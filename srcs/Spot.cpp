@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 02:06:13 by amineau           #+#    #+#             */
-/*   Updated: 2021/02/15 22:08:14 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 23:51:57 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ const std::string Spot::getRepr() const
 {
 	std::stringstream ss;
 
-	ss << char(this->getX() + 'a') << char(this->getY() + '1');
+	ss << this->getColumn() << this->getLine();
 	return ss.str();
 }
 

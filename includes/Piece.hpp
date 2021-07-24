@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:43:39 by amineau           #+#    #+#             */
-/*   Updated: 2021/07/24 22:29:13 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 23:39:01 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ enum e_type {
 typedef enum e_type t_type;
 
 static std::map<int, const char> pieceRepr = {
-	{ KING, 'k' },
-	{ QUEEN, 'q' },
-	{ ROOK, 'r' },
-	{ BISHOP, 'b' },
-	{ KNIGHT, 'n' },
-	{ PAWN, 'p' },
+	{ KING, 'K' },
+	{ QUEEN, 'Q' },
+	{ ROOK, 'R' },
+	{ BISHOP, 'B' },
+	{ KNIGHT, 'N' },
+	{ PAWN, 'P' },
 };
 
 static std::map<int, const char*> pieceUnicodeRepr = {

@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:47:12 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/23 19:05:46 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 23:55:02 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ EnPassantMove* EnPassantMove::clone() const
 	return new EnPassantMove(*this);
 }
 
-const std::string EnPassantMove::getRepr() const
+void EnPassantMove::generateRepr()
 {
 	std::stringstream ss;
 
-	ss << *this->_start << (this->_pieceKilled ? 'x' : '-') << *this->_end << "e.p";
-	return ss.str();
+	ss << this->_start->getColumn() << 'x' << *this->_end << "e.p";
+	this->_repr = ss.str();
 }

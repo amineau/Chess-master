@@ -98,17 +98,22 @@ Move* Chess::getMoveAction(Spot* start, Spot* end) const
 
 void Chess::updateStatus()
 {
-	bool isWhite = this->_gameStatus->getCurrentPlayer()->isWhite();
-	bool isCheck = this->_gameStatus->isCheck(isWhite);
+	bool  isWhite = this->_gameStatus->getCurrentPlayer()->isWhite();
+	bool  isCheck = this->_gameStatus->isCheck(isWhite);
+	bool  hasNoMove = this->_gameStatus->hasNoMovePossible(isWhite);
+	Move* lastMove;
 
-	if (this->_gameStatus->hasNoMovePossible(isWhite)) {
-		if (isCheck)
+	if (isCheck) {
+		lastMove = this->history().back();
+		if (hasNoMove) {
 			this->_status = CHECKMATE;
-		else
-			this->_status = DRAW;
-	} else if (this->_gameStatus->getHalfMoveClock() >= 50) {
+			lastMove->addStatusChar('#');
+		} else
+			lastMove->addStatusChar('+');
+	} else if (hasNoMove)
+		this->_status = DRAW;
+	else if (this->_gameStatus->getHalfMoveClock() >= 50)
 		this->_status = STALEMATE;
-	}
 }
 
 bool Chess::makeAction(Action* action)

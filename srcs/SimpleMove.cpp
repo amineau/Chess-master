@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:50:51 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/18 21:37:00 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/25 00:03:35 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,14 @@ SimpleMove* SimpleMove::clone() const
 	return new SimpleMove(*this);
 }
 
-const std::string SimpleMove::getRepr() const
+void SimpleMove::generateRepr()
 {
 	std::stringstream ss;
 
-	ss << *this->_start << (this->_pieceKilled ? 'x' : '-') << *this->_end;
-	return ss.str();
+	if (this->_pieceMoved->getType() != PAWN)
+		ss << this->_pieceMoved->getRepr();
+	else if (this->_pieceKilled)
+		ss << this->_start->getColumn();
+	ss << (this->_pieceKilled ? "x" : "") << *this->_end;
+	this->_repr = ss.str();
 }
