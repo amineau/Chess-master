@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:43:39 by amineau           #+#    #+#             */
-/*   Updated: 2021/07/24 18:24:47 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 22:29:13 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,21 @@ enum e_type {
 typedef enum e_type t_type;
 
 static std::map<int, const char> pieceRepr = {
-	// { KING, "\u265A" },
-	// { QUEEN, "\u265B" },
-	// { ROOK, "\u265C" },
-	// { BISHOP, "\u265D" },
-	// { KNIGHT, "\u265E" },
-	// { PAWN, "\u265F" }
 	{ KING, 'k' },
 	{ QUEEN, 'q' },
 	{ ROOK, 'r' },
 	{ BISHOP, 'b' },
 	{ KNIGHT, 'n' },
-	{ PAWN, 'p' }
+	{ PAWN, 'p' },
+};
+
+static std::map<int, const char*> pieceUnicodeRepr = {
+	{ KING, "\u265A" },
+	{ QUEEN, "\u265B" },
+	{ ROOK, "\u265C" },
+	{ BISHOP, "\u265D" },
+	{ KNIGHT, "\u265E" },
+	{ PAWN, "\u265F" },
 };
 
 class Piece {
@@ -67,6 +70,7 @@ public:
 	std::vector<Spot*> virtual validSpotsWithoutCheck(const GameStatus* gameStatus, const Spot* start) const;
 	std::vector<Spot*> validSpots(const GameStatus* gameStatus, const Spot* start) const;
 	char			   getRepr() const;
+	const char*		   getUnicodeRepr() const;
 
 	Piece* clone() const;
 

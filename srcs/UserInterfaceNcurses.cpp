@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/07/24 21:50:24 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 22:32:00 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,10 @@ void UserInterfaceNcurses::setDestinationSpots(std::vector<Spot*> spots)
 		this->displaySpot(spot, DESTINATIONSPOT);
 }
 
-void UserInterfaceNcurses::printSpot(const short x, const short y, const short colorPair, const char piece = ' ') const
+void UserInterfaceNcurses::printSpot(const short x, const short y, const short colorPair, const char* piece = " ") const
 {
 	wattron(this->_board, COLOR_PAIR(colorPair));
-	mvwprintw(this->_board, 8 - y, x * 2 + 2, "%lc ", piece);
+	mvwprintw(this->_board, 8 - y, x * 2 + 2, "%s ", piece);
 	wattroff(this->_board, COLOR_PAIR(colorPair));
 }
 
@@ -146,7 +146,7 @@ void UserInterfaceNcurses::displaySpot(const Spot* spot, unsigned int spotColor)
 
 	colorPair = COLORPAIRMAP[spotColor][pieceColor];
 	if (piece)
-		this->printSpot(spot->getX(), spot->getY(), colorPair, piece->getRepr());
+		this->printSpot(spot->getX(), spot->getY(), colorPair, piece->getUnicodeRepr());
 	else
 		this->printSpot(spot->getX(), spot->getY(), colorPair);
 }
@@ -247,7 +247,7 @@ void UserInterfaceNcurses::start(const std::string fen)
 				this->setDestinationSpots(std::vector<Spot*>());
 			} else if (this->_overedSpot->getPiece()
 				&& this->_overedSpot->getPiece()->isWhite() == chess.getCurrentPlayer()->isWhite()) {
-				mvprintw(1, 1, "%c", this->_overedSpot->getPiece()->getRepr());
+				mvprintw(1, 1, "%s", this->_overedSpot->getPiece()->getUnicodeRepr());
 				this->setSelectedSpot(this->_overedSpot);
 
 				this->setDestinationSpots(chess.validSpots(this->_selectedSpot));

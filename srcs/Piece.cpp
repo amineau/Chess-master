@@ -125,6 +125,11 @@ char Piece::getRepr() const
 	return this->isWhite() ? toupper(pieceRepr[this->getType()]) : pieceRepr[this->getType()];
 }
 
+const char* Piece::getUnicodeRepr() const
+{
+	return pieceUnicodeRepr[this->getType()];
+}
+
 Piece* Piece::clone() const
 {
 	return new Piece(*this);
