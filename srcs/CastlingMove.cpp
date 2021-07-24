@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:50:51 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/18 18:11:19 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/17 13:58:26 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,9 @@ CastlingMove* CastlingMove::clone() const
 
 const std::string CastlingMove::getRepr() const
 {
-	std::stringstream ss;
+	bool isKingSide = (this->_end->getX() == 6);
 
-	ss << *this->_start << (this->_pieceKilled ? 'x' : '-') << *this->_end;
-	return ss.str();
+	if (isKingSide)
+		return "O-O";
+	return "O-O-O";
 }

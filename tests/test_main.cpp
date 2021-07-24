@@ -6,13 +6,36 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 17:30:33 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/23 19:02:26 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 13:30:29 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define CATCH_CONFIG_MAIN
 #include "Chess.hpp"
 #include "catch.hpp"
+
+TEST_CASE("Move representation")
+{
+	Chess chess = Chess();
+	Move* move;
+
+	SECTION("Castling move")
+	{
+		SECTION("King Side")
+		{
+			chess.load("k7/8/8/8/8/8/8/4K2R w K - 0 1");
+			move = chess.getMoveAction("e1", "g1");
+			REQUIRE(move->getRepr().compare("O-O") == 0);
+		}
+		SECTION("Queen Side")
+		{
+			chess.load("k7/8/8/8/8/8/8/R3K3 w Q - 0 1");
+			move = chess.getMoveAction("e1", "c1");
+			std::cout << move->getRepr() << std::endl;
+			REQUIRE(move->getRepr().compare("O-O-O") == 0);
+		}
+	}
+}
 
 TEST_CASE("Move piece check")
 {
