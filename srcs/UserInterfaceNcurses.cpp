@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/07/24 22:32:00 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 22:44:59 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,13 +249,13 @@ void UserInterfaceNcurses::start(const std::string fen)
 				&& this->_overedSpot->getPiece()->isWhite() == chess.getCurrentPlayer()->isWhite()) {
 				mvprintw(1, 1, "%s", this->_overedSpot->getPiece()->getUnicodeRepr());
 				this->setSelectedSpot(this->_overedSpot);
-
 				this->setDestinationSpots(chess.validSpots(this->_selectedSpot));
 			} else if (std::find(this->_destinationSpots.begin(), this->_destinationSpots.end(), this->_overedSpot) != this->_destinationSpots.end()) {
 				move = chess.getMoveAction(this->_selectedSpot, this->_overedSpot);
 				chess.makeAction(move);
 				this->displayBoard(chess);
 				this->displayNewMove(*move, chess.getMoveCounter());
+				this->setSelectedSpot(nullptr);
 				this->setDestinationSpots(std::vector<Spot*>());
 			}
 		}
