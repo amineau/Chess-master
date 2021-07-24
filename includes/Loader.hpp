@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 23:42:54 by amineau           #+#    #+#             */
-/*   Updated: 2021/01/23 01:09:31 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 21:57:36 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,23 @@ public:
 	Loader(GameStatus*);
 	~Loader();
 
-	bool fen(const std::string&);
+	void fen(const std::string&);
 
 	Loader& operator=(Loader const&);
 
+	class FenParsingException : public std::runtime_error {
+	public:
+		FenParsingException();
+		FenParsingException(std::string msg);
+	};
+
 private:
-	bool _fenBoard(const std::string&);
-	bool _fenCurrentPlayer(const std::string&);
-	bool _fenCastlingsAvailable(const std::string&);
-	bool _fenEnPassantTargetSpot(const std::string&);
-	bool _fenHalfMoveClock(const std::string&);
-	bool _fenFullMoveCounter(const std::string&);
+	void _fenBoard(const std::string&);
+	void _fenCurrentPlayer(const std::string&);
+	void _fenCastlingsAvailable(const std::string&);
+	void _fenEnPassantTargetSpot(const std::string&);
+	void _fenHalfMoveClock(const std::string&);
+	void _fenFullMoveCounter(const std::string&);
 
 	GameStatus* _gameStatus;
 };

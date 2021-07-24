@@ -119,12 +119,10 @@ bool Chess::makeAction(Action* action)
 	return result;
 }
 
-bool Chess::load(const std::string& fen)
+void Chess::load(const std::string& fen)
 {
-	bool result = Loader(this->_gameStatus).fen(fen);
-	if (result)
-		this->updateStatus();
-	return result;
+	Loader(this->_gameStatus).fen(fen);
+	this->updateStatus();
 }
 
 const std::string Chess::fen() const

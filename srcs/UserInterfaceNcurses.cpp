@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/07/17 13:38:43 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 21:50:24 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,11 +172,7 @@ void UserInterfaceNcurses::start(const std::string fen)
 	Chess chess = Chess();
 	Move* move;
 
-	if (!chess.load(fen)) {
-		std::cout << "Wrong parsing" << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
+	chess.load(fen);
 	this->_board = subwin(stdscr, 10, 20, 6, 14);
 	this->_blackKilled = subwin(stdscr, 5, 8, 6, 3);
 	this->_whiteKilled = subwin(stdscr, 5, 8, 11, 3);

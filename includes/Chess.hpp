@@ -52,7 +52,7 @@ public:
 
 	void updateStatus();
 
-	bool			  load(const std::string& fen);
+	void			  load(const std::string& fen);
 	const std::string fen() const;
 
 	std::vector<Spot*> validSpots(const std::string& pos) const;

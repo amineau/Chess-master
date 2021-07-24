@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/18 20:16:31 by amineau          ###   ########.fr       */
+/*   Updated: 2021/07/24 21:49:55 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ void UserInterfaceCLI::start(const std::string fen)
 	Move* move;
 	Chess chess = Chess();
 
-	if (!chess.load(fen)) {
-		std::cout << "Wrong parsing" << std::endl;
-		exit(EXIT_FAILURE);
-	}
+	chess.load(fen);
 
 	while (chess.getStatus() == INPROGRESS) {
 		std::cout << "Command : ";
