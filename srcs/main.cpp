@@ -6,14 +6,14 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:31:09 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/18 20:14:44 by amineau          ###   ########.fr       */
+/*   Updated: 2021/08/01 17:37:30 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Chess.hpp"
-#include "UserInterfaceCLI.hpp"
-#include "UserInterfaceNcurses.hpp"
-#include "chessmaster.hpp"
+#include "Game/Chess.hpp"
+#include "UserInterfaces/CLI.hpp"
+#include "UserInterfaces/Ncurses.hpp"
+#include "config.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -82,9 +82,9 @@ int main(int argc, char* argv[])
 		return EXIT_FAILURE;
 
 	if (interface.compare("cli") == 0)
-		ui = new UserInterfaceCLI();
+		ui = new CLI();
 	else if (interface.compare("ncurses") == 0)
-		ui = new UserInterfaceNcurses();
+		ui = new Ncurses();
 	else
 		return EXIT_FAILURE;
 

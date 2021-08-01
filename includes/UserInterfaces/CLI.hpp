@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.hpp                                          :+:      :+:    :+:   */
+/*   CLI.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/08 13:32:21 by amineau           #+#    #+#             */
-/*   Updated: 2021/08/01 15:24:06 by amineau          ###   ########.fr       */
+/*   Created: 2021/01/16 00:02:37 by amineau           #+#    #+#             */
+/*   Updated: 2021/08/01 17:37:13 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_HPP
-#define UTILS_HPP
+#ifndef CLI_HPP
+#define CLI_HPP
 
-#include <string>
-#include <vector>
+#include "UserInterfaces/UserInterface.hpp"
 
-int						 sgn(int);
-std::vector<std::string> split(std::string str, const char delimiter);
-bool					 isNumber(const std::string&);
+class CLI : public UserInterface {
+public:
+	CLI();
+	CLI(CLI const&);
+	~CLI();
+	short displayMenu() const;
+	void  start(const std::string fen);
+
+	CLI& operator=(CLI const&);
+
+private:
+	void displayBoard(Chess const& chess) const;
+	void end(t_status) const;
+};
 
 #endif

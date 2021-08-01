@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.hpp                                          :+:      :+:    :+:   */
+/*   config.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/08 13:32:21 by amineau           #+#    #+#             */
-/*   Updated: 2021/08/01 15:24:06 by amineau          ###   ########.fr       */
+/*   Created: 2021/01/08 13:36:58 by amineau           #+#    #+#             */
+/*   Updated: 2021/08/01 15:21:14 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_HPP
-#define UTILS_HPP
+#include "config.hpp"
 
-#include <string>
-#include <vector>
-
-int						 sgn(int);
-std::vector<std::string> split(std::string str, const char delimiter);
-bool					 isNumber(const std::string&);
-
-#endif
+namespace settings {
+const std::string defaultFenStart = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+const std::string defaultInterface = "cli";
+}

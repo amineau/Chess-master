@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.hpp                                          :+:      :+:    :+:   */
+/*   UserInterface.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/08 13:32:21 by amineau           #+#    #+#             */
-/*   Updated: 2021/08/01 15:24:06 by amineau          ###   ########.fr       */
+/*   Created: 2021/01/15 13:01:26 by amineau           #+#    #+#             */
+/*   Updated: 2021/08/01 15:36:10 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_HPP
-#define UTILS_HPP
+#ifndef USERINTERFACE_HPP
+#define USERINTERFACE_HPP
 
-#include <string>
-#include <vector>
+#include "Game/Chess.hpp"
+#include "config.hpp"
 
-int						 sgn(int);
-std::vector<std::string> split(std::string str, const char delimiter);
-bool					 isNumber(const std::string&);
+#define NEWGAME 1
+#define LOADGAME 2
+#define QUIT 3
+
+class UserInterface {
+public:
+	virtual ~UserInterface() {};
+	short virtual displayMenu() const = 0;
+	void virtual start(const std::string fen) = 0;
+	// void virtual loadChess(Save save) = 0;
+	// Save virtual saveChess() = 0;
+
+protected:
+	Chess* _chess;
+};
 
 #endif

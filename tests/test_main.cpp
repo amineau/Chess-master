@@ -6,12 +6,12 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 17:30:33 by amineau           #+#    #+#             */
-/*   Updated: 2021/07/24 18:48:12 by amineau          ###   ########.fr       */
+/*   Updated: 2021/08/01 15:43:06 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define CATCH_CONFIG_MAIN
-#include "Chess.hpp"
+#include "Game/Chess.hpp"
 #include "catch.hpp"
 
 TEST_CASE("Move representation")
