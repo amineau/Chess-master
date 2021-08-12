@@ -26,8 +26,8 @@ public:
 
 	size_t			  getX() const { return _x; }
 	size_t			  getY() const { return _y; }
-	char			  getLine() const { return _x + '1'; };
-	char			  getColumn() const { return _y + 'a'; };
+	char			  getLine() const { return _y + '1'; };
+	char			  getColumn() const { return _x + 'a'; };
 	Piece*			  getPiece() const { return _piece; };
 	void			  setPiece(Piece* piece) { _piece = piece; }
 	bool			  isEmpty() const { return (_piece == nullptr); }
