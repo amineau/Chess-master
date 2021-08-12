@@ -67,12 +67,14 @@ bool King::canMovesWithoutCheck(const GameStatus* gameStatus, const Spot* start,
 	if (!Piece::canMovesWithoutCheck(gameStatus, start, end))
 		return false;
 
-	return (distX + distY == 1 || distX * distY == 1);
+	return (distX + distY == 1 || distX * distY == 1
+			|| this->canKingSideCastlingMoves(gameStatus, start, end)
+			|| this->canQueenSideCastlingMoves(gameStatus, start, end));
 }
 
 bool King::canKingSideCastlingMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
-	if (!Piece::canMoves(gameStatus, start, end))
+	if (!Piece::canMovesWithoutCheck(gameStatus, start, end))
 		return false;
 
 	return end->getX() == 6
@@ -87,12 +89,12 @@ bool King::canKingSideCastlingMoves(const GameStatus* gameStatus, const Spot* st
 
 bool King::canQueenSideCastlingMoves(const GameStatus* gameStatus, const Spot* start, const Spot* end) const
 {
-	if (!Piece::canMoves(gameStatus, start, end))
+	if (!Piece::canMovesWithoutCheck(gameStatus, start, end))
 		return false;
 
 	return end->getX() == 2
 		&& end->getY() == (_isWhite ? 0 : 7)
-		&& gameStatus->getKingSideCastlingAvailable(_isWhite)
+		&& gameStatus->getQueenSideCastlingAvailable(_isWhite)
 		&& gameStatus->getSpot(start->getX() - 1, start->getY())->isEmpty()
 		&& end->isEmpty()
 		&& !gameStatus->isCheck(_isWhite)

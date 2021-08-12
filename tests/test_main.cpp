@@ -25,12 +25,14 @@ TEST_CASE("Move representation")
 		{
 			chess.load("k7/8/8/8/8/8/8/4K2R w K - 0 1");
 			move = chess.getMoveAction("e1", "g1");
+			chess.makeAction(move);
 			REQUIRE(move->getRepr().compare("O-O") == 0);
 		}
 		SECTION("Queen Side")
 		{
 			chess.load("k7/8/8/8/8/8/8/R3K3 w Q - 0 1");
 			move = chess.getMoveAction("e1", "c1");
+			chess.makeAction(move);
 			REQUIRE(move->getRepr().compare("O-O-O") == 0);
 		}
 	}
