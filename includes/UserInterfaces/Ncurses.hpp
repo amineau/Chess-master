@@ -33,6 +33,7 @@ public:
 	void displayBoard(const Chess& chess) const;
 
 	void displayNewMove(const Move& move, const short moveCounter) const;
+	void displayPieceKilled(const Piece& killed) const;
 
 	Ncurses& operator=(Ncurses const&);
 

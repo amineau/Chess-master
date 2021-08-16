@@ -167,6 +167,13 @@ void Ncurses::displayNewMove(const Move& move, const short moveCounter) const
 	}
 }
 
+void Ncurses::displayPieceKilled(const Piece& killed) const
+{
+	WINDOW* win_killed = killed.isWhite() ? this->_whiteKilled : this->_blackKilled;
+
+	wprintw(win_killed, "%s", killed.getUnicodeRepr());
+}
+
 void Ncurses::start(const std::string fen)
 {
 	Chess chess = Chess();
@@ -197,11 +204,6 @@ void Ncurses::start(const std::string fen)
 
 	this->displayBoard(chess);
 
-	mvwprintw(this->_blackKilled, 1, 1, "bk");
-	mvwprintw(this->_whiteKilled, 1, 1, "wk");
-	mvwprintw(this->_blackInfo, 1, 1, "blackInfo");
-	mvwprintw(this->_whiteInfo, 1, 1, "whiteInfo");
-
 	int touch;
 	this->setOveredSpot(chess.getCurrentPlayer()->isWhite() ? chess.getWhiteSpots().front() : chess.getBlackSpots().front());
 
@@ -216,8 +218,6 @@ void Ncurses::start(const std::string fen)
 		wrefresh(this->_movePlayed);
 		refresh();
 		touch = getch();
-		if (touch != 410)
-			mvprintw(0, 0, "%0.4d", touch);
 
 		size_t newX;
 		size_t newY;
@@ -255,6 +255,8 @@ void Ncurses::start(const std::string fen)
 				chess.makeAction(move);
 				this->displayBoard(chess);
 				this->displayNewMove(*move, chess.getMoveCounter());
+				if (move->getPieceKilled())
+					this->displayPieceKilled(*move->getPieceKilled());
 				this->setSelectedSpot(nullptr);
 				this->setDestinationSpots(std::vector<Spot*>());
 			}

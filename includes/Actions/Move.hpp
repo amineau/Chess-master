@@ -31,10 +31,10 @@ public:
 	virtual Move* clone() const = 0;
 
 	const std::string getRepr() const { return _repr; };
-	Spot*			  getStartSpot() const { return _start; };
-	Spot*			  getEndSpot() const { return _end; };
-	Piece*			  getPieceMoved() const { return _pieceMoved; };
-	Piece*			  getPieceKilled() const { return _pieceKilled; };
+	const Spot*			  getStartSpot() const { return _start; };
+	const Spot*			  getEndSpot() const { return _end; };
+	const Piece*			  getPieceMoved() const { return _pieceMoved; };
+	const Piece*			  getPieceKilled() const { return _pieceKilled; };
 
 	void executeMove();
 
