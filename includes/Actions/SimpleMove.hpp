@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:46:53 by amineau           #+#    #+#             */
-/*   Updated: 2021/08/01 15:32:56 by amineau          ###   ########.fr       */
+/*   Updated: 2021/08/16 14:31:47 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ public:
 	~SimpleMove();
 
 	bool		execute();
+	bool		isLegal() const;
 	SimpleMove* clone() const;
 
 	bool isDoublePushPawn() const;
@@ -34,7 +35,6 @@ public:
 
 private:
 	void generateRepr();
-	bool isLegal() const;
 };
 
 std::ostream& operator<<(std::ostream& o, Move const& i);

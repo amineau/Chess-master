@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:31:31 by amineau           #+#    #+#             */
-/*   Updated: 2021/05/14 23:56:22 by amineau          ###   ########.fr       */
+/*   Updated: 2021/08/16 14:31:18 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@ public:
 	virtual ~Action();
 
 	virtual bool execute() = 0;
+	virtual bool isLegal() const = 0;
 
 	Action& operator=(Action const&);
 
 protected:
-	virtual bool isLegal() const = 0;
-
 	GameStatus* _gameStatus;
 	bool		_isWhitePlayer;
 };

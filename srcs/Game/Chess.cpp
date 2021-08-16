@@ -104,11 +104,12 @@ void Chess::updateStatus()
 	Move* lastMove;
 
 	if (isCheck) {
-		lastMove = this->history().back();
+		lastMove = this->history().size() ? this->history().back() : nullptr;
 		if (hasNoMove) {
 			this->_status = CHECKMATE;
-			lastMove->addStatusChar('#');
-		} else
+			if (lastMove)
+				lastMove->addStatusChar('#');
+		} else if (lastMove)
 			lastMove->addStatusChar('+');
 	} else if (hasNoMove)
 		this->_status = DRAW;
@@ -118,6 +119,8 @@ void Chess::updateStatus()
 
 bool Chess::makeAction(Action* action)
 {
+	if (this->_status != INPROGRESS)
+		return false;
 	bool result = action->execute();
 	if (result)
 		this->updateStatus();

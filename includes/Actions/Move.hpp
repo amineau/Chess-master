@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:33:11 by amineau           #+#    #+#             */
-/*   Updated: 2021/08/01 15:33:04 by amineau          ###   ########.fr       */
+/*   Updated: 2021/08/16 14:31:36 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ protected:
 	std::string _repr;
 
 private:
-	virtual bool isLegal() const = 0;
 	virtual void generateRepr() = 0;
 };
 

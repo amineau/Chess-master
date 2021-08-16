@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 20:42:54 by amineau           #+#    #+#             */
-/*   Updated: 2021/08/01 15:33:22 by amineau          ###   ########.fr       */
+/*   Updated: 2021/08/16 14:31:54 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ public:
 	~EnPassantMove();
 
 	bool		   execute();
+	bool		   isLegal() const;
 	EnPassantMove* clone() const;
 
 	EnPassantMove& operator=(EnPassantMove const&);
 
 private:
 	void generateRepr();
-	bool isLegal() const;
 
 	Spot* _spotPieceKilled;
 };

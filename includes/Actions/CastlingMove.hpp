@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:46:53 by amineau           #+#    #+#             */
-/*   Updated: 2021/08/01 15:33:25 by amineau          ###   ########.fr       */
+/*   Updated: 2021/08/16 14:32:00 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ public:
 	~CastlingMove();
 
 	bool		  execute();
+	bool		  isLegal() const;
 	CastlingMove* clone() const;
 
 	CastlingMove& operator=(CastlingMove const&);
 
 private:
 	void generateRepr();
-	bool isLegal() const;
 };
 
 std::ostream& operator<<(std::ostream& o, Move const& i);

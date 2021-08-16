@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 00:50:51 by amineau           #+#    #+#             */
-/*   Updated: 2021/08/01 15:34:17 by amineau          ###   ########.fr       */
+/*   Updated: 2021/08/16 14:53:34 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ bool SimpleMove::execute()
 				this->_gameStatus->getSpot(this->_start->getX(), 5));
 	} else
 		this->_gameStatus->setEnPassantTargetSpot(0);
-	if (this->_pieceMoved->getType() != PAWN || !this->_pieceKilled)
+	if (this->_pieceMoved->getType() != PAWN && !this->_pieceKilled)
 		this->_gameStatus->incrementHalfMoveClock();
 	else
 		this->_gameStatus->resetHalfMoveClock();
