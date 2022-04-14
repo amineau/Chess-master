@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:31:09 by amineau           #+#    #+#             */
-/*   Updated: 2021/08/01 17:37:30 by amineau          ###   ########.fr       */
+/*   Updated: 2022/04/14 23:40:21 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,52 +15,67 @@
 #include "UserInterfaces/Ncurses.hpp"
 #include "config.hpp"
 
-int main(int argc, char* argv[])
-{
-	int			   c;
-	short		   menuResponse;
+struct user_options {
 	std::string	   interface = settings::defaultInterface;
 	std::string	   fen = settings::defaultFenStart;
-	UserInterface* ui;
+};
 
-	setlocale(LC_ALL, "");
+const char *	usage()
+{
+	const char * text =
+		"./chessmaster\n"
+		"\t-i --interface <ncurses|cli>\tinterface to use. Default 'cli'\n"
+		"\t-f --fen <string>\t\tfen. Default 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'\n"
+		"\t-h --help\t\t\tprint this help";
+	return text;
+}
+
+void raise_on_no_command_line(int argc)
+{
+	if (optind != argc)
+	{
+		std::cerr << "Command not recognized" << std::endl;
+		exit(EXIT_FAILURE);
+	}
+}
+
+bool	is_end_options(int c)
+{
+	return c == -1;
+}
+
+struct user_options parse_args(int argc, char* argv[])
+{
+	struct user_options	user_options;
+	static struct option long_options[] = {
+		{ "interface", required_argument, NULL, 'i' },
+		{ "fen", required_argument, NULL, 'f' },
+		{ "help", no_argument, NULL, 'h' },
+		{ 0, 0, 0, 0 }
+	};
+	int	c;
+	int option_index;
 
 	while (1) {
-		static struct option long_options[] = {
-			{ "interface", required_argument, NULL, 'i' },
-			{ "fen", required_argument, NULL, 'f' },
-			{ 0, 0, 0, 0 }
-		};
 		/* getopt_long stores the option index here. */
-		int option_index = 0;
+		option_index = 0;
+		c = getopt_long(argc, argv, "i:f:h", long_options, &option_index);
 
-		c = getopt_long(argc, argv, "i:f:", long_options, &option_index);
-
-		/* Detect the end of the options. */
-		if (c == -1)
+		if (is_end_options(c))
 			break;
 
 		switch (c) {
 		case 0:
-			/* If this option set a flag, do nothing else now. */
-			if (long_options[option_index].flag != 0)
-				break;
-			printf("option %s", long_options[option_index].name);
-			if (optarg)
-				printf(" with arg %s", optarg);
-			printf("\n");
 			break;
-
 		case 'i':
-			printf("option -i with value `%s'\n", optarg);
-			interface = optarg;
+			user_options.interface = optarg;
 			break;
-
 		case 'f':
-			printf("option -f with value `%s'\n", optarg);
-			fen = optarg;
+			user_options.fen = optarg;
 			break;
-
+		case 'h':
+			std::cout << usage() << std::endl;
+			exit(EXIT_SUCCESS);
 		case '?':
 			if (optopt == 'i' || optopt == 'f')
 				fprintf(stderr, "Option -%c requires an argument.\n", optopt);
@@ -70,26 +85,32 @@ int main(int argc, char* argv[])
 				fprintf(stderr,
 					"Unknown option character `\\x%x'.\n",
 					optopt);
-			return EXIT_FAILURE;
-
+			exit(EXIT_FAILURE);
 		default:
 			abort();
 		}
 	}
+	raise_on_no_command_line(argc);
+	return user_options;
 
-	/* Print any remaining command line arguments (not options). */
-	if (optind != argc)
-		return EXIT_FAILURE;
+}
 
+UserInterface*	get_user_interface(std::string interface)
+{
 	if (interface.compare("cli") == 0)
-		ui = new CLI();
+		return new CLI();
 	else if (interface.compare("ncurses") == 0)
-		ui = new Ncurses();
-	else
-		return EXIT_FAILURE;
+		return new Ncurses();
+	std::cerr << "'" << interface << "' is not a valid ui option" << std::endl;
+	std::cerr << usage() << std::endl;
+	exit(EXIT_FAILURE);
+}
+
+void run_user_interface(UserInterface* ui, std::string fen)
+{
+	short		   		menuResponse;
 
 	menuResponse = ui->displayMenu();
-	std::cout << menuResponse << std::endl;
 	switch (menuResponse) {
 	case NEWGAME:
 		ui->start(fen);
@@ -103,5 +124,18 @@ int main(int argc, char* argv[])
 		break;
 	}
 	delete ui;
+
+}
+
+int main(int argc, char* argv[])
+{
+	struct user_options user_options;
+	UserInterface* 		ui;
+
+	setlocale(LC_ALL, "");
+
+	user_options = parse_args(argc, argv);
+	ui = get_user_interface(user_options.interface);
+	run_user_interface(ui, user_options.fen);
 	return EXIT_SUCCESS;
 }
