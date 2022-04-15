@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/08/01 17:37:13 by amineau          ###   ########.fr       */
+/*   Updated: 2022/04/16 00:09:24 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,27 @@ short CLI::displayMenu() const
 				  << "2/ Load chess" << std::endl
 				  << "3/ Quit" << std::endl
 				  << "Enter the option number : ";
+		std::cin >> entry;
+	}
+
+	return entry - '0';
+}
+
+short CLI::chooseBackup(std::vector<std::tuple<int, std::string, const char *>> backups) const
+{
+	char entry = 0;
+	std::vector<char> indexes;
+
+	for (auto const& backup : backups) {
+		indexes.push_back(std::get<0>(backup) + '0');
+	}
+	while (std::find(indexes.begin(), indexes.end(), entry) == indexes.end()) {
+		if (entry != 0)
+			std::cout << "Enter a valid choice" << std::endl;
+		for (auto const &[index, name, last_update] : backups) {
+			std::cout << index << "/\t" << name << "\t" << last_update;
+		}
+		std::cout << "Enter the backup number : ";
 		std::cin >> entry;
 	}
 

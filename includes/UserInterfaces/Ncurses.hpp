@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:02:37 by amineau           #+#    #+#             */
-/*   Updated: 2021/08/01 17:37:30 by amineau          ###   ########.fr       */
+/*   Updated: 2022/04/15 23:18:33 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ public:
 	Ncurses(Ncurses const&);
 	~Ncurses();
 	short displayMenu() const;
+	short chooseBackup(std::vector<std::tuple<int, std::string, const char *>>) const;
 	void  start(const std::string fen);
 
 	void setSelectedSpot(Spot* spot);

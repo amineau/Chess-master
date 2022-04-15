@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 23:31:09 by amineau           #+#    #+#             */
-/*   Updated: 2022/04/14 23:40:21 by amineau          ###   ########.fr       */
+/*   Updated: 2022/04/16 00:00:55 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ struct user_options {
 	std::string	   fen = settings::defaultFenStart;
 };
 
-const char *	usage()
+const std::string	usage()
 {
-	const char * text =
+	const std::string text =
 		"./chessmaster\n"
-		"\t-i --interface <ncurses|cli>\tinterface to use. Default 'cli'\n"
-		"\t-f --fen <string>\t\tfen. Default 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'\n"
-		"\t-h --help\t\t\tprint this help";
+		"\t-i --interface <string>\t\tInterface to use. Choices are `ncurses` and `cli`. Default `" + settings::defaultInterface + "`\n"
+		"\t-f --fen <string>\t\tForsyth-Edwards Notation. Default `" + settings::defaultFenStart + "`\n"
+		"\t-h --help\t\t\tPrint this help";
 	return text;
 }
 
@@ -44,7 +44,7 @@ bool	is_end_options(int c)
 	return c == -1;
 }
 
-struct user_options parse_args(int argc, char* argv[])
+const struct user_options parse_args(int argc, char* argv[])
 {
 	struct user_options	user_options;
 	static struct option long_options[] = {
@@ -108,7 +108,11 @@ UserInterface*	get_user_interface(std::string interface)
 
 void run_user_interface(UserInterface* ui, std::string fen)
 {
-	short		   		menuResponse;
+	int i = 1;
+	short	menuResponse;
+	short	loadResponse;
+	std::vector<fs::path>	paths;
+	std::vector<std::tuple<int, std::string, const char *>> backups;
 
 	menuResponse = ui->displayMenu();
 	switch (menuResponse) {
@@ -117,12 +121,30 @@ void run_user_interface(UserInterface* ui, std::string fen)
 		break;
 
 	case LOADGAME:
-		std::cout << "Not Implemented" << std::endl;
+		if (!fs::exists(settings::backupPath))
+		{
+			std::cout << "No Game to load" << std::endl;
+			fs::create_directory(settings::backupPath);
+		}
+		for (auto const& dir_entry : std::filesystem::directory_iterator{settings::backupPath}) 
+		{
+			fs::path file = dir_entry.path();
+			if (!file.extension().compare(".fen"))
+			{
+				backups.push_back(std::make_tuple(i, file.stem(), time_to_str(fs::last_write_time(file))));
+				paths.push_back(file);
+			}
+			i++;
+		}
+		loadResponse = ui->chooseBackup(backups);
+		fen = readFile(paths.at(loadResponse - 1));
+		ui->start(fen);
 		break;
 	case QUIT:
 	default:
 		break;
 	}
+	
 	delete ui;
 
 }

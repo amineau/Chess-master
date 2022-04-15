@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 00:10:57 by amineau           #+#    #+#             */
-/*   Updated: 2021/08/01 17:37:30 by amineau          ###   ########.fr       */
+/*   Updated: 2022/04/16 00:10:08 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,12 @@ short Ncurses::displayMenu() const
 	// }
 
 	// return entry - '0';
+	return 1;
+}
+
+short Ncurses::chooseBackup(std::vector<std::tuple<int, std::string, const char *>> backups) const
+{
+	(void)backups;
 	return 1;
 }
 

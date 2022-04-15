@@ -6,7 +6,7 @@
 /*   By: amineau <antoine@mineau.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 13:32:17 by amineau           #+#    #+#             */
-/*   Updated: 2021/08/01 15:23:57 by amineau          ###   ########.fr       */
+/*   Updated: 2022/04/15 21:10:23 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <ncursesw/ncurses.h>
 #include <string>
 #include <wchar.h>
+#include <filesystem>
 
 #define BLACKSPOTBLACKPIECE 11
 #define BLACKSPOTWHITEPIECE 12
@@ -50,9 +51,12 @@ static std::map<int, std::map<int, int>> COLORPAIRMAP = {
 	{ DESTINATIONSPOT, { { BLACKPIECE, DESTINATIONSPOTBLACKPIECE }, { WHITEPIECE, DESTINATIONSPOTWHITEPIECE } } },
 };
 
+namespace fs = std::filesystem;
+
 namespace settings {
-extern const std::string defaultFenStart;
-extern const std::string defaultInterface;
+extern const std::string	defaultFenStart;
+extern const std::string	defaultInterface;
+extern const fs::path		backupPath;
 }
 
 #endif
